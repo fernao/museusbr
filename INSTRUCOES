@@ -1,0 +1,45 @@
+--------------------------------------------------------------
+-- instalar o git e demais dependências (mysql, php, apache etc)
+
+# apt-get install git
+
+--------------------------------------------------------------
+-- instale o sistema
+
+$ cd /var/www
+$ git clone https://github.com/fernao/museusbr.git
+$ wget http://ftp.drupal.org/files/projects/drupal-7.26.tar.gz
+$ tar zxvf drupal-7.26.tar.gz
+$ cp -a drupal-7.26/* museusbr
+$ cp drupal-7.26/.htaccess museusbr
+
+--------------------------------------------------------------
+-- crie o banco de dados
+
+$ mysql -u root
+mysql> CREATE DATABASE museusbr;
+mysql> exit
+
+--------------------------------------------------------------
+-- crie os arquivos básicos do drupal
+
+$ cd sites/default
+$ cp default.settings.php settings.php
+$ mkdir files
+$ chmod 777 files settings.php
+
+--------------------------------------------------------------
+-- rode o instalador e faça a configuração inicial do drupal 
+  -> acesse http://localhost/museusbr
+  -> preencha os dados do banco
+  -> faça a instalacao padrão
+
+--------------------------------------------------------------
+-- suba o banco de dados (nome exemplo)
+$ cd /var/www/museusbr
+$ mysql -u root museusbr < private/manual/localhost-etc-2014-00-00-xx.mysql
+
+--------------------------------------------------------------
+-- entre no site
+   -> user: admin
+   -> senha: admin
