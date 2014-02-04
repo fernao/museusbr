@@ -1,6 +1,6 @@
-filename = "localhost-2014-01-30T16-25-37"
+filename = "localhost"
 description = ""
-datestamp = "1391106337"
+datestamp = "1391543241"
 generator = "Backup and Migrate (http://drupal.org/project/backup_migrate)"
 generatorversion = "7.x-2.x"
 sites[0][version] = "7.26"
