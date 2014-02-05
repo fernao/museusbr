@@ -1,1 +1,8 @@
 body {background-color: #374548}
+#header {width: 200px; color: #ffd959}
+#header h3 {font-weight: bold; font-size: 18px; font-family: sans-serif; color: #fff}
+#content {
+    background-color: #fff; height: 100%;
+}
+#content-full {width: 1260px; margin-left: auto; margin-right: auto}
+.museu-row {height: 97px }

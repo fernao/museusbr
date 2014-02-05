@@ -1,7 +1,9 @@
 define([
     'jquery', 
     'backbone',
-], function($, Backbone){
+    'modules/museu/model',
+    'modules/museu/IndexView',
+], function($, Backbone, MuseuModel, IndexView){
     var App = {};
     
     App.Router = Backbone.Router.extend({
@@ -9,14 +11,14 @@ define([
 	
 	routes: {
 	    '' : 'index',
-	},	    
-
+	},
+	
 	index: function() {
-	    console.log('oi');
-	},    
-
+	    var indexView = new IndexView();
+	    indexView.render();
+	},
     });
-
+    
     var initialize = function(){
 	new App.Router();
 	Backbone.history.start();
