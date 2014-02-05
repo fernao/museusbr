@@ -32,12 +32,12 @@ $ chmod 777 files settings.php
 -- rode o instalador e faça a configuração inicial do drupal 
   -> acesse http://localhost/museusbr
   -> preencha os dados do banco
-  -> faça a instalacao padrão
+  -> faça a instalacao padrão (standard)
 
 --------------------------------------------------------------
 -- suba o banco de dados (nome exemplo)
 $ cd /var/www/museusbr
-$ mysql -u root museusbr < private/manual/localhost-etc-2014-00-00-xx.mysql
+$ mysql -u root museusbr < private/manual/localhost.mysql
 
 --------------------------------------------------------------
 -- entre no site

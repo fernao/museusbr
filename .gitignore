@@ -4,7 +4,6 @@ sites/*/*settings*.php
 # Ignore paths that contain generated content.
 cache/
 files/
-#:sites/*/files
 sites/*/private
 
 # Ignore default text files
@@ -35,3 +34,25 @@ xmlrpc.php
 /profiles
 /scripts
 /themes
+
+### Emacs ###
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+.elc
+auto-save-list
+tramp
+.\#*
+
+# Org-mode
+.org-id-locations
+*_archive
+
+
+### vim ###
+.*.s[a-w][a-z]
+*.un~
+Session.vim
+.netrwhist
+*~
