@@ -1,0 +1,9 @@
+<div class="museus-content">
+  <% _.each(medias, function(media){ %>
+  <div id="" class="museu-home">
+  </div>
+  <% }); %>
+  <% if (_.isEmpty(medias)) { %>
+  <h4 class="message"><%= emptyMessage %></h4>
+  <% } %>
+</div>

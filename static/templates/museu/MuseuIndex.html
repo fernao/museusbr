@@ -1,0 +1,10 @@
+<div class="museus-content">
+  <% _.each(nodes, function(museu){ %>
+  <div class="museu-row" style="background-color: <%= museu.cor %>" id="museu-<%= museu.nid %>" class="museu-home">
+    <%= museu.titulo %>
+  </div>
+<% }); %>
+  <% if (_.isEmpty(nodes)) { %>
+  <h4 class="message"><%= emptyMessage %></h4>
+  <% } %>
+</div>
