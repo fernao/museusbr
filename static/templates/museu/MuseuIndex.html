@@ -1,7 +1,9 @@
 <div class="museus-content">
   <% _.each(nodes, function(museu){ %>
-  <div class="museu-row" style="background-color: <%= museu.cor %>" id="museu-<%= museu.nid %>" class="museu-home">
-    <%= museu.titulo %>
+  <div class="museu-row" style="background-image: url(<%= museu.imagem_destaque %>)" id="nid_<%= museu.nid %>">
+    <div class="bloco-titulo" style="background-color: <%= museu.cor %>">
+      <%= museu.titulo %>
+    </div>
   </div>
 <% }); %>
   <% if (_.isEmpty(nodes)) { %>

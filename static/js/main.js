@@ -15,7 +15,6 @@ require.config({
 	jquery: 'lib/jquery',
 	underscore: 'lib/underscore',
 	backbone: 'lib/backbone',
-	backbone_subroute: 'lib/backbone.subroute.min',
 	templates: '../templates',
         json: 'lib/require/json',
         text: 'lib/require/text',
@@ -24,7 +23,7 @@ require.config({
 });
 
 require([
-    'jquery', 'underscore', 'backbone', 'app', 'backbone_subroute'
+    'jquery', 'underscore', 'backbone', 'app'
 ], function($, _, Backbone, App){
     App.initialize();
 });
