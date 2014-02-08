@@ -5,8 +5,13 @@ define([
     'modules/museu/model',
     'modules/museu/collection',
     'text!templates/header.html',
-    'text!templates/museu/MuseuIndex.html'
-], function($, _, Backbone, MuseuModel, MuseuCollection, Header, MuseuIndexTpl){
+    'text!templates/museu/MuseuIndex.html',
+    'text!templates/museu/MuseuHome.html',
+    'text!templates/museu/MuseuFotos.html',
+    'text!templates/museu/MuseuMapa.html',
+    'text!templates/museu/MuseuPlanta.html',
+    'text!templates/museu/MuseuNavigation.html',
+], function($, _, Backbone, MuseuModel, MuseuCollection, Header, MuseuIndexTpl, MuseuHomeTpl, MuseuFotosTpl, MuseuMapaTpl, MuseuPlantaTpl, MuseuNavigationTpl){
     var IndexView = Backbone.View.extend({
 	
 	render: function(){
@@ -24,7 +29,6 @@ define([
 		
 		// inicializa museu internamente	
 		_init_museu(nid);
-		
 	    }
 	    
 	    //// _init_museu
@@ -33,35 +37,71 @@ define([
 	    _init_museu = function(nid) {
 		console.log("buscando museu " + nid);
 		
+		// carrega vazio primeiro
+		_load_museu_home(nid);
+		
 		var museu = new MuseuModel({nid: nid});
 		museu.fetch({
 		    success: function() {
+			dataMuseu = {
+			    museu: museu.attributes[0]
+			}
+			console.log(dataMuseu);
+			_load_museu_home(nid, dataMuseu);
 		    }
 		});
+	    }
+	    
+	    //// _load_museu_home
+	    // - carrega home do museu
+	    _load_museu_home = function(nid, dataMuseu) {
+		defaultDataMuseu = {museu: { nid: nid } };
+		
+		dataMuseu = dataMuseu || defaultDataMuseu;
+		var compiledHomeTpl = _.template(MuseuHomeTpl, dataMuseu);
+		if (dataMuseu == defaultDataMuseu) {
+		    $("#nid_" + nid).html(compiledHomeTpl);
+		} else {
+		    $("#nid_" + nid).html(compiledHomeTpl);
+		    _toggle_navigation(nid);
+		}
 	    }
 	    
 	    _toggle_home_div = function(el) {
 		$(el).css('height', '200');
 	    }
 	    
+	    //// _toggle_navigation
+	    // - coloca/tira setas 
+	    _toggle_navigation = function(nid) {
+		
+		$("#nid_" + nid).prepend(MuseuNavigationTpl);
+	    }
 	    
-
+	    _navigate = function(nid, direction) {
+		// gerencia setas
+	    }
+	    
+	    // carrega museus - tela inicial
+	    _load_museus = function() {
+	
+		var museus = new MuseuCollection([]);
+		museus.fetch({
+		    success: function() {
+			data = {
+			    nodes: museus.models[0].attributes
+			}
+			var compiledTemplate = _.template(MuseuIndexTpl, data);
+			$('#content').html(compiledTemplate);
+			$('div.museu-row').click(function(e) { toggle_museu(e) });
+		    }
+		});
+	    }
+	    
 	    var compiledHeader = _.template(Header);
 	    $('#header').html(compiledHeader);
 	    
-	    // get data from rest
-	    var museus = new MuseuCollection([]);
-	    museus.fetch({
-		success: function() {
-		    data = {
-			nodes: museus.models[0].attributes
-		    }
-		    var compiledTemplate = _.template(MuseuIndexTpl, data);
-		    $('#content').html(compiledTemplate);
-
-		    $('div.museu-row').click(function(e) { toggle_museu(e) });
-		}
-	    });
+	    _load_museus();
 	},
     });
     

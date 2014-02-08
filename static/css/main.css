@@ -1,9 +1,21 @@
-body {background-color: #374548}
+body {background-color: #374548; font-family: sans-serif; color: #fff}
 #header {width: 200px; color: #ffd959}
-#header h3 {font-weight: bold; font-size: 18px; font-family: sans-serif; color: #fff}
+#header h3 {font-weight: bold; font-size: 18px; color: #fff}
 #content {
     background-color: #fff; height: 100%;
 }
-#content-full {width: 1260px; margin-left: auto; margin-right: auto}
-.museu-row {height: 100px; cursor: pointer }
+#content-full {width: 1020px; margin-left: auto; margin-right: auto; overflow: hidden}
+.museu-row {height: 100px; cursor: pointer;  }
 .bloco-titulo {width: 168px; margin-left: 124px; padding: 10px; padding-left: 20px; padding-right: 20px; height: 80px; color: #fff; font-family: sans-serif; font-size: 16px; font-weight: bold}
+
+/* subpages - home */
+.museu-subpages { background-color: #000; height:100%; padding: 8px; z-index: 10; cursor: default }
+.museu-subpages div {font-size: 12px}
+.museu-subpages .foto_home {width: 300px; float: left}
+.museu-subpages .texto_home {width: 250px; float: left}
+.museu-subpages .imagens_home {width: 370px; float: left}
+#navigation {z-index: 100; position: relative; top: 75px;}
+#navigation #left { background-image: url("../images/left.png"); margin-left: 10px; float: left; width: 52px; height: 47px }
+#navigation #right { background-image: url("../images/right.png"); margin-right: 10px; float: left; width: 52px; height: 47px; position: relative; left: 890px }
+#navigation #left:hover { background-image: url("../images/left-up.png"); }
+#navigation #right:hover { background-image: url("../images/right-up.png"); }
