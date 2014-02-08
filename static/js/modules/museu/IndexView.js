@@ -74,11 +74,14 @@ define([
 	    //// _toggle_navigation
 	    // - coloca/tira setas 
 	    _toggle_navigation = function(nid) {
-		
-		$("#nid_" + nid).prepend(MuseuNavigationTpl);
+		el = "#nid_" + nid;
+		$(el).prepend(MuseuNavigationTpl);
+		$(el + " #left").click(function(e) { _navigate(nid, 'left') });
+		$(el + " #right").click(function(e) { _navigate(nid, 'right') });
 	    }
 	    
 	    _navigate = function(nid, direction) {
+		console.log(direction);
 		// gerencia setas
 	    }
 	    
@@ -88,8 +91,10 @@ define([
 		var museus = new MuseuCollection([]);
 		museus.fetch({
 		    success: function() {
+			nodes = museus.models[0].attributes;
+			console.log(nodes)
 			data = {
-			    nodes: museus.models[0].attributes
+			    nodes: nodes
 			}
 			var compiledTemplate = _.template(MuseuIndexTpl, data);
 			$('#content').html(compiledTemplate);
