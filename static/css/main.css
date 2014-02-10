@@ -10,12 +10,12 @@ body {background-color: #374548; font-family: sans-serif; color: #fff}
 
 /* subpages - home */
 .subpages-container {background-color: #000; width: 100%; z-index: 5; }
-.page { background-color: #000; height:100%; padding: 8px; z-index: 10; cursor: default }
-.museu-subpages div {font-size: 12px}
+.page { background-color: #000; height:100%; padding: 8px; z-index: 10; cursor: default; opacity: 0 }
+.museu-subpages div {font-size: 12px; }
 .museu-subpages .foto_home {width: 300px; float: left}
 .museu-subpages .texto_home {width: 250px; float: left}
 .museu-subpages .imagens_home {width: 370px; float: left}
-#navigation {z-index: 100; position: relative; top: 75px;}
+#navigation {z-index: 100; position: relative; top: 75px; }
 #navigation #left { background-image: url("../images/left.png"); margin-left: 10px; float: left; width: 52px; height: 47px }
 #navigation #right { background-image: url("../images/right.png"); margin-right: 10px; float: left; width: 52px; height: 47px; position: relative; left: 890px }
 #navigation #left:hover { background-image: url("../images/left-up.png"); }

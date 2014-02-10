@@ -60,11 +60,21 @@ define([
 		el = "#nid_" + nid + " .subpages-container";
 				
 		if (dataMuseu == defaultDataMuseu) {
+		    // carrega div ainda sem conteudo e anima deslocamento
 		    $(el).html(compiledHomeTpl);
-		    console.log(el);
-		    $(el).css('height', '200');
+		    $(el).animate(
+			{ height: "200" },
+			{ duration: 400 }
+		    );
+		    
 		} else {
+		    // carrega conteudo dentro da div e anima fade in
 		    $(el).html(compiledHomeTpl);
+		    el_div = el + " .page"
+		    $(el_div).animate(
+			{ opacity: 1 },
+			{ duration: 150 }
+		    );
 		    _toggle_navigation(nid);
 		}
 		
@@ -78,8 +88,11 @@ define([
 		    el_fechar = museu_ativo;
 		    
 		    // restaura estado do museu ativo
-		    // TODO: colocar transicoes
-		    $(el_fechar).css('height', 0); // TODO: puxar das settings 
+		    $(el_fechar).animate(
+			{ height: "0" },
+			{ duration: 400 }
+		    );
+		    //$(el_fechar).css('height', 0); // TODO: puxar das settings 
 		    $(el_fechar).html('');
 		}
 		
