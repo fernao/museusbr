@@ -46,6 +46,7 @@ define([
 			    museu: museu.attributes[0]
 			}
 			_load_museu_home(nid, dataMuseu);
+			_load_museu_tabs(nid, dataMuseu);
 		    }
 		});
 	    }
@@ -66,6 +67,11 @@ define([
 			{ height: "200" },
 			{ duration: 400 }
 		    );
+
+		    // unbind click event
+		    el_off = '#nid_' + nid;
+		    $(el_off).css('cursor', 'default');
+		    $(el_off).off('click');
 		    
 		} else {
 		    // carrega conteudo dentro da div e anima fade in
@@ -77,8 +83,27 @@ define([
 		    );
 		    _toggle_navigation(nid);
 		}
+	    }
+	    
+	    //// _load_museu_tabs
+	    // - carrega outras tabs/janelas
+	    _load_museu_tabs = function(nid, dataMuseu) {
+		var compiledFotosTpl = _.template(MuseuFotosTpl, dataMuseu);
+		var compiledMapaTpl = _.template(MuseuMapaTpl, dataMuseu);
+		var compiledPlantaTpl = _.template(MuseuPlantaTpl, dataMuseu);
 		
+		museu_tabs = {
+		    0: 'home_museu' + nid,
+		    1: 'fotos_museu_' + nid,
+		    2: 'mapa_museu' + nid,
+		    3: 'planta_museu_' + nid,
+		};
+		museu_ativo = $('body').data('museu_tabs', museu_tabs);
 		
+		el = "#nid_" + nid + " .subpages-container";
+		$(el).append(compiledFotosTpl);
+		$(el).append(compiledMapaTpl);
+		$(el).append(compiledPlantaTpl);		
 	    }
 	    
 	    _toggle_home_div = function(el, nid) {
@@ -94,6 +119,9 @@ define([
 		    );
 		    //$(el_fechar).css('height', 0); // TODO: puxar das settings 
 		    $(el_fechar).html('');
+		    el_onclick = el_fechar.replace(' .subpages-container', '');
+		    $(el_onclick).css('cursor', 'pointer');
+		    $(el_onclick).on('click', toggle_museu);
 		}
 		
 		// define novo museu aberto
@@ -106,8 +134,8 @@ define([
 		el = "#nid_" + nid + " .museu-subpages";
 
 		$(el).prepend(MuseuNavigationTpl);
-		$(el + " #left").click(function(e) { _navigate(nid, 'left') });
-		$(el + " #right").click(function(e) { _navigate(nid, 'right') });
+		$(el + " #left").on('click', (function(e) { _navigate(nid, 'left') }));
+		$(el + " #right").on('click', (function(e) { _navigate(nid, 'right') }));
 	    }
 	    
 	    _navigate = function(nid, direction) {
@@ -125,14 +153,21 @@ define([
 		var museus = new MuseuCollection([]);
 		museus.fetch({
 		    success: function() {
-			nodes = museus.models[0].attributes;
+			museus_list = museus.models[0].attributes;
+			nodes = museus_list;
 			data = {
 			    nodes: nodes
 			}
 			
 			var compiledTemplate = _.template(MuseuIndexTpl, data);
 			$('#content').html(compiledTemplate);
-			$('div.museu-row').click(function(e) { toggle_museu(e) });
+			
+			// bind click event 
+			_.each(museus_list, function(museu) {
+			    el_onclick = '#nid_' + museu.nid;
+			    $(el_onclick).css('cursor', 'pointer');
+			    $(el_onclick).on('click', toggle_museu);
+			});
 		    }
 		});
 	    }
