@@ -44,9 +44,11 @@ $ mysql -u root museusbr < private/manual/localhost.mysql
    -> user: admin
    -> senha: admin
 
--------------------------------- anotações chat
+-------------------------------- anotações chat -------------
 
-pelo terminal criar na pasta /var/www, ou na sua home, ou em qualquer outro lugar, uma pasta qualquer, vamos, nesse exemplo cirar uma pasta 'repositorio' na pasta /var/www
+pelo terminal criar na pasta /var/www, ou na sua home, ou em
+qualquer outro lugar, uma pasta qualquer. vamos, neste
+exemplo, criar uma pasta 'repositorio' na pasta /var/www
 
 este será um repositorio de teste
 
@@ -54,15 +56,22 @@ nesta pasta inicializar o repositorio git
 
 	$ git init
 
-quando uma pasta é inicializada no git, o git cria uma pasta .git que não pode ser apagada de forma alguma (se não apaga os metadados do repositorio). para ver esta pasta .git dar um $ ls -lah
+quando uma pasta é inicializada no git, o git cria uma pasta
+.git que não pode ser apagada de forma alguma (se não apaga
+os metadados do repositorio).
+para ver esta pasta .git dar um $ ls -lah
 
 para ver o status usar
 
 	$ git status
 
-o git status mostrará informações como "new file" / "no changes to be committed"
+o git status mostrará informações como
+"new file" / "no changes to be committed"
 
-os arquivos que estiverem na pasta de teste "repositorio" só entram no status de forem adicionadas (caso contrário elas aparecerão como "untracked"). para adicionar arquivos e pastas:
+os arquivos que estiverem na pasta de teste "repositorio"
+só entram no status de forem adicionadas (caso contrário
+elas aparecerão como "untracked"). para adicionar arquivos
+e pastas:
 
 	$ git add [nomedoarquivo]
 	$ git add [nomedapasta]
@@ -74,7 +83,9 @@ para comitar:
 	git commit -m 'primeiro commit'
 	git commit . -m 'balblaba'
 
-quando um arquivo da pasta repositório é editado, o "git status" vai mostrar que há arquivos "modified". para isso o arquivo tem que ser adicionado ao git "git add"
+quando um arquivo da pasta repositório é editado, o
+"git status" vai mostrar que há arquivos "modified". para
+isso o arquivo tem que ser adicionado ao git "git add"
 quando um commit é feito o status muda. sempre olhar o status.
 
 o commit funciona como path, ou seja, há diferenças entre dizer:
@@ -82,11 +93,13 @@ o commit funciona como path, ou seja, há diferenças entre dizer:
 	git commit . -m 'meu comentário sobre esse commit'
 	git commit pastaAbc -m 'commitando somente conteudo na pastaAbc'
 
-há um outro programa chamado 'tig' [aptitude install tig]. para abrir basta dar
+há um outro programa chamado 'tig' [aptitude install tig].
+para abrir basta dar
 
 	$ tig
 
-ele lista todos os commits, assim é possível inspecionar o que foi commitado. para sair é "q" ou "quit"
+ele lista todos os commits, assim é possível inspecionar o que
+foi commitado. para sair é "q" ou "quit"
 
 	$ quit
 
@@ -97,7 +110,8 @@ ele lista todos os commits, assim é possível inspecionar o que foi commitado. 
 	$ git config --global user.email johndoe@example.com
 
 
-outro comando. todo arquivo q tiver modified vai dar uma saida de diff
+outro comando. todo arquivo q tiver modified vai dar uma saida
+de diff
 
 	$ git diff
 
@@ -112,3 +126,10 @@ documentacao, farta e boa:
 
 	http://www.git-scm.com/doc
 	http://www.git-scm.com/book/en/Git-Basics-Getting-a-Git-Repository
+
+usando o github, sequencia básica:
+
+git pull
+git commit . -m 'blabla comentário sobre o commit'
+git push origin master (origin master é o default, então não precisa escrever)
+git push
