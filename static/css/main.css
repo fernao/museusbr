@@ -9,7 +9,7 @@ body {background-color: #374548; font-family: sans-serif; color: #fff}
 .bloco-titulo {width: 168px; margin-left: 124px; padding: 10px; padding-left: 20px; padding-right: 20px; height: 80px; color: #fff; font-family: sans-serif; font-size: 16px; font-weight: bold}
 
 /* subpages - home */
-.museu-subpages { background-color: #000; height:100%; padding: 8px; z-index: 10; cursor: default }
+.page { background-color: #000; height:100%; padding: 8px; z-index: 10; cursor: default }
 .museu-subpages div {font-size: 12px}
 .museu-subpages .foto_home {width: 300px; float: left}
 .museu-subpages .texto_home {width: 250px; float: left}
