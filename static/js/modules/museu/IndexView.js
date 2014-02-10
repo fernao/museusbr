@@ -57,37 +57,40 @@ define([
 		
 		dataMuseu = dataMuseu || defaultDataMuseu;
 		var compiledHomeTpl = _.template(MuseuHomeTpl, dataMuseu);
+		el = "#nid_" + nid + " .subpages-container";
+				
 		if (dataMuseu == defaultDataMuseu) {
-		    $("#nid_" + nid).html(compiledHomeTpl);
+		    $(el).html(compiledHomeTpl);
+		    console.log(el);
+		    $(el).css('height', '200');
 		} else {
-		    $("#nid_" + nid).html(compiledHomeTpl);
+		    $(el).html(compiledHomeTpl);
 		    _toggle_navigation(nid);
 		}
+		
+		
 	    }
 	    
 	    _toggle_home_div = function(el, nid) {
 
 		if ($('body').data('museu_ativo')) {
 		    museu_ativo = $('body').data('museu_ativo');
-		    el_fechar = museu_ativo  + " .museu-subpages";
+		    el_fechar = museu_ativo;
 		    
 		    // restaura estado do museu ativo
 		    // TODO: colocar transicoes
-		    $(museu_ativo).css('height', 97); // TODO: puxar das settings 
-		    $(el_fechar).remove();
+		    $(el_fechar).css('height', 0); // TODO: puxar das settings 
+		    $(el_fechar).html('');
 		}
 		
 		// define novo museu aberto
-		$('body').data('museu_ativo', '#nid_' + nid);
-		
-		// TODO: colocar transicoes
-		$(el).css('height', '200'); // TODO: puxar das settings
+		$('body').data('museu_ativo', '#nid_' + nid + " .subpages-container");
 	    }
 	    
 	    //// _toggle_navigation
 	    // - coloca/tira setas 
 	    _toggle_navigation = function(nid) {
-		el = "#nid_" + nid;
+		el = "#nid_" + nid + " .museu-subpages";
 
 		$(el).prepend(MuseuNavigationTpl);
 		$(el + " #left").click(function(e) { _navigate(nid, 'left') });
