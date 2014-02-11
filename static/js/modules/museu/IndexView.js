@@ -4,6 +4,7 @@ define([
     'backbone',
     'modules/museu/model',
     'modules/museu/collection',
+    'modules/config/model',
     'text!templates/header.html',
     'text!templates/museu/MuseuIndex.html',
     'text!templates/museu/MuseuHome.html',
@@ -11,7 +12,7 @@ define([
     'text!templates/museu/MuseuMapa.html',
     'text!templates/museu/MuseuPlanta.html',
     'text!templates/museu/MuseuNavigation.html',
-], function($, _, Backbone, MuseuModel, MuseuCollection, Header, MuseuIndexTpl, MuseuHomeTpl, MuseuFotosTpl, MuseuMapaTpl, MuseuPlantaTpl, MuseuNavigationTpl){
+], function($, _, Backbone, MuseuModel, MuseuCollection, ConfigModel, Header, MuseuIndexTpl, MuseuHomeTpl, MuseuFotosTpl, MuseuMapaTpl, MuseuPlantaTpl, MuseuNavigationTpl){
     var IndexView = Backbone.View.extend({
 	
 	render: function(){
@@ -29,6 +30,21 @@ define([
 		
 		// inicializa museu internamente	
 		_init_museu(nid);
+	    }
+	    
+	    //// _load_config
+	    // - carrega configuracoes da api/json
+	    _load_config = function() {
+		this.config = {};
+		var config = new ConfigModel();
+		config.fetch({
+		    success: function() {
+			configs = config.attributes;
+			_.each(configs, function(config) {
+			    this.config[config.name] = config.value
+			});
+		    }
+		});
 	    }
 	    
 	    //// _init_museu
@@ -64,8 +80,8 @@ define([
 		    // carrega div ainda sem conteudo e anima deslocamento
 		    $(el).html(compiledHomeTpl);
 		    $(el).animate(
-			{ height: "200" },
-			{ duration: 400 }
+			{ height: this.config['museuDivHeight'] },
+			{ duration: this.config['transitionScrollDuration'] }
 		    );
 
 		    // unbind click event
@@ -79,7 +95,7 @@ define([
 		    el_div = el + " .page"
 		    $(el_div).animate(
 			{ opacity: 1 },
-			{ duration: 150 }
+			{ duration: this.config['transitionOpacityDuration'] }
 		    );
 		    _toggle_navigation(nid);
 		}
@@ -113,7 +129,7 @@ define([
 		    // restaura estado do museu ativo
 		    $(el_fechar).animate(
 			{ height: "0" },
-			{ duration: 400 }
+			{ duration: this.config['transitionScrollDuration'] }
 		    );
 		    
 		    // limpa museu anterior
@@ -143,6 +159,7 @@ define([
 		$(el + " #right").on('click', (function(e) { _navigate(nid, 'right') }));
 	    }
 	    
+	    // gerencia navegacao
 	    _navigate = function(nid, direction) {
 		// pega o estado atual
 		museu_tab_ativo = $('body').data('museu_tab_ativo');
@@ -180,15 +197,16 @@ define([
 		$('body').data('museu_tab_ativo', museu_tab_next);
 	    }
 
+	    // executa navegacao
 	    _reposition_tabs = function(direction) {
 		factor = (direction == 'left') ? 1 : -1;
 		museu_tabs = $('body').data('museu_tabs');
 		_.each(museu_tabs, function(museu_tab) {
 		    current_position = parseInt(_.first($(museu_tab).css('left').split('px')));
-		    position = parseInt(eval(current_position + (factor * 1020))) + 'px';
+		    position = parseInt(eval(current_position + (factor * this.config['museuWidth']))) + 'px';
 		    $(museu_tab).animate(
 			{ left: position },
-			{ duration: 600 }
+			{ duration: this.config['navigationScrollDuration'] }
 		    );
 		});
 	    }
@@ -222,7 +240,7 @@ define([
 	    
 	    var compiledHeader = _.template(Header);
 	    $('#header').html(compiledHeader);
-	    
+	    _load_config();	    
 	    _load_museus();
 	},
     });
