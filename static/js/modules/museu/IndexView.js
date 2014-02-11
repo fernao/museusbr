@@ -92,18 +92,16 @@ define([
 		var compiledMapaTpl = _.template(MuseuMapaTpl, dataMuseu);
 		var compiledPlantaTpl = _.template(MuseuPlantaTpl, dataMuseu);
 		
-		museu_tabs = {
-		    0: 'home_museu' + nid,
-		    1: 'fotos_museu_' + nid,
-		    2: 'mapa_museu' + nid,
-		    3: 'planta_museu_' + nid,
-		};
-		museu_ativo = $('body').data('museu_tabs', museu_tabs);
+		var museu_tabs = [];
+		museu_tabs = ['#home_museu_' + nid, '#fotos_museu_' + nid, '#mapa_museu_' + nid, '#planta_museu_' + nid];
+		$('body').data('museu_tabs', museu_tabs);
+		$('body').data('museu_tab_ativo', museu_tabs[0]); // inicializa na home
 		
 		el = "#nid_" + nid + " .subpages-container";
 		$(el).append(compiledFotosTpl);
 		$(el).append(compiledMapaTpl);
-		$(el).append(compiledPlantaTpl);		
+		$(el).append(compiledPlantaTpl);
+		$(el + ' .page').css('opacity', 1);
 	    }
 	    
 	    _toggle_home_div = function(el, nid) {
@@ -117,9 +115,16 @@ define([
 			{ height: "0" },
 			{ duration: 400 }
 		    );
-		    //$(el_fechar).css('height', 0); // TODO: puxar das settings 
-		    $(el_fechar).html('');
+		    
+		    // limpa museu anterior
+		    nid_fechar = el_fechar.split(' ');
+		    nid_fechar = _.last(nid_fechar[0].split('_'));
+		    nav_fechar = "#nid_" + nid_fechar + " #navigation";
+		    $(nav_fechar).remove();
 		    el_onclick = el_fechar.replace(' .subpages-container', '');
+		    $(el_fechar).html('');
+		    
+		    // restaura eventos e cursor do museu anterior
 		    $(el_onclick).css('cursor', 'pointer');
 		    $(el_onclick).on('click', toggle_museu);
 		}
@@ -131,7 +136,7 @@ define([
 	    //// _toggle_navigation
 	    // - coloca/tira setas 
 	    _toggle_navigation = function(nid) {
-		el = "#nid_" + nid + " .museu-subpages";
+		el = "#nid_" + nid;
 
 		$(el).prepend(MuseuNavigationTpl);
 		$(el + " #left").on('click', (function(e) { _navigate(nid, 'left') }));
@@ -139,10 +144,53 @@ define([
 	    }
 	    
 	    _navigate = function(nid, direction) {
-		// pegar o estado atual?
+		// pega o estado atual
+		museu_tab_ativo = $('body').data('museu_tab_ativo');
+		museu_tabs = $('body').data('museu_tabs');
+		tabs_size = museu_tabs.length - 1;
+		id_ativo = _.indexOf(museu_tabs, museu_tab_ativo);
+
+		if (direction == 'left') {
+		    if (id_ativo === 0) {
+			// TODO: desligar botao caso esteja no comeco
+			console.log('comeco. fica parado');
+			return false;
+		    } else {
+			// TODO: unificar numa so funcao ambas as tarefas
+			console.log('move pra esquerda');
+			id_next = id_ativo -1;
+			museu_tab_next = museu_tabs[id_next];
+			_reposition_tabs(direction);
+		    }
+		}
 		
-		console.log(direction);
-		// gerencia setas
+		if (direction == 'right') {
+		    if (id_ativo == tabs_size) {
+			console.log('fim. fica parado');
+			return false;
+		    } else {
+			// TODO: unificar numa so funcao ambas as tarefas
+			console.log('move pra direita');
+			id_next = id_ativo +1;
+			museu_tab_next = museu_tabs[id_next];
+			_reposition_tabs(direction);
+		    }
+		}
+		
+		$('body').data('museu_tab_ativo', museu_tab_next);
+	    }
+
+	    _reposition_tabs = function(direction) {
+		factor = (direction == 'left') ? 1 : -1;
+		museu_tabs = $('body').data('museu_tabs');
+		_.each(museu_tabs, function(museu_tab) {
+		    current_position = parseInt(_.first($(museu_tab).css('left').split('px')));
+		    position = parseInt(eval(current_position + (factor * 1020))) + 'px';
+		    $(museu_tab).animate(
+			{ left: position },
+			{ duration: 600 }
+		    );
+		});
 	    }
 	    
 	    // carrega museus - tela inicial
