@@ -153,12 +153,26 @@ define([
 	    // - coloca/tira setas 
 	    _toggle_navigation = function(nid) {
 		el = "#nid_" + nid;
-
+		
 		$(el).prepend(MuseuNavigationTpl);
 		$(el + " #left").on('click', (function(e) { _navigate(nid, 'left') }));
 		$(el + " #right").on('click', (function(e) { _navigate(nid, 'right') }));
 	    }
 	    
+	    //// _toggle_navigation_buttons
+	    // - liga/desliga botoes de navegacao
+	    _toggle_navigation_buttons = function(nid, status) {
+		el = "#nid_" + nid;
+		
+		if (status == true) { 
+		    $(el + " #left").on('click', (function(e) { _navigate(nid, 'left') }));
+		    $(el + " #right").on('click', (function(e) { _navigate(nid, 'right') }));
+		} else {
+		    $(el + " #left").off('click');
+		    $(el + " #right").off('click');
+		}
+	    }
+
 	    // gerencia navegacao
 	    _navigate = function(nid, direction) {
 		// pega o estado atual
@@ -166,7 +180,7 @@ define([
 		museu_tabs = $('body').data('museu_tabs');
 		tabs_size = museu_tabs.length - 1;
 		id_ativo = _.indexOf(museu_tabs, museu_tab_ativo);
-
+		
 		if (direction == 'left') {
 		    if (id_ativo === 0) {
 			// TODO: desligar botao caso esteja no comeco
@@ -177,7 +191,7 @@ define([
 			console.log('move pra esquerda');
 			id_next = id_ativo -1;
 			museu_tab_next = museu_tabs[id_next];
-			_reposition_tabs(direction);
+			_reposition_tabs(nid, direction);
 		    }
 		}
 		
@@ -190,7 +204,7 @@ define([
 			console.log('move pra direita');
 			id_next = id_ativo +1;
 			museu_tab_next = museu_tabs[id_next];
-			_reposition_tabs(direction);
+			_reposition_tabs(nid, direction);
 		    }
 		}
 		
@@ -198,16 +212,21 @@ define([
 	    }
 
 	    // executa navegacao
-	    _reposition_tabs = function(direction) {
+	    _reposition_tabs = function(nid, direction) {
+		_toggle_navigation_buttons(nid, false); // desativa botoes (inicio)
 		factor = (direction == 'left') ? 1 : -1;
 		museu_tabs = $('body').data('museu_tabs');
 		_.each(museu_tabs, function(museu_tab) {
 		    current_position = parseInt(_.first($(museu_tab).css('left').split('px')));
 		    position = parseInt(eval(current_position + (factor * this.config['museuWidth']))) + 'px';
-		    $(museu_tab).animate(
-			{ left: position },
-			{ duration: this.config['navigationScrollDuration'] }
-		    );
+		    $(museu_tab).animate({ 
+			left: position 
+		    }, this.config['navigationScrollDuration'], function() {
+			// complete
+			if (museu_tab == _.last(museu_tabs)) {
+			    _toggle_navigation_buttons(nid, true); // ativa botoes (fim)
+			}
+		    });    
 		});
 	    }
 	    
