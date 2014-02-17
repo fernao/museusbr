@@ -2,20 +2,47 @@ define([
     'jquery', 
     'underscore',
     'backbone',
+    'tagcloud',
     'modules/museu/model',
     'modules/museu/collection',
     'modules/config/model',
+    'modules/tag/model',
     'text!templates/header.html',
+    'text!templates/tags.html',
     'text!templates/museu/MuseuIndex.html',
     'text!templates/museu/MuseuHome.html',
     'text!templates/museu/MuseuFotos.html',
     'text!templates/museu/MuseuMapa.html',
     'text!templates/museu/MuseuPlanta.html',
     'text!templates/museu/MuseuNavigation.html',
-], function($, _, Backbone, MuseuModel, MuseuCollection, ConfigModel, Header, MuseuIndexTpl, MuseuHomeTpl, MuseuFotosTpl, MuseuMapaTpl, MuseuPlantaTpl, MuseuNavigationTpl){
+], function($, _, Backbone, TagCloud, MuseuModel, MuseuCollection, ConfigModel, TagModel, HeaderTpl, TagsTpl, MuseuIndexTpl, MuseuHomeTpl, MuseuFotosTpl, MuseuMapaTpl, MuseuPlantaTpl, MuseuNavigationTpl){
     var IndexView = Backbone.View.extend({
 	
 	render: function(){
+
+	    //// _generate_tag_cloud
+	    _generate_tag_cloud = function() {
+		var tags = new TagModel();
+		tags.fetch({
+		    success: function() {
+			data = {
+			    tags: tags.attributes
+			}
+			
+			var compiledTags = _.template(TagsTpl, data);
+			$('#header-tags').html(compiledTags);
+			
+			$.fn.tagcloud.defaults = {
+			    size: {start: 14, end: 18, unit: 'pt'},
+			    color: {start: '#cde', end: '#f52'}
+			};
+			
+			$(function () {
+			    $('#tag_cloud a').tagcloud();
+			});
+		    }
+		});
+	    }
 
 	    //// toggle_museu
 	    // - expande / contrái museu e chama home
@@ -234,6 +261,8 @@ define([
 	    _load_museus = function() {
 		// armazena museu ativo
 		$('body').data('museu_ativo', false);
+
+		_generate_tag_cloud();
 		
 		var museus = new MuseuCollection([]);
 		museus.fetch({
@@ -257,7 +286,7 @@ define([
 		});
 	    }
 	    
-	    var compiledHeader = _.template(Header);
+	    var compiledHeader = _.template(HeaderTpl);
 	    $('#header').html(compiledHeader);
 	    _load_config();	    
 	    _load_museus();
