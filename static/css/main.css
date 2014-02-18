@@ -1,13 +1,13 @@
 body {background-color: #374548; font-family: sans-serif; color: #fff; }
 #container {}
-#header {color: #ffd959; height: 210px; width: 1020px; }
+#header {color: #ffd959; height: 210px; width: 100% }
 #content-full {width: 1020px; margin: 0 auto}
 #footer {height: 100px}
 
 #header h3 {font-weight: bold; font-size: 18px; color: #fff; }
 div #header-titulo { float: left; width: 25% }
-div #header-tags { float: left;  width: 50%}
-div #header-mapa { float: left; width: 25%}
+div #header-tags { float: left;  width: 40%}
+div #header-mapa { float: left; width: 35%}
 #tag_cloud a { text-decoration: none}
 
 #content { background-color: #fff; height: 100%; overflow: hidden; }

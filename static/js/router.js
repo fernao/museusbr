@@ -10,12 +10,14 @@ define([
 	Routers: {},
 	
 	routes: {
+	    ':tags' : 'index',
 	    '' : 'index',
 	},
 	
-	index: function() {
+	index: function(tags) {
+	    tags = tags || '';
 	    var indexView = new IndexView();
-	    indexView.render();
+	    indexView.render(tags);
 	},
     });
     

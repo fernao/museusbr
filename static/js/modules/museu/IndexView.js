@@ -18,8 +18,9 @@ define([
 ], function($, _, Backbone, TagCloud, MuseuModel, MuseuCollection, ConfigModel, TagModel, HeaderTpl, TagsTpl, MuseuIndexTpl, MuseuHomeTpl, MuseuFotosTpl, MuseuMapaTpl, MuseuPlantaTpl, MuseuNavigationTpl){
     var IndexView = Backbone.View.extend({
 	
-	render: function(){
-
+	render: function(tags){
+	    tags = tags || '';
+	    
 	    //// _generate_tag_cloud
 	    _generate_tag_cloud = function() {
 		var tags = new TagModel();
@@ -34,7 +35,7 @@ define([
 			
 			$.fn.tagcloud.defaults = {
 			    size: {start: 14, end: 18, unit: 'pt'},
-			    color: {start: '#cde', end: '#f52'}
+			    color: {start: '#fada53', end: '#fada53'}
 			};
 			
 			$(function () {
@@ -258,13 +259,15 @@ define([
 	    }
 	    
 	    // carrega museus - tela inicial
-	    _load_museus = function() {
+	    _load_museus = function(tags) {
+		tags = tags || '';
+		console.log(tags);
 		// armazena museu ativo
 		$('body').data('museu_ativo', false);
-
-		_generate_tag_cloud();
 		
 		var museus = new MuseuCollection([]);
+		museus.url += tags;
+		
 		museus.fetch({
 		    success: function() {
 			museus_list = museus.models[0].attributes;
@@ -288,8 +291,10 @@ define([
 	    
 	    var compiledHeader = _.template(HeaderTpl);
 	    $('#header').html(compiledHeader);
-	    _load_config();	    
-	    _load_museus();
+	    _load_config();
+	    _generate_tag_cloud(); // TODO: colocar check pra ver se ja carregou & manter expandido
+	    
+	    _load_museus(tags);
 	},
     });
     
