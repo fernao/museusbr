@@ -245,7 +245,16 @@ define([
 		factor = (direction == 'left') ? 1 : -1;
 		museu_tabs = $('body').data('museu_tabs');
 		_.each(museu_tabs, function(museu_tab) {
-		    current_position = parseInt(_.first($(museu_tab).css('left').split('px')));
+		    // crossbrowser para pegar 'left'
+		    current_position =	$(museu_tab).css('left');
+		    if (current_position.search(/px/) != -1) {
+			// firefox
+			current_position = parseInt(_.first(current_position.split('px')));
+		    } else {
+			// chromium
+			current_position = (current_position == 'auto') ? 0 : current_position;
+			document.title = current_position;
+		    }
 		    position = parseInt(eval(current_position + (factor * this.config['museuWidth']))) + 'px';
 		    $(museu_tab).animate({ 
 			left: position 
