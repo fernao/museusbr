@@ -7,7 +7,18 @@ body {background-color: #374548; font-family: sans-serif; color: #fff; }
 #header h3 {font-weight: bold; font-size: 18px; color: #fff; }
 div #header-titulo { float: left; width: 25% }
 div #header-tags { float: left;  width: 40%}
-div #header-mapa { float: left; width: 35%}
+div #header-mapa { float: left; width: 25%}
+div #header-lang { float: left; width: 10%}
+
+#header-mapa div#mapa-posicao {float: left;  }
+#header-mapa div#lista-cidades {float: left; margin-left: 20px }
+#header-mapa #lista-cidades ul {margin: 0; padding: 0 ; list-style-type: none; font-size: 11px; }
+#header-mapa #lista-cidades li {}
+
+div #header-lang span, div #header-lang span a {text-decoration: none; color: #bfc0c2; font-size: 11px; font-weight: bold}
+div #lista-cidades {margin-top: -30px }
+div#regiao { background-color: #4a5d61; color: #fff; padding: 10px; font-weight: bold; font-size: 16px; border-radius: 5px; text-align: center; position: relative; top: 170px; }
+
 #tag_cloud a { text-decoration: none}
 
 #content { background-color: #fff; height: 100%; overflow: hidden; }
