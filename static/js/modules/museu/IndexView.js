@@ -215,7 +215,6 @@ define([
 			console.log('comeco. fica parado');
 			return false;
 		    } else {
-			// TODO: unificar numa so funcao ambas as tarefas
 			console.log('move pra esquerda');
 			id_next = id_ativo -1;
 			museu_tab_next = museu_tabs[id_next];
@@ -228,7 +227,6 @@ define([
 			console.log('fim. fica parado');
 			return false;
 		    } else {
-			// TODO: unificar numa so funcao ambas as tarefas
 			console.log('move pra direita');
 			id_next = id_ativo +1;
 			museu_tab_next = museu_tabs[id_next];
