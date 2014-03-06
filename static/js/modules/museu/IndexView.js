@@ -274,7 +274,7 @@ define([
 		
 		var museus = new MuseuCollection([]);
 		museus.url += tags;
-		
+		museus.tags = tags;
 		museus.fetch({
 		    success: function() {
 			museus_list = museus.models[0].attributes;
@@ -292,6 +292,16 @@ define([
 			    $(el_onclick).css('cursor', 'pointer');
 			    $(el_onclick).on('click', toggle_museu);
 			});
+
+			// seta tags (se houver)
+			if (tags != '') {
+			    mensagem = 'exibindo museus com a tag '
+			    $('#filter-tags').prepend("<p class='title'>" + mensagem + "<span>'" + tags + "'</span></p>");
+			    document.title = 'portal MuseusBR - ' + mensagem + "'" + tags + "'";
+			} else {
+			    mensagem = 'portal MuseusBR';
+			    document.title = mensagem;
+			}
 		    }
 		});
 	    }

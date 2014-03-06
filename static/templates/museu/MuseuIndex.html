@@ -1,4 +1,5 @@
 <div class="museus-content">
+  <div id="filter-tags"></div>
   <% _.each(nodes, function(museu){ %>
   <div class="museu-row" style="background-image: url(<%= museu.pano_de_fundo %>)" id="nid_<%= museu.nid %>">
     <div class="bloco-titulo" style="background-color: <%= museu.cor %>">
