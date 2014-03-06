@@ -183,8 +183,8 @@ define([
 		el = "#nid_" + nid;
 		
 		$(el).prepend(MuseuNavigationTpl);
-		$(el + " #left").on('click', (function(e) { _navigate(nid, 'left') }));
-		$(el + " #right").on('click', (function(e) { _navigate(nid, 'right') }));
+		$(el + " .left").on('click', (function(e) { _navigate(nid, 'left') }));
+		$(el + " .right").on('click', (function(e) { _navigate(nid, 'right') }));
 	    }
 	    
 	    //// _toggle_navigation_buttons
@@ -193,11 +193,11 @@ define([
 		el = "#nid_" + nid;
 		
 		if (status == true) { 
-		    $(el + " #left").on('click', (function(e) { _navigate(nid, 'left') }));
-		    $(el + " #right").on('click', (function(e) { _navigate(nid, 'right') }));
+		    $(el + " .left").on('click', (function(e) { _navigate(nid, 'left') }));
+		    $(el + " .right").on('click', (function(e) { _navigate(nid, 'right') }));
 		} else {
-		    $(el + " #left").off('click');
-		    $(el + " #right").off('click');
+		    $(el + " .left").off('click');
+		    $(el + " .right").off('click');
 		}
 	    }
 
@@ -298,6 +298,7 @@ define([
 	    
 	    var compiledHeader = _.template(HeaderTpl);
 	    $('#header').html(compiledHeader);
+	    $('#content').html('<p class="loading">carregando conteúdo...</p>');
 	    _load_config();
 	    _generate_tag_cloud(); // TODO: colocar check pra ver se ja carregou & manter expandido
 	    
