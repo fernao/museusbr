@@ -6,7 +6,7 @@ define([
     var ConfigModel = Backbone.Model.extend({
 	
 	url: function() {
-	    return '/museusbr/config';
+	    return '/museubr/config';
 	}	
     });
     

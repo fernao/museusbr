@@ -6,7 +6,7 @@ define([
 ], function($, _, Backbone, MuseuModel){
     var MuseuCollection = Backbone.Collection.extend({
 	model: MuseuModel,
-	url: '/museusbr/museus/',
+	url: '/museubr/museus/',
     });
     return MuseuCollection;
 });

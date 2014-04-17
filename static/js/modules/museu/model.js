@@ -7,7 +7,7 @@ define([
 	idAttribute: 'nid',
 	
 	url: function() {
-	    return '/museusbr/museu/' + this.id;
+	    return '/museubr/museu/' + this.id;
 	}
     });
     
