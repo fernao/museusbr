@@ -12,11 +12,12 @@ define([
 	routes: {
 	    ':lang/:tags' : 'index',
 	    ':lang' : 'index',
+	    '' : 'index',
 	},
 	
 	index: function(lang, tags) {
 	    var tags = tags || '',
-	    lang = lang || 'pt-br';
+	    lang = lang || '';
 	    
 	    var indexView = new IndexView();
 	    indexView.render(lang, tags);

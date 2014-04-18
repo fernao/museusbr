@@ -20,7 +20,7 @@ define([
 	
 	render: function(lang, tags){
 	    var tags = tags || '',
-	    lang = lang || 'pt-br';
+	    lang = lang || '';
 	    
 	    //// _generate_tag_cloud
 	    _generate_tag_cloud = function() {
@@ -293,7 +293,7 @@ define([
 	    // carrega museus - tela inicial
 	    _load_museus = function(lang, tags) {
 		var tags = tags || '',
-		lang = lang || 'pt-br',
+		lang = lang || '',
 		el_onclick = '',
 		mensagem = '';
 		
@@ -335,8 +335,18 @@ define([
 		});
 	    }
 	    
+	    if (lang == '') {
+		$.ajax({
+		    url: "userlang.php", 
+		    dataType: 'json', 
+		    success: function(data) {
+			$('#headerUrl').attr('href', '#'  + data.userLang);
+		    }
+		});
+	    }
+	    
 	    var compiledHeader = _.template(HeaderTpl);
-	    $('#header').html(compiledHeader);
+	    $('#header').html(compiledHeader, lang);
 	    $('#content').html('<p class="loading">carregando conteúdo...</p>');
 	    _load_config();
 	    _generate_tag_cloud(); // TODO: colocar check pra ver se ja carregou & manter expandido
