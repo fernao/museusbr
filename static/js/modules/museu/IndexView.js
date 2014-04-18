@@ -18,8 +18,9 @@ define([
 ], function($, _, Backbone, TagCloud, MuseuModel, MuseuCollection, ConfigModel, TagModel, HeaderTpl, TagsTpl, MuseuIndexTpl, MuseuHomeTpl, MuseuFotosTpl, MuseuMapaTpl, MuseuPlantaTpl, MuseuNavigationTpl){
     var IndexView = Backbone.View.extend({
 	
-	render: function(tags){
-	    tags = tags || '';
+	render: function(lang, tags){
+	    var tags = tags || '',
+	    lang = lang || 'pt-br';
 	    
 	    //// _generate_tag_cloud
 	    _generate_tag_cloud = function() {
@@ -49,9 +50,9 @@ define([
 	    // - expande / contrái museu e chama home
 	    toggle_museu = function(e) {
 		// pega variaveis basicas
-		var target = e.currentTarget;
-		var match = /^\w*_(\d*)$/.exec(target.id);
-		var nid = match[1];
+		var target = e.currentTarget,
+		match = /^\w*_(\d*)$/.exec(target.id),
+		nid = match[1];
 		
 		// toggle q abre/fecha museu
 		_toggle_home_div(target, nid);
@@ -81,9 +82,9 @@ define([
 	    _init_museu = function(nid) {
 		
 		// carrega vazio primeiro
-		_load_museu_home(nid);
+		_load_museu_home(lang, nid);
 		
-		var museu = new MuseuModel({nid: nid});
+		var museu = new MuseuModel({nid: nid, lang: lang});
 		museu.fetch({
 		    success: function() {
 			dataMuseu = {
@@ -97,13 +98,17 @@ define([
 	    
 	    //// _load_museu_home
 	    // - carrega home do museu
-	    _load_museu_home = function(nid, dataMuseu) {
-		defaultDataMuseu = {museu: { nid: nid } };
+	    _load_museu_home = function(lang, nid, dataMuseu) {
+		var defaultDataMuseu = {museu: { nid: nid, lang: lang } },
+		dataMuseu = dataMuseu || defaultDataMuseu,
+		el = "#nid_" + nid + " .subpages-container",
+		el_off = '',
+		el_div = '';
+
+		console.log("lang:" + lang);
 		
-		dataMuseu = dataMuseu || defaultDataMuseu;
 		var compiledHomeTpl = _.template(MuseuHomeTpl, dataMuseu);
-		el = "#nid_" + nid + " .subpages-container";
-				
+		
 		if (dataMuseu == defaultDataMuseu) {
 		    // carrega div ainda sem conteudo e anima deslocamento
 		    $(el).html(compiledHomeTpl);
@@ -131,12 +136,14 @@ define([
 	    
 	    //// _load_museu_tabs
 	    // - carrega outras tabs/janelas
-	    _load_museu_tabs = function(nid, dataMuseu) {
+	    _load_museu_tabs = function(lang, nid, dataMuseu) {
 		var compiledFotosTpl = _.template(MuseuFotosTpl, dataMuseu);
 		var compiledMapaTpl = _.template(MuseuMapaTpl, dataMuseu);
 		var compiledPlantaTpl = _.template(MuseuPlantaTpl, dataMuseu);
 		
-		var museu_tabs = [];
+		var museu_tabs = [],
+		el = '',
+		
 		museu_tabs = ['#home_museu_' + nid, '#fotos_museu_' + nid, '#mapa_museu_' + nid, '#planta_museu_' + nid];
 		$('body').data('museu_tabs', museu_tabs);
 		$('body').data('museu_tab_ativo', museu_tabs[0]); // inicializa na home
@@ -149,6 +156,12 @@ define([
 	    }
 	    
 	    _toggle_home_div = function(el, nid) {
+		var museu_ativo = '',
+		el_fechar = '',
+		nid_fechar = '',
+		nav_fechar = '',
+		el_onclick = '';
+		
 
 		if ($('body').data('museu_ativo')) {
 		    museu_ativo = $('body').data('museu_ativo');
@@ -180,7 +193,7 @@ define([
 	    //// _toggle_navigation
 	    // - coloca/tira setas 
 	    _toggle_navigation = function(nid) {
-		el = "#nid_" + nid;
+		var el = "#nid_" + nid;
 		
 		$(el).prepend(MuseuNavigationTpl);
 		$(el + " .left").on('click', (function(e) { _navigate(nid, 'left') }));
@@ -190,7 +203,7 @@ define([
 	    //// _toggle_navigation_buttons
 	    // - liga/desliga botoes de navegacao
 	    _toggle_navigation_buttons = function(nid, status) {
-		el = "#nid_" + nid;
+		var el = "#nid_" + nid;
 		
 		if (status == true) { 
 		    $(el + " .left").on('click', (function(e) { _navigate(nid, 'left') }));
@@ -203,6 +216,13 @@ define([
 
 	    // gerencia navegacao
 	    _navigate = function(nid, direction) {
+		var museu_tab_ativo = '',
+		museus_tabs = '',
+		tabs_size = '',
+		id_ativo = '',
+		id_next = '',
+		museu_tab_next = '';
+		
 		// pega o estado atual
 		museu_tab_ativo = $('body').data('museu_tab_ativo');
 		museu_tabs = $('body').data('museu_tabs');
@@ -239,6 +259,11 @@ define([
 
 	    // executa navegacao
 	    _reposition_tabs = function(nid, direction) {
+		var factor = '',
+		current_position = '',
+		museu_tabs = '',
+		position = '';
+		
 		_toggle_navigation_buttons(nid, false); // desativa botoes (inicio)
 		factor = (direction == 'left') ? 1 : -1;
 		museu_tabs = $('body').data('museu_tabs');
@@ -266,14 +291,18 @@ define([
 	    }
 	    
 	    // carrega museus - tela inicial
-	    _load_museus = function(tags) {
-		tags = tags || '';
-		console.log(tags);
+	    _load_museus = function(lang, tags) {
+		var tags = tags || '',
+		lang = lang || 'pt-br',
+		el_onclick = '',
+		mensagem = '';
+		
 		// armazena museu ativo
 		$('body').data('museu_ativo', false);
 		
 		var museus = new MuseuCollection([]);
-		museus.url += tags;
+		museus.url += lang + '/' + tags;
+		museus.lang = lang;
 		museus.tags = tags;
 		museus.fetch({
 		    success: function() {
@@ -295,8 +324,8 @@ define([
 
 			// seta tags (se houver)
 			if (tags != '') {
-			    mensagem = 'exibindo museus com a tag '
-			    $('#filter-tags').prepend("<p class='title'>" + mensagem + "<span>'" + tags + "'</span></p>");
+			    mensagem = 'exibindo museus de '
+			    $('#filter-tags').prepend("<p class='title'>" + mensagem + "<span class='tag-title'>" + tags + "</span></p>");
 			    document.title = 'portal MuseusBR - ' + mensagem + "'" + tags + "'";
 			} else {
 			    mensagem = 'portal MuseusBR';
@@ -312,7 +341,7 @@ define([
 	    _load_config();
 	    _generate_tag_cloud(); // TODO: colocar check pra ver se ja carregou & manter expandido
 	    
-	    _load_museus(tags);
+	    _load_museus(lang, tags);
 	},
     });
     

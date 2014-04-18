@@ -10,14 +10,16 @@ define([
 	Routers: {},
 	
 	routes: {
-	    ':tags' : 'index',
-	    '' : 'index',
+	    ':lang/:tags' : 'index',
+	    ':lang' : 'index',
 	},
 	
-	index: function(tags) {
-	    tags = tags || '';
+	index: function(lang, tags) {
+	    var tags = tags || '',
+	    lang = lang || 'pt-br';
+	    
 	    var indexView = new IndexView();
-	    indexView.render(tags);
+	    indexView.render(lang, tags);
 	},
     });
     

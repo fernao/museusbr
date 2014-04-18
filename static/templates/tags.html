@@ -1,5 +1,5 @@
 <div id="tag_cloud">
   <% _.each(tags, function(tag){ %>
-  <a href='#<%= tag.name %>' rel='<%= tag.count %>'><%= tag.name %></a>
+  <a href='#<%= tag.lang %>/<%= tag.name %>' rel='<%= tag.count %>'><%= tag.name %></a>
   <% }) %>
 </div>
