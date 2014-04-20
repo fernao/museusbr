@@ -6,6 +6,7 @@ define([
     'modules/museu/model',
     'modules/museu/collection',
     'modules/config/model',
+    'modules/mensagens/model',
     'modules/tag/model',
     'text!templates/header.html',
     'text!templates/tags.html',
@@ -15,7 +16,8 @@ define([
     'text!templates/museu/MuseuMapa.html',
     'text!templates/museu/MuseuPlanta.html',
     'text!templates/museu/MuseuNavigation.html',
-], function($, _, Backbone, TagCloud, MuseuModel, MuseuCollection, ConfigModel, TagModel, HeaderTpl, TagsTpl, MuseuIndexTpl, MuseuHomeTpl, MuseuFotosTpl, MuseuMapaTpl, MuseuPlantaTpl, MuseuNavigationTpl){
+], function($, _, Backbone, TagCloud, MuseuModel, MuseuCollection, ConfigModel, MensagensModel, TagModel, HeaderTpl, TagsTpl, MuseuIndexTpl, MuseuHomeTpl, MuseuFotosTpl, MuseuMapaTpl, MuseuPlantaTpl, MuseuNavigationTpl){
+    var default_lang = '';
     var IndexView = Backbone.View.extend({
 	
 	render: function(lang, tags){
@@ -46,19 +48,31 @@ define([
 		});
 	    }
 
+	    //// get_default_lang
+	    // - pega lang default do usuario
+	    get_user_lang = function() {
+		lang = $('body').data('userLang');
+		return lang;
+	    }
+	    
+	    set_user_lang = function(lang) {
+		$('body').data('userLang', lang);
+	    }
+
 	    //// toggle_museu
 	    // - expande / contrái museu e chama home
 	    toggle_museu = function(e) {
 		// pega variaveis basicas
 		var target = e.currentTarget,
 		match = /^\w*_(\d*)$/.exec(target.id),
-		nid = match[1];
+		nid = match[1],
+		lang = get_user_lang();
 		
 		// toggle q abre/fecha museu
 		_toggle_home_div(target, nid);
 		
 		// inicializa museu internamente	
-		_init_museu(nid);
+		_init_museu(lang, nid);
 	    }
 	    
 	    //// _load_config
@@ -76,22 +90,37 @@ define([
 		});
 	    }
 	    
+	    _load_mensagens = function(lang) {
+		this.mensagens = {};
+		var mensagens = new MensagensModel();
+		mensagens.url += lang;
+		mensagens.fetch({
+		    success: function() {
+			msgs = mensagens.attributes;
+			_.each(msgs, function(msg) {
+			    this.mensagens[msg.name] = msg.value
+			});
+		    }
+		})
+	    }
+
 	    //// _init_museu
 	    // - carrega varias informacoes do museu quando ele é clicado
 	    // - inicia navegacao no museu particular
-	    _init_museu = function(nid) {
-		
+	    _init_museu = function(lang, nid) {
 		// carrega vazio primeiro
+		
 		_load_museu_home(lang, nid);
 		
-		var museu = new MuseuModel({nid: nid, lang: lang});
+		var museu = new MuseuModel({nid: nid});
+		museu.url += lang + '/' + nid;
 		museu.fetch({
 		    success: function() {
 			dataMuseu = {
 			    museu: museu.attributes[0]
 			}
-			_load_museu_home(nid, dataMuseu);
-			_load_museu_tabs(nid, dataMuseu);
+			_load_museu_home(lang, nid, dataMuseu);
+			_load_museu_tabs(lang, nid, dataMuseu);
 		    }
 		});
 	    }
@@ -99,14 +128,13 @@ define([
 	    //// _load_museu_home
 	    // - carrega home do museu
 	    _load_museu_home = function(lang, nid, dataMuseu) {
-		var defaultDataMuseu = {museu: { nid: nid, lang: lang } },
+		var defaultDataMuseu = {museu: { nid: nid} },
+		lang = lang || get_user_lang(),
 		dataMuseu = dataMuseu || defaultDataMuseu,
-		el = "#nid_" + nid + " .subpages-container",
+		el = "",
 		el_off = '',
 		el_div = '';
-
-		console.log("lang:" + lang);
-		
+		el = "#nid_" + nid + " .subpages-container";
 		var compiledHomeTpl = _.template(MuseuHomeTpl, dataMuseu);
 		
 		if (dataMuseu == defaultDataMuseu) {
@@ -139,8 +167,7 @@ define([
 	    _load_museu_tabs = function(lang, nid, dataMuseu) {
 		var compiledFotosTpl = _.template(MuseuFotosTpl, dataMuseu);
 		var compiledMapaTpl = _.template(MuseuMapaTpl, dataMuseu);
-		var compiledPlantaTpl = _.template(MuseuPlantaTpl, dataMuseu);
-		
+		var compiledPlantaTpl = _.template(MuseuPlantaTpl, dataMuseu);		
 		var museu_tabs = [],
 		el = '',
 		
@@ -304,12 +331,15 @@ define([
 		museus.url += lang + '/' + tags;
 		museus.lang = lang;
 		museus.tags = tags;
+
 		museus.fetch({
 		    success: function() {
 			museus_list = museus.models[0].attributes;
 			nodes = museus_list;
+			
 			data = {
-			    nodes: nodes
+			    nodes: nodes,
+			    emptyMessage: this.mensagens['naoEncontrado']
 			}
 			
 			var compiledTemplate = _.template(MuseuIndexTpl, data);
@@ -324,34 +354,44 @@ define([
 
 			// seta tags (se houver)
 			if (tags != '') {
-			    mensagem = 'exibindo museus de '
-			    $('#filter-tags').prepend("<p class='title'>" + mensagem + "<span class='tag-title'>" + tags + "</span></p>");
-			    document.title = 'portal MuseusBR - ' + mensagem + "'" + tags + "'";
+			    $('#filter-tags').prepend("<p class='title'>" + this.mensagens['exibindoMuseusDe'] + "<span class='tag-title'>" + tags + "</span></p>");
+			    document.title = this.mensagens['portalMuseuBr'] + ' - ' + this.mensagens['exibindoMuseusDe'] + "'" + tags + "'";
 			} else {
-			    mensagem = 'portal MuseusBR';
-			    document.title = mensagem;
+			    document.title = this.mensagens['portalMuseuBr'];
 			}
 		    }
 		});
 	    }
 	    
+	    // init main functionalities
+	    _init_main = function(lang) {
+		var compiledHeader = _.template(HeaderTpl);
+		$('#header').html(compiledHeader, lang);
+		$('#content').html(this.mensagens['carregando']);
+		_generate_tag_cloud(); // TODO: colocar check pra ver se ja carregou & manter expandido
+		_load_museus(lang, tags);		
+	    }
+	    
+	    _load_config();
+	    _load_mensagens(lang);
+	    
+	    // language check for sendind to init_main
 	    if (lang == '') {
 		$.ajax({
 		    url: "userlang.php", 
 		    dataType: 'json', 
 		    success: function(data) {
-			$('#headerUrl').attr('href', '#'  + data.userLang);
+			lang = data.userLang;
+			set_user_lang(lang);
+			$('#headerUrl').attr('href', '#'  + lang);
+			_init_main(lang);
 		    }
 		});
+	    } else {
+		set_user_lang(lang);
+		_init_main(lang);
 	    }
 	    
-	    var compiledHeader = _.template(HeaderTpl);
-	    $('#header').html(compiledHeader, lang);
-	    $('#content').html('<p class="loading">carregando conteúdo...</p>');
-	    _load_config();
-	    _generate_tag_cloud(); // TODO: colocar check pra ver se ja carregou & manter expandido
-	    
-	    _load_museus(lang, tags);
 	},
     });
     
