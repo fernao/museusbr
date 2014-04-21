@@ -365,9 +365,15 @@ define([
 	    
 	    // init main functionalities
 	    _init_main = function(lang) {
-		var compiledHeader = _.template(HeaderTpl);
-		$('#header').html(compiledHeader, lang);
-		$('#content').html(this.mensagens['carregando']);
+		data = {
+		    carregandoTags: '&nbsp;'
+		}
+		
+		if ($('#header').html() == '') {
+		    var compiledHeader = _.template(HeaderTpl, data);
+		    $('#header').html(compiledHeader, lang);
+		}
+		$('#content').html("<div class='loading'></div>");
 		_generate_tag_cloud(); // TODO: colocar check pra ver se ja carregou & manter expandido
 		_load_museus(lang, tags);		
 	    }
