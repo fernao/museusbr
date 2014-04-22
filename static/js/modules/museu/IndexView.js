@@ -358,7 +358,8 @@ define([
 	    // init main functionalities
 	    _init_main = function(lang) {
 		data = {
-		    carregandoTags: '&nbsp;'
+		    carregandoTags: '&nbsp;',
+		    lang: $('body').data('userLang')
 		}
 		
 		if ($('#header').html() == '') {
