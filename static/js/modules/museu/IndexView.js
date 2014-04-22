@@ -59,15 +59,41 @@ define([
 		var target = e.currentTarget,
 		match = /^\w*_(\d*)$/.exec(target.id),
 		nid = match[1],
-		lang = get_user_lang();
+		lang = get_user_lang(),
+		museu_ativo = '';
+		museu_clicado = '#nid_' + nid + ' .subpages-container';
 		
+		museu_ativo = $('body').data('museu_ativo');
 		// toggle q abre/fecha museu
 		_toggle_home_div(target, nid);
-		
-		// inicializa museu internamente	
-		_init_museu(lang, nid);
+		if (museu_ativo != museu_clicado) {		
+		    // inicializa museu internamente	
+		    _init_museu(lang, nid);
+		}
 	    }
 	    
+	    _close_museu = function(target) {
+		var nid_fechar = '',
+		nav_fechar = '',
+		el_onclick = '';
+		
+		// restaura estado do museu ativo
+		$(target).animate(
+		    { height: "0" },
+		    { duration: this.config['transitionScrollDuration'] }
+		);
+		
+		// limpa museu anterior
+		nid_fechar = target.split(' ');
+		nid_fechar = _.last(nid_fechar[0].split('_'));
+		nav_fechar = "#nid_" + nid_fechar + " #navigation";
+		$(nav_fechar).remove();
+		el_onclick = target.replace(' .subpages-container', '');
+		$(target).html('');
+		
+		$('body').data('museu_ativo', '');
+	    }
+
 	    //// _load_config
 	    // - carrega configuracoes da api/json
 	    _load_config = function() {
@@ -102,7 +128,6 @@ define([
 	    // - inicia navegacao no museu particular
 	    _init_museu = function(lang, nid) {
 		// carrega vazio primeiro
-		
 		_load_museu_home(lang, nid);
 		
 		var museu = new MuseuModel({nid: nid});
@@ -137,12 +162,6 @@ define([
 			{ height: this.config['museuDivHeight'] },
 			{ duration: this.config['transitionScrollDuration'] }
 		    );
-
-		    // unbind click event
-		    el_off = '#nid_' + nid;
-		    $(el_off).css('cursor', 'default');
-		    $(el_off).off('click');
-		    
 		} else {
 		    // carrega conteudo dentro da div e anima fade in
 		    $(el).html(compiledHomeTpl);
@@ -176,38 +195,15 @@ define([
 	    }
 	    
 	    _toggle_home_div = function(el, nid) {
-		var museu_ativo = '',
-		el_fechar = '',
-		nid_fechar = '',
-		nav_fechar = '',
-		el_onclick = '';
+		var museu_ativo = '';		
 		
-
-		if ($('body').data('museu_ativo')) {
-		    museu_ativo = $('body').data('museu_ativo');
-		    el_fechar = museu_ativo;
-		    
-		    // restaura estado do museu ativo
-		    $(el_fechar).animate(
-			{ height: "0" },
-			{ duration: this.config['transitionScrollDuration'] }
-		    );
-		    
-		    // limpa museu anterior
-		    nid_fechar = el_fechar.split(' ');
-		    nid_fechar = _.last(nid_fechar[0].split('_'));
-		    nav_fechar = "#nid_" + nid_fechar + " #navigation";
-		    $(nav_fechar).remove();
-		    el_onclick = el_fechar.replace(' .subpages-container', '');
-		    $(el_fechar).html('');
-		    
-		    // restaura eventos e cursor do museu anterior
-		    $(el_onclick).css('cursor', 'pointer');
-		    $(el_onclick).on('click', toggle_museu);
+		if ($('body').data('museu_ativo') != '') {
+		    museu_ativo = $('body').data('museu_ativo');	    
+		    _close_museu(museu_ativo);
+		} else {
+		    // define novo museu aberto
+		    $('body').data('museu_ativo', '#nid_' + nid + " .subpages-container");		    
 		}
-		
-		// define novo museu aberto
-		$('body').data('museu_ativo', '#nid_' + nid + " .subpages-container");
 	    }
 	    
 	    //// _toggle_navigation
@@ -318,7 +314,7 @@ define([
 		mensagem = '';
 		
 		// armazena museu ativo
-		$('body').data('museu_ativo', false);
+		$('body').data('museu_ativo', '');
 		
 		var museus = new MuseuCollection([]);
 		museus.url += lang + '/' + tags;
@@ -374,7 +370,7 @@ define([
 	    _load_config();
 	    _load_mensagens(lang);
 	    
-	    // language check for sendind to init_main
+	    // language check for sending to init_main
 	    if (lang == '') {
 		$.ajax({
 		    url: "userlang.php", 
