@@ -2,7 +2,6 @@ define([
     'jquery', 
     'underscore',
     'backbone',
-    'tagcloud',
     'modules/museu/model',
     'modules/museu/collection',
     'modules/config/model',
@@ -16,7 +15,7 @@ define([
     'text!templates/museu/MuseuMapa.html',
     'text!templates/museu/MuseuPlanta.html',
     'text!templates/museu/MuseuNavigation.html',
-], function($, _, Backbone, TagCloud, MuseuModel, MuseuCollection, ConfigModel, MensagensModel, TagModel, HeaderTpl, TagsTpl, MuseuIndexTpl, MuseuHomeTpl, MuseuFotosTpl, MuseuMapaTpl, MuseuPlantaTpl, MuseuNavigationTpl){
+], function($, _, Backbone, MuseuModel, MuseuCollection, ConfigModel, MensagensModel, TagModel, HeaderTpl, TagsTpl, MuseuIndexTpl, MuseuHomeTpl, MuseuFotosTpl, MuseuMapaTpl, MuseuPlantaTpl, MuseuNavigationTpl){
     var default_lang = '';
     var IndexView = Backbone.View.extend({
 	
@@ -25,25 +24,19 @@ define([
 	    lang = lang || '';
 	    
 	    //// _generate_tag_cloud
-	    _generate_tag_cloud = function() {
+	    _generate_tag_cloud = function(tag_atual) {
+		var tag_atual = tag_atual || '';
 		var tags = new TagModel();
 		tags.fetch({
 		    success: function() {
 			data = {
-			    tags: tags.attributes
+			    tags: tags.attributes,
+			    tag_atual: tag_atual,
+			    lang: $('body').data('userLang')
 			}
 			
 			var compiledTags = _.template(TagsTpl, data);
 			$('#header-tags').html(compiledTags);
-			
-			$.fn.tagcloud.defaults = {
-			    size: {start: 14, end: 18, unit: 'pt'},
-			    color: {start: '#fada53', end: '#fada53'}
-			};
-			
-			$(function () {
-			    $('#tag_cloud a').tagcloud();
-			});
 		    }
 		});
 	    }
@@ -374,7 +367,7 @@ define([
 		    $('#header').html(compiledHeader, lang);
 		}
 		$('#content').html("<div class='loading'></div>");
-		_generate_tag_cloud(); // TODO: colocar check pra ver se ja carregou & manter expandido
+		_generate_tag_cloud(tags); // TODO: colocar check pra ver se ja carregou & manter expandido
 		_load_museus(lang, tags);		
 	    }
 	    

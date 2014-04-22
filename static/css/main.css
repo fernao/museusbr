@@ -17,9 +17,14 @@ div #header-lang { float: left; width: 10%; min-width: 100px}
 
 div #header-lang span, div #header-lang span a {text-decoration: none; color: #bfc0c2; font-size: 11px; font-weight: bold}
 div #lista-cidades { }
-div#regiao { background-color: #4a5d61; color: #fff; padding: 10px; font-weight: bold; font-size: 16px; border-radius: 5px; text-align: center; margin-top: 20px}
 
-#tag_cloud a { text-decoration: none}
+.botao-retangular { background-color: #4a5d61; color: #fff; padding: 10px; font-weight: bold; font-size: 16px; border-radius: 5px; text-align: center; }
+
+#tag_cloud a { text-decoration: none; float: left; margin: 2px}
+#tag_cloud .atual {background-color: #FFDD55; color: #4a5d61; }
+div.tag { display: inline;  }
+
+div#regiao { margin-top: 20px}
 
 #content { background-color: #374548; height: 100%; width: 1020px; overflow: hidden; min-width: 190px; margin: 0 auto; margin-top: 10px}
 .bloco-titulo {width: 168px; margin-left: 124px; padding: 10px; padding-left: 20px; padding-right: 20px; height: 80px; color: #fff; font-family: sans-serif; font-size: 16px; font-weight: bold}
