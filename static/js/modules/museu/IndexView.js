@@ -347,8 +347,7 @@ define([
 
 			// seta tags (se houver)
 			if (tags != '') {
-			    $('#filter-tags').prepend("<p class='title'>" + this.mensagens['exibindoMuseusDe'] + "<span class='tag-title'>" + tags + "</span></p>");
-			    document.title = this.mensagens['portalMuseuBr'] + ' - ' + this.mensagens['exibindoMuseusDe'] + "'" + tags + "'";
+			    document.title = this.mensagens['portalMuseuBr'] + ' - ' + this.mensagens['exibindoMuseusDe'] + tags.toUpperCase();
 			} else {
 			    document.title = this.mensagens['portalMuseuBr'];
 			}
