@@ -151,7 +151,8 @@ define([
 		dataMuseu = dataMuseu || defaultDataMuseu,
 		el = "",
 		el_off = '',
-		el_div = '';
+		el_div = '',
+		el_onclick = '#btnnid_' + nid,
 		el = "#nid_" + nid + " .subpages-container";
 		var compiledHomeTpl = _.template(MuseuHomeTpl, dataMuseu);
 		
@@ -159,8 +160,15 @@ define([
 		    // carrega div ainda sem conteudo e anima deslocamento
 		    $(el).html(compiledHomeTpl);
 		    $(el).animate(
-			{ height: this.config['museuDivHeight'] },
-			{ duration: this.config['transitionScrollDuration'] }
+			{ height: this.config['museuDivHeight']},
+			{ duration: this.config['transitionScrollDuration'],
+			  start: function() { 
+			      _toggle_click_button('off', el_onclick);
+			  },
+			  complete: function() {
+			      _toggle_click_button('on', el_onclick, toggle_museu);
+			  }
+			}
 		    );
 		} else {
 		    // carrega conteudo dentro da div e anima fade in
@@ -337,8 +345,7 @@ define([
 			// bind click event 
 			_.each(museus_list, function(museu) {
 			    el_onclick = '#btnnid_' + museu.nid;
-			    $(el_onclick).css('cursor', 'pointer');
-			    $(el_onclick).on('click', toggle_museu);
+			    _toggle_click_button('on', el_onclick, toggle_museu);
 			});
 
 			// seta tags (se houver)
@@ -351,6 +358,22 @@ define([
 		});
 	    }
 	    
+	    // funcao para ligar / desligar botoes
+	    // - state: on, off
+	    _toggle_click_button = function(state, el, callback) {
+		var state = state || false,
+		el = el || false,
+		callback = callback || false;
+		
+		if (state == 'on') {
+		    $(el).css('cursor', 'pointer');
+		    $(el).on('click', callback);		
+		} else if (state == 'off') {
+		    $(el).css('cursor', 'default');
+		    $(el).off('click');
+		}
+	    }
+
 	    // init main functionalities
 	    _init_main = function(lang) {
 		data = {
