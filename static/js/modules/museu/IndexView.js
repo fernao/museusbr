@@ -60,10 +60,9 @@ define([
 		match = /^\w*_(\d*)$/.exec(target.id),
 		nid = match[1],
 		lang = get_user_lang(),
-		museu_ativo = '';
+		museu_ativo = $('body').data('museu_ativo'),
 		museu_clicado = '#nid_' + nid + ' .subpages-container';
-		
-		museu_ativo = $('body').data('museu_ativo');
+				
 		// toggle q abre/fecha museu
 		_toggle_home_div(target, nid);
 		if (museu_ativo != museu_clicado) {		
@@ -73,22 +72,31 @@ define([
 	    }
 	    
 	    _close_museu = function(target) {
-		var nid_fechar = '',
+		var nid = '',
 		nav_fechar = '',
 		el_onclick = '';
+
+		nid = target.split(' ');
+		nid = _.last(nid[0].split('_'));
+		el_onclick = "#btnnid_" + nid;
 		
 		// restaura estado do museu ativo
 		$(target).animate(
 		    { height: "0" },
-		    { duration: this.config['transitionScrollDuration'] }
+		    { duration: this.config['transitionScrollDuration'],
+		      start: function() { 
+			  _toggle_click_button('off', el_onclick);
+		      },
+		      complete: function() {
+			  _toggle_click_button('on', el_onclick, toggle_museu);
+		      }
+		    }
 		);
 		
 		// limpa museu anterior
-		nid_fechar = target.split(' ');
-		nid_fechar = _.last(nid_fechar[0].split('_'));
-		nav_fechar = "#nid_" + nid_fechar + " #navigation";
+		nav_fechar = "#nid_" + nid + " #navigation";
+		// depois: verificar se tem diferenca entre nav_fechar e target
 		$(nav_fechar).remove();
-		el_onclick = target.replace(' .subpages-container', '');
 		$(target).html('');
 		
 		$('body').data('museu_ativo', '');
@@ -155,6 +163,8 @@ define([
 		el_onclick = '#btnnid_' + nid,
 		el = "#nid_" + nid + " .subpages-container";
 		var compiledHomeTpl = _.template(MuseuHomeTpl, dataMuseu);
+		// definir ativo
+		$('body').data('museu_ativo', el);
 		
 		if (dataMuseu == defaultDataMuseu) {
 		    // carrega div ainda sem conteudo e anima deslocamento
@@ -367,7 +377,7 @@ define([
 		
 		if (state == 'on') {
 		    $(el).css('cursor', 'pointer');
-		    $(el).on('click', callback);		
+		    $(el).one('click', callback);		
 		} else if (state == 'off') {
 		    $(el).css('cursor', 'default');
 		    $(el).off('click');
