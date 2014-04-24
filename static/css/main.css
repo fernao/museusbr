@@ -47,3 +47,7 @@ div#regiao { margin-top: 20px}
 .museu-tabs {float: left; display: inline; margin: 0 auto; color: #fff}
 #filter-tags {color: #FFDD55; text-align: center;}
 #filter-tags span {font-weight: bold; font-style: italic}
+
+/* subpages museu mapa */
+div.mapa-imagem { margin-left: 60px }
+.mapa-imagem img { margin: 4px}
