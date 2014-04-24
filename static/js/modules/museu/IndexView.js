@@ -336,7 +336,7 @@ define([
 			
 			// bind click event 
 			_.each(museus_list, function(museu) {
-			    el_onclick = '#nid_' + museu.nid;
+			    el_onclick = '#btnnid_' + museu.nid;
 			    $(el_onclick).css('cursor', 'pointer');
 			    $(el_onclick).on('click', toggle_museu);
 			});
