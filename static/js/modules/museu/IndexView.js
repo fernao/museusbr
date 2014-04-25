@@ -11,11 +11,11 @@ define([
     'text!templates/tags.html',
     'text!templates/museu/MuseuIndex.html',
     'text!templates/museu/MuseuHome.html',
-    'text!templates/museu/MuseuFotos.html',
+    'text!templates/museu/MuseuImagens.html',
     'text!templates/museu/MuseuMapa.html',
-    'text!templates/museu/MuseuPlanta.html',
+    'text!templates/museu/MuseuHorario.html',
     'text!templates/museu/MuseuNavigation.html',
-], function($, _, Backbone, MuseuModel, MuseuCollection, ConfigModel, MensagensModel, TagModel, HeaderTpl, TagsTpl, MuseuIndexTpl, MuseuHomeTpl, MuseuFotosTpl, MuseuMapaTpl, MuseuPlantaTpl, MuseuNavigationTpl){
+], function($, _, Backbone, MuseuModel, MuseuCollection, ConfigModel, MensagensModel, TagModel, HeaderTpl, TagsTpl, MuseuIndexTpl, MuseuHomeTpl, MuseuImagensTpl, MuseuMapaTpl, MuseuHorarioTpl, MuseuNavigationTpl){
     var default_lang = '';
     var IndexView = Backbone.View.extend({
 	
@@ -161,14 +161,18 @@ define([
 		el_off = '',
 		el_div = '',
 		el_onclick = '#btnnid_' + nid,
-		el = "#nid_" + nid + " .subpages-container";
+		el = "#nid_" + nid + " .subpages-container",
+		tab_width = $('#nid_' + nid).width();
+		$('#nid_' + nid + ' .page').css('width', tab_width);		
 		var compiledHomeTpl = _.template(MuseuHomeTpl, dataMuseu);
 		// definir ativo
 		$('body').data('museu_ativo', el);
 		
+		// aplica template renderizado
+		$(el).html(compiledHomeTpl);
+		
 		if (dataMuseu == defaultDataMuseu) {
 		    // carrega div ainda sem conteudo e anima deslocamento
-		    $(el).html(compiledHomeTpl);
 		    $(el).animate(
 			{ height: this.config['museuDivHeight']},
 			{ duration: this.config['transitionScrollDuration'],
@@ -182,34 +186,53 @@ define([
 		    );
 		} else {
 		    // carrega conteudo dentro da div e anima fade in
-		    $(el).html(compiledHomeTpl);
 		    el_div = el + " .page"
 		    $(el_div).animate(
 			{ opacity: 1 },
 			{ duration: this.config['transitionOpacityDuration'] }
 		    );
 		    _toggle_navigation(nid);
-		}
+		}  
 	    }
 	    
 	    //// _load_museu_tabs
 	    // - carrega outras tabs/janelas
 	    _load_museu_tabs = function(lang, nid, dataMuseu) {
-		var compiledFotosTpl = _.template(MuseuFotosTpl, dataMuseu);
-		var compiledMapaTpl = _.template(MuseuMapaTpl, dataMuseu);
-		var compiledPlantaTpl = _.template(MuseuPlantaTpl, dataMuseu);		
-		var museu_tabs = [],
+		var tab_width = 0,
+		total_width = 0,
+		museu_tabs = [],
 		el = '',
+		compiledHomeTpl = '',
+		compiledFotosTpl = '',
+		compiledMapaTpl = '';
 		
-		museu_tabs = ['#home_museu_' + nid, '#fotos_museu_' + nid, '#mapa_museu_' + nid, '#planta_museu_' + nid];
+		// pega tamanho da tab aberta
+		tab_width = $('#nid_' + nid).width();
+		// TODO: adicionar evento: quando redimensionar, recalcula
+		
+		museu_tabs = ['#home_museu_' + nid, '#fotos_museu_' + nid, '#mapa_museu_' + nid, '#planta_museu_' + nid];		
+		var compiledMapaTpl = _.template(MuseuMapaTpl, dataMuseu);
+		var compiledHorarioTpl = _.template(MuseuHorarioTpl, dataMuseu);		
+
+		// so mostra tab de fotos se tiver imagens
+		if (dataMuseu.museu.imagens != '') {
+		    var compiledImagensTpl = _.template(MuseuImagensTpl, dataMuseu);
+		} else {
+		    museu_tabs.splice(1, 1);
+		}
+		
+		total_width = (museu_tabs.length * tab_width) + 20;
+		$('#nid_' + nid + ' .subpages-container').css('width', total_width);
+		
 		$('body').data('museu_tabs', museu_tabs);
 		$('body').data('museu_tab_ativo', museu_tabs[0]); // inicializa na home
 		
 		el = "#nid_" + nid + " .subpages-container";
-		$(el).append(compiledFotosTpl);
+		$(el).append(compiledImagensTpl);
 		$(el).append(compiledMapaTpl);
-		$(el).append(compiledPlantaTpl);
+		$(el).append(compiledHorarioTpl);
 		$(el + ' .page').css('opacity', 1);
+		$(el + ' .page').css('width', tab_width);
 	    }
 	    
 	    _toggle_home_div = function(el, nid) {
@@ -238,10 +261,9 @@ define([
 	    // - liga/desliga botoes de navegacao
 	    _toggle_navigation_buttons = function(nid, status) {
 		var el = "#nid_" + nid;
-		
 		if (status == true) { 
-		    $(el + " .left").on('click', (function(e) { _navigate(nid, 'left') }));
-		    $(el + " .right").on('click', (function(e) { _navigate(nid, 'right') }));
+		    $(el + " .left").one('click', (function(e) { _navigate(nid, 'left') }));
+		    $(el + " .right").one('click', (function(e) { _navigate(nid, 'right') }));
 		} else {
 		    $(el + " .left").off('click');
 		    $(el + " .right").off('click');
@@ -266,10 +288,8 @@ define([
 		if (direction == 'left') {
 		    if (id_ativo === 0) {
 			// TODO: desligar botao caso esteja no comeco
-			console.log('comeco. fica parado');
 			return false;
 		    } else {
-			console.log('move pra esquerda');
 			id_next = id_ativo -1;
 			museu_tab_next = museu_tabs[id_next];
 			_reposition_tabs(nid, direction);
@@ -278,10 +298,8 @@ define([
 		
 		if (direction == 'right') {
 		    if (id_ativo == tabs_size) {
-			console.log('fim. fica parado');
 			return false;
 		    } else {
-			console.log('move pra direita');
 			id_next = id_ativo +1;
 			museu_tab_next = museu_tabs[id_next];
 			_reposition_tabs(nid, direction);
@@ -295,33 +313,29 @@ define([
 	    _reposition_tabs = function(nid, direction) {
 		var factor = '',
 		current_position = '',
-		museu_tabs = '',
-		position = '';
+		museu_content = '',
+		position = '',
+		tab_width = $('#nid_' + nid).width();
 		
 		_toggle_navigation_buttons(nid, false); // desativa botoes (inicio)
 		factor = (direction == 'left') ? 1 : -1;
-		museu_tabs = $('body').data('museu_tabs');
-		_.each(museu_tabs, function(museu_tab) {
-		    // crossbrowser para pegar 'left'
-		    current_position =	$(museu_tab).css('left');
-		    if (current_position.search(/px/) != -1) {
-			// firefox
-			current_position = parseInt(_.first(current_position.split('px')));
-		    } else {
-			// chromium
-			current_position = (current_position == 'auto') ? 0 : current_position;
-			document.title = current_position;
-		    }
-		    position = parseInt(eval(current_position + (factor * this.config['museuWidth']))) + 'px';
-		    $(museu_tab).animate({ 
-			left: position 
-		    }, this.config['navigationScrollDuration'], function() {
-			// complete
-			if (museu_tab == _.last(museu_tabs)) {
-			    _toggle_navigation_buttons(nid, true); // ativa botoes (fim)
-			}
-		    });    
-		});
+		museu_content = '#nid_' + nid + ' .subpages-container';
+		current_position = $(museu_content).css('left');
+		
+		if (current_position.search(/px/) != -1) {
+		    // firefox
+		    current_position = parseInt(_.first(current_position.split('px')));
+		} else {
+		    // chromium
+		    current_position = (current_position == 'auto') ? 0 : current_position;
+		}
+		position = parseInt(eval(current_position + (factor * tab_width))) + 'px';
+		$(museu_content).animate({ 
+		    left: position 
+		}, this.config['navigationScrollDuration'], function() {
+		    // ativa botoes (fim)
+		    _toggle_navigation_buttons(nid, true);
+		});    
 	    }
 	    
 	    // carrega museus - tela inicial
