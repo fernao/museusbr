@@ -7,6 +7,7 @@ define([
     'modules/config/model',
     'modules/mensagens/model',
     'modules/tag/model',
+    'modules/localizacao/model',
     'text!templates/header.html',
     'text!templates/tags.html',
     'text!templates/museu/MuseuIndex.html',
@@ -15,13 +16,14 @@ define([
     'text!templates/museu/MuseuMapa.html',
     'text!templates/museu/MuseuHorario.html',
     'text!templates/museu/MuseuNavigation.html',
-], function($, _, Backbone, MuseuModel, MuseuCollection, ConfigModel, MensagensModel, TagModel, HeaderTpl, TagsTpl, MuseuIndexTpl, MuseuHomeTpl, MuseuImagensTpl, MuseuMapaTpl, MuseuHorarioTpl, MuseuNavigationTpl){
+], function($, _, Backbone, MuseuModel, MuseuCollection, ConfigModel, MensagensModel, TagModel, LocalizacaoModel, HeaderTpl, TagsTpl, MuseuIndexTpl, MuseuHomeTpl, MuseuImagensTpl, MuseuMapaTpl, MuseuHorarioTpl, MuseuNavigationTpl){
     var default_lang = '';
     var IndexView = Backbone.View.extend({
 	
-	render: function(lang, tags){
+	render: function(lang, tags, localizacao){
 	    var tags = tags || '',
-	    lang = lang || '';
+	    lang = lang || '',
+	    localizacao = localizacao || '';
 	    
 	    //// _generate_tag_cloud
 	    _generate_tag_cloud = function(tag_atual) {
@@ -39,6 +41,33 @@ define([
 			$('#header-tags').html(compiledTags);
 		    }
 		});
+	    }
+
+	    _generate_map = function(localizacao_str) {
+		var localizacao_str = localizacao_str || '',
+		regioes = ['norte', 'nordeste', 'centro-oeste', 'sul', 'sudeste']; //TODO: centralizar isso em algum lugar, talvez drupal
+
+		var localizacao = new LocalizacaoModel();		
+		// se recebeu uma regiao como parametro
+		if (_.contains(regioes, localizacao_str)) { 
+		    // chama url que retorna ids das cidades da regiao, para uso interno da url rest
+		    localizacao.url +=  localizacao_str;
+		    localizacao.fetch({
+			success: function() {
+			    data = { 
+				cidades: localizacao.attributes				
+			    }
+			    
+			    // renderiza lista de cidades com links para os respectivos filtros
+			    // destaca mapa com a cor da região (atual sem link)
+			    // preenche titulo
+			}
+		    });
+		} else {
+		    // senao, passa direto o nome da cidade
+		    
+		}
+		// renderiza template		
 	    }
 
 	    //// get_default_lang
@@ -339,11 +368,10 @@ define([
 	    }
 	    
 	    // carrega museus - tela inicial
-	    _load_museus = function(lang, tags) {
+	    _load_museus = function(lang, tags, localizacao_str) {
 		var tags = tags || '',
 		lang = lang || '',
-		el_onclick = '',
-		mensagem = '';
+		localizacao_str = localizacao_str || '';
 		
 		// armazena museu ativo
 		$('body').data('museu_ativo', '');
@@ -353,34 +381,74 @@ define([
 		museus.lang = lang;
 		museus.tags = tags;
 
-		museus.fetch({
-		    success: function() {
-			museus_list = museus.models[0].attributes;
-			nodes = museus_list;
-			
-			data = {
-			    nodes: nodes,
-			    emptyMessage: this.mensagens['naoEncontrado']
-			}
-			
-			var compiledTemplate = _.template(MuseuIndexTpl, data);
-			$('#content').html(compiledTemplate);
-			
-			// bind click event 
-			_.each(museus_list, function(museu) {
-			    el_onclick = '#btnnid_' + museu.nid;
-			    _toggle_click_button('on', el_onclick, toggle_museu);
+		if (localizacao != '') {
+		    regioes = ['norte', 'nordeste', 'centro-oeste', 'sul', 'sudeste']; //TODO: centralizar isso em algum lugar, talvez drupal
+		    
+		    var localizacao = new LocalizacaoModel();		
+		    // se recebeu uma regiao (taxonomy parent) como parametro, mas tem q pegar ids para conseguir fazer a busca
+		    if (_.contains(regioes, localizacao_str)) { 
+			// chama url que retorna ids das cidades da regiao, para uso interno da url rest
+			localizacao.url +=  localizacao_str;
+			localizacao.fetch({
+			    success: function() {
+				cidades = localizacao.attributes;
+				var tids = [];
+				_.each(cidades, function(cidade) {
+				    tids.push(cidade.tid);
+				});
+				tid = tids.join(',');
+				museus.url += '/' + tids;
+				museus.fetch({
+				    success: function() {
+					_museu_parse_fetch(MuseuIndexTpl, museus, tags);
+				    }
+				});		
+				//   - museus.url = lang + '/' + tags + '/' + nids		   
+				
+				// renderiza lista de cidades com links para os respectivos filtros
+				// destaca mapa com a cor da região (atual sem link)
+				// preenche titulo
+			    }
 			});
-
-			// seta tags (se houver)
-			if (tags != '') {
-			    document.title = this.mensagens['portalMuseuBr'] + ' - ' + this.mensagens['exibindoMuseusDe'] + tags.toUpperCase();
-			} else {
-			    document.title = this.mensagens['portalMuseuBr'];
-			}
 		    }
-		});
+		} else {
+		    //  fetch comum
+		    museus.fetch({
+			success: function() {
+			    _museu_parse_fetch(MuseuIndexTpl, museus, tags);
+			}
+		    });
+		}		   		  
 	    }
+
+	    // da o parse do fetch dos museus
+	    _museu_parse_fetch = function(MuseuIndexTpl, museus, tags) {
+		var el_onclick = '',
+		mensagem = '',
+		nodes  = museus.models[0].attributes,
+		data = {
+		    nodes: nodes,
+		    emptyMessage: this.mensagens['naoEncontrado']
+		}
+		
+		var compiledTemplate = _.template(MuseuIndexTpl, data);
+		$('#content').html(compiledTemplate);
+		
+		// bind click event 
+		_.each(nodes, function(museu) {
+		    el_onclick = '#btnnid_' + museu.nid;
+		    _toggle_click_button('on', el_onclick, toggle_museu);
+		});
+		
+		// seta tags (se houver)
+		if (tags != '') {
+		    document.title = this.mensagens['portalMuseuBr'] + ' - ' + this.mensagens['exibindoMuseusDe'] + tags.toUpperCase();
+		} else {
+		    document.title = this.mensagens['portalMuseuBr'];
+		}
+		
+	    }
+	    
 	    
 	    // funcao para ligar / desligar botoes
 	    // - state: on, off
@@ -399,10 +467,14 @@ define([
 	    }
 
 	    // init main functionalities
-	    _init_main = function(lang) {
+	    _init_main = function(lang, tags, localizacao) {
+		var tags = tags || '',
+		localizacao = localizacao || '';
+		
 		data = {
 		    carregandoTags: '&nbsp;',
-		    lang: $('body').data('userLang')
+		    lang: $('body').data('userLang'),
+		    tags: tags
 		}
 		
 		if ($('#header').html() == '') {
@@ -411,7 +483,8 @@ define([
 		}
 		$('#content').html("<div class='loading'></div>");
 		_generate_tag_cloud(tags); // TODO: colocar check pra ver se ja carregou & manter expandido
-		_load_museus(lang, tags);		
+		_generate_map(localizacao);
+		_load_museus(lang, tags, localizacao);		
 	    }
 	    
 	    _load_config();
@@ -426,12 +499,12 @@ define([
 			lang = data.userLang;
 			set_user_lang(lang);
 			$('#headerUrl').attr('href', '#'  + lang);
-			_init_main(lang);
+			_init_main(lang, tags, localizacao);
 		    }
 		});
 	    } else {
 		set_user_lang(lang);
-		_init_main(lang);
+		_init_main(lang, tags, localizacao);
 	    }
 	    
 	},
