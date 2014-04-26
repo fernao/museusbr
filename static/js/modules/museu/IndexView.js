@@ -9,6 +9,7 @@ define([
     'modules/tag/model',
     'modules/localizacao/model',
     'text!templates/header.html',
+    'text!templates/regiao.html',
     'text!templates/tags.html',
     'text!templates/museu/MuseuIndex.html',
     'text!templates/museu/MuseuHome.html',
@@ -16,7 +17,7 @@ define([
     'text!templates/museu/MuseuMapa.html',
     'text!templates/museu/MuseuHorario.html',
     'text!templates/museu/MuseuNavigation.html',
-], function($, _, Backbone, MuseuModel, MuseuCollection, ConfigModel, MensagensModel, TagModel, LocalizacaoModel, HeaderTpl, TagsTpl, MuseuIndexTpl, MuseuHomeTpl, MuseuImagensTpl, MuseuMapaTpl, MuseuHorarioTpl, MuseuNavigationTpl){
+], function($, _, Backbone, MuseuModel, MuseuCollection, ConfigModel, MensagensModel, TagModel, LocalizacaoModel, HeaderTpl, RegiaoTpl, TagsTpl, MuseuIndexTpl, MuseuHomeTpl, MuseuImagensTpl, MuseuMapaTpl, MuseuHorarioTpl, MuseuNavigationTpl){
     var default_lang = '';
     var IndexView = Backbone.View.extend({
 	
@@ -28,6 +29,9 @@ define([
 	    //// _generate_tag_cloud
 	    _generate_tag_cloud = function(tag_atual) {
 		var tag_atual = tag_atual || '';
+		if (tag_atual == 'todos') {
+		    tag_atual = '';
+		}
 		var tags = new TagModel();
 		tags.fetch({
 		    success: function() {
@@ -55,19 +59,22 @@ define([
 		    localizacao.fetch({
 			success: function() {
 			    data = { 
-				cidades: localizacao.attributes				
+				cidades: localizacao.attributes,
+				regiao: localizacao_str,
+				lang: get_user_lang()
 			    }
-			    
-			    // renderiza lista de cidades com links para os respectivos filtros
-			    // destaca mapa com a cor da região (atual sem link)
-			    // preenche titulo
+			    var compiledRegiao = _.template(RegiaoTpl, data);
+			    $('#lista-cidades').html(compiledRegiao);	    
 			}
 		    });
 		} else {
-		    // senao, passa direto o nome da cidade
-		    
+		    // se recebe ID passa direto o nome da cidade
+		    // TODO: puxar regiao pelo nome da cidade
+		    // - sem esse comportamento, nao vai carregar a lista de cidades
+		    // - definir como fica o comportamento da cidade quando é ela a atual (fica bold?)
 		}
-		// renderiza template		
+
+		// definir comportamento tbm para puxar mapa se nao passar nome de regiao
 	    }
 
 	    //// get_default_lang
@@ -369,9 +376,10 @@ define([
 	    
 	    // carrega museus - tela inicial
 	    _load_museus = function(lang, tags, localizacao_str) {
-		var tags = tags || '',
+		var tags = tags || 'todos',
 		lang = lang || '',
-		localizacao_str = localizacao_str || '';
+		localizacao_str = localizacao_str || '',
+		regioes = ['norte', 'nordeste', 'centro-oeste', 'sul', 'sudeste']; //TODO: centralizar isso em algum lugar, talvez drupal
 		
 		// armazena museu ativo
 		$('body').data('museu_ativo', '');
@@ -380,39 +388,33 @@ define([
 		museus.url += lang + '/' + tags;
 		museus.lang = lang;
 		museus.tags = tags;
-
-		if (localizacao != '') {
-		    regioes = ['norte', 'nordeste', 'centro-oeste', 'sul', 'sudeste']; //TODO: centralizar isso em algum lugar, talvez drupal
-		    
+		// se recebeu uma regiao (taxonomy parent) como parametro, mas tem q pegar ids para conseguir fazer a busca
+		if (_.contains(regioes, localizacao_str)) { 
 		    var localizacao = new LocalizacaoModel();		
-		    // se recebeu uma regiao (taxonomy parent) como parametro, mas tem q pegar ids para conseguir fazer a busca
-		    if (_.contains(regioes, localizacao_str)) { 
-			// chama url que retorna ids das cidades da regiao, para uso interno da url rest
-			localizacao.url +=  localizacao_str;
-			localizacao.fetch({
-			    success: function() {
-				cidades = localizacao.attributes;
-				var tids = [];
-				_.each(cidades, function(cidade) {
-				    tids.push(cidade.tid);
-				});
-				tid = tids.join(',');
-				museus.url += '/' + tids;
-				museus.fetch({
-				    success: function() {
-					_museu_parse_fetch(MuseuIndexTpl, museus, tags);
-				    }
-				});		
-				//   - museus.url = lang + '/' + tags + '/' + nids		   
-				
-				// renderiza lista de cidades com links para os respectivos filtros
-				// destaca mapa com a cor da região (atual sem link)
-				// preenche titulo
-			    }
-			});
-		    }
+		    
+		    // chama url que retorna ids das cidades da regiao, para uso interno da url rest
+		    localizacao.url +=  localizacao_str;
+		    localizacao.fetch({
+			success: function() {
+			    cidades = localizacao.attributes;
+			    var tids = [];
+			    _.each(cidades, function(cidade) {
+				tids.push(cidade.tid);
+			    });
+			    tid = tids.join(',');
+			    museus.url += '/' + tids;
+			    museus.fetch({
+				success: function() {
+				    _museu_parse_fetch(MuseuIndexTpl, museus, tags);
+				}
+			    });		
+			}
+		    });
 		} else {
-		    //  fetch comum
+		    //  fetch comum, inclusive para cidades (recebeu ids)
+		    if (localizacao_str != '') {
+			museus.url += '/' + localizacao_str;
+		    }
 		    museus.fetch({
 			success: function() {
 			    _museu_parse_fetch(MuseuIndexTpl, museus, tags);

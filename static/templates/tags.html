@@ -1,8 +1,8 @@
 <div id="tag_cloud">
-  <% if (tag_atual == '') { %>
-  <a class='botao-retangular todos atual' href="#">todos</a>
+  <% if (tag_atual == 'todos' || tag_atual == '')  { %>
+  <a class='botao-retangular todos atual' href="#/todos">todos</a>
   <% } else { %>
-  <a class='botao-retangular todos' href="#<%= lang %>">todos</a>
+  <a class='botao-retangular todos' href="#<%= lang %>/todos">todos</a>
   <% } %>
   <% _.each(tags, function(tag){ %>
   <a class='botao-retangular<% if (tag_atual == tag.name) { %> atual<% } %>' href='#<%= tag.lang %>/<%= tag.name %>' rel='<%= tag.count %>' title='<%= tag.name %>'><%= tag.name %></a>

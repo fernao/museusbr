@@ -6,17 +6,18 @@
 
 <div id="header-mapa">
   <div id="mapa-posicao">
-    <img src="images/mapabr.png">
+    <img id="mapabr-img" src="images/mapabr.png" border="0" width="176" height="182" orgWidth="176" orgHeight="182" usemap="#mapabr-map" alt="" />
+    <map name="mapabr-map">
+      <area shape="rect" coords="174,180,176,182" alt="Image Map" style="outline:none;" title="Image Map" href="http://www.image-maps.com/index.php?aff=mapped_users_0" />
+      <area id="sudeste" alt="" title="sudeste" href="#<%= lang %>/<%= tags %>/sudeste" shape="poly" coords="121,138,128,130,142,133,149,124,152,118,149,110,147,100,137,96,133,91,121,97,118,110,108,114,106,112,102,119,100,127,109,127,111,136" style="outline:none;" target="_self"     />
+      <area id="nordeste" alt="n" title="nordeste" href="#<%= lang %>/<%= tags %>/nordeste" shape="poly" coords="127,92,129,76,130,68,122,66,123,53,118,50,126,46,126,34,134,41,143,41,152,41,161,45,174,61,174,71,170,81,158,89,154,97,155,110,148,108,148,98,139,97,137,90" style="outline:none;" target="_self"     />
+      <area id="norte" alt="" title="norte" href="#<%= lang %>/<%= tags %>/norte" shape="poly" coords="124,33,125,45,118,49,122,63,122,68,127,72,125,83,118,86,111,86,107,92,104,84,108,75,100,70,90,73,75,69,61,71,68,77,63,86,48,83,47,72,41,66,34,72,30,77,24,77,17,79,12,70,5,66,5,59,9,55,19,55,25,46,19,37,24,22,31,25,45,25,43,13,61,6,61,15,70,18,81,16,91,17,98,13,101,9,109,18,115,30,100,28" style="outline:none;" target="_self"     />
+      <area id="centro-oeste" alt="" title="centro-oeste" href="#<%= lang %>/<%= tags %>/centro-oeste" shape="poly" coords="117,111,120,104,120,98,127,94,127,90,123,85,117,87,112,84,107,90,102,86,106,76,107,72,100,68,90,72,73,66,68,71,59,71,67,78,67,78,67,98,76,107,76,107,81,117,78,129,85,136,91,135,100,130,103,119,102,117,106,113" style="outline:none;" target="_self"     />
+      <area id="sul" alt="" title="sul" href="#<%= lang %>/<%= tags %>/sul" shape="poly" coords="97,174,104,168,106,156,115,144,120,140,111,135,106,129,101,129,91,133,89,154,82,163" style="outline:none;" target="_self" />
+    </map>
+    
   </div>
   <div id="lista-cidades">
-    <ul>
-      <li>Rio de Janeiro</li>
-      <li>São Paulo</li>
-      <li>Brodowski</li>
-      <li>Vitória</li>
-      <li>(conteúdo falso ainda)</li>
-    </ul>
-    <div id="regiao" class="botao-retangular">sudeste</div>
   </div>
 </div>
 <div id="header-lang">

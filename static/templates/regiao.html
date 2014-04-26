@@ -1,0 +1,6 @@
+    <ul>
+<% _.each(cidades, function(cidade){ %>
+      <li><a href="#<%= lang %>/todos/<%= cidade.tid %>"><%= cidade.name %></a></li>
+<% }); %>
+    </ul>
+    <div id="regiao" class="botao-retangular"><%= regiao %></div>
