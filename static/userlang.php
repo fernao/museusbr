@@ -1,19 +1,9 @@
 <?php
-/*
-  returns user language
- */
-$userLang = split(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
-$userLang = strtolower($userLang[0]);
-$defaultLang = 'pt-br';
 
-$acceptedLangs = ['pt_br', 'es', 'fr', 'en'];
-if (!in_array($userLang, $acceptedLangs)) {
-  $userLang = $defaultLang;
+if (version_compare(PHP_VERSION, '5.4.0') >= 0) {
+  require('userlang-5.4.php');
+} else {
+  require('userlang-5.3.php');
 }
 
-$vars = ['userLang' => $userLang,
-	 'defaultLang' => $defaultLang,
-	 'acceptedLangs' => $acceptedLangs];
-
-print json_encode($vars,  JSON_FORCE_OBJECT);
 ?>
