@@ -9,6 +9,7 @@ define([
     'modules/tag/model',
     'modules/localizacao/model',
     'text!templates/header.html',
+    'text!templates/mapa.html',
     'text!templates/regiao.html',
     'text!templates/tags.html',
     'text!templates/museu/MuseuIndex.html',
@@ -17,7 +18,7 @@ define([
     'text!templates/museu/MuseuMapa.html',
     'text!templates/museu/MuseuHorario.html',
     'text!templates/museu/MuseuNavigation.html',
-], function($, _, Backbone, MuseuModel, MuseuCollection, ConfigModel, MensagensModel, TagModel, LocalizacaoModel, HeaderTpl, RegiaoTpl, TagsTpl, MuseuIndexTpl, MuseuHomeTpl, MuseuImagensTpl, MuseuMapaTpl, MuseuHorarioTpl, MuseuNavigationTpl){
+], function($, _, Backbone, MuseuModel, MuseuCollection, ConfigModel, MensagensModel, TagModel, LocalizacaoModel, HeaderTpl, MapaTpl, RegiaoTpl, TagsTpl, MuseuIndexTpl, MuseuHomeTpl, MuseuImagensTpl, MuseuMapaTpl, MuseuHorarioTpl, MuseuNavigationTpl){
     var default_lang = '';
     var IndexView = Backbone.View.extend({
 	
@@ -27,8 +28,10 @@ define([
 	    localizacao = localizacao || '';
 	    
 	    //// _generate_tag_cloud
-	    _generate_tag_cloud = function(tag_atual) {
-		var tag_atual = tag_atual || '';
+	    _generate_tag_cloud = function(tag_atual, localizacao) {
+		var tag_atual = tag_atual || '',
+		localizacao = localizacao || '';
+		
 		if (tag_atual == 'todos') {
 		    tag_atual = '';
 		}
@@ -38,6 +41,7 @@ define([
 			data = {
 			    tags: tags.attributes,
 			    tag_atual: tag_atual,
+			    localizacao: localizacao,
 			    lang: $('body').data('userLang')
 			}
 			
@@ -47,8 +51,9 @@ define([
 		});
 	    }
 
-	    _generate_map = function(localizacao_str) {
+	    _generate_map = function(localizacao_str, tags) {
 		var localizacao_str = localizacao_str || '',
+		tags = tags || '',
 		regioes = ['norte', 'nordeste', 'centro-oeste', 'sul', 'sudeste']; //TODO: centralizar isso em algum lugar, talvez drupal
 
 		var localizacao = new LocalizacaoModel();		
@@ -61,8 +66,12 @@ define([
 			    data = { 
 				cidades: localizacao.attributes,
 				regiao: localizacao_str,
+				tags: tags,
 				lang: get_user_lang()
 			    }
+
+			    var compiledMapa = _.template(MapaTpl, data);
+			    $('#mapa-posicao').html(compiledMapa);	    
 			    var compiledRegiao = _.template(RegiaoTpl, data);
 			    $('#lista-cidades').html(compiledRegiao);	    
 			}
@@ -476,6 +485,7 @@ define([
 		data = {
 		    carregandoTags: '&nbsp;',
 		    lang: $('body').data('userLang'),
+		    regiao: 'todos',
 		    tags: tags
 		}
 		
@@ -484,8 +494,8 @@ define([
 		    $('#header').html(compiledHeader, lang);
 		}
 		$('#content').html("<div class='loading'></div>");
-		_generate_tag_cloud(tags); // TODO: colocar check pra ver se ja carregou & manter expandido
-		_generate_map(localizacao);
+		_generate_tag_cloud(tags, localizacao); // TODO: colocar check pra ver se ja carregou & manter expandido
+		_generate_map(localizacao, tags);
 		_load_museus(lang, tags, localizacao);		
 	    }
 	    
