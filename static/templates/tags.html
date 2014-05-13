@@ -1,10 +1,10 @@
 <div id="tag_cloud">
-  <% if (tag_atual == 'todos' || tag_atual == '')  { %>
-  <a class='botao-retangular todos atual' href="#/todos/<%=localizacao %>">todos</a>
+  <% if (tag == 'todos' || tag == '')  { %>
+  <a class='todos atual' href="#/todos/<%=localizacao %>">todos</a><br/><br/>
   <% } else { %>
-  <a class='botao-retangular todos' href="#<%= lang %>/todos/<%=localizacao %>">todos</a>
+  <a class='todos' href="#<%= lang %>/todos/<%=localizacao %>">todos</a><br/><br/>
   <% } %>
-  <% _.each(tags, function(tag){ %>
-  <a class='botao-retangular<% if (tag_atual == tag.name) { %> atual<% } %>' href='#<%= tag.lang %>/<%= tag.name %>/<%=localizacao %>' rel='<%= tag.count %>' title='<%= tag.name %>'><%= tag.name %></a>
+  <% _.each(tags, function(t){ %>
+  <a class='<% if (tag == t.name) { %>atual<% } %>' href='#<%= t.lang %>/<%= t.name %>/<%=localizacao %>' rel='<%= t.count %>' title='<%= t.name %>'><%= t.name %></a>
   <% }) %>
 </div>

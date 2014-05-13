@@ -2,6 +2,7 @@ define([
     'jquery', 
     'underscore',
     'backbone',
+    'tagcloud',
     'modules/museu/model',
     'modules/museu/collection',
     'modules/config/model',
@@ -18,7 +19,7 @@ define([
     'text!templates/museu/MuseuMapa.html',
     'text!templates/museu/MuseuHorario.html',
     'text!templates/museu/MuseuNavigation.html',
-], function($, _, Backbone, MuseuModel, MuseuCollection, ConfigModel, MensagensModel, TagModel, LocalizacaoModel, HeaderTpl, MapaTpl, RegiaoTpl, TagsTpl, MuseuIndexTpl, MuseuHomeTpl, MuseuImagensTpl, MuseuMapaTpl, MuseuHorarioTpl, MuseuNavigationTpl){
+], function($, _, Backbone, TagCloud, MuseuModel, MuseuCollection, ConfigModel, MensagensModel, TagModel, LocalizacaoModel, HeaderTpl, MapaTpl, RegiaoTpl, TagsTpl, MuseuIndexTpl, MuseuHomeTpl, MuseuImagensTpl, MuseuMapaTpl, MuseuHorarioTpl, MuseuNavigationTpl){
     var default_lang = '';
     var IndexView = Backbone.View.extend({
 	
@@ -26,66 +27,87 @@ define([
 	    var tags = tags || '',
 	    lang = lang || '',
 	    localizacao = localizacao || '';
-	    
-	    //// _generate_tag_cloud
-	    _generate_tag_cloud = function(tag_atual, localizacao) {
-		var tag_atual = tag_atual || '',
-		localizacao = localizacao || '';
-		
-		if (tag_atual == 'todos') {
-		    tag_atual = '';
-		}
-		var tags = new TagModel();
-		tags.fetch({
-		    success: function() {
-			data = {
-			    tags: tags.attributes,
-			    tag_atual: tag_atual,
-			    localizacao: localizacao,
-			    lang: $('body').data('userLang')
-			}
-			
-			var compiledTags = _.template(TagsTpl, data);
-			$('#header-tags').html(compiledTags);
-		    }
-		});
+
+	    _get_regioes = function() {
+		return ['brasil', 'norte', 'nordeste', 'centro-oeste', 'sul', 'sudeste'];
 	    }
 
-	    _generate_map = function(localizacao_str, tags) {
-		var localizacao_str = localizacao_str || '',
-		tags = tags || '',
-		regioes = ['norte', 'nordeste', 'centro-oeste', 'sul', 'sudeste']; //TODO: centralizar isso em algum lugar, talvez drupal
-
-		var localizacao = new LocalizacaoModel();		
-		// se recebeu uma regiao como parametro
-		if (_.contains(regioes, localizacao_str)) { 
+	    _get_localizacao_tids = function(localizacao) {
+		var localizacao_str = '',
+		l = 0,
+		maxL = _.size(localizacao);
+		
+		for (l = 0; l < maxL; l+= 1) {
+		    localizacao_str += localizacao[l].tid;
+		    if (l <= maxL -2) {
+			localizacao_str += ',';
+		    }
+		}
+		return localizacao_str;
+	    }
+	    
+	    _generate_header = function(tag, localizacao) {
+		var tag = tag || 'todos',
+		localizacao = localizacao || 'brasil',
+		lang = $('body').data('userLang'),
+		regioes = _get_regioes();
+		
+		var localizacaoModel = new LocalizacaoModel();		
+		
+		//////
+		// recebeu REGIAO
+		if (_.contains(regioes, localizacao)) { 
 		    // chama url que retorna ids das cidades da regiao, para uso interno da url rest
-		    localizacao.url +=  localizacao_str;
-		    localizacao.fetch({
+		    localizacaoModel.url +=  localizacao;
+		    localizacaoModel.fetch({
 			success: function() {
+			    
+			    var tags = new TagModel();
+			    localizacao_tids = _get_localizacao_tids(localizacaoModel.attributes);
+			    
+			    // localizacao passada deve ser um tid
+			    tags.url = '/museubr/tagcloud/' + lang + '/' + localizacao_tids;
+			    
+			    tags.fetch({
+				success: function() {
+				    data = {
+					tags: tags.attributes,
+					tag: tag,
+					localizacao: localizacao,
+					lang: lang
+				    }
+				    
+				    var compiledTags = _.template(TagsTpl, data);
+				    $('#header-tags').html(compiledTags);
+
+				    $.fn.tagcloud.defaults = {
+					size: {start: 14, end: 18, unit: 'pt'},
+					color: {start: '#fada53', end: '#fada53'}
+				    };
+
+				    $(function () {
+					$('#tag_cloud a').tagcloud();
+				    });
+				}
+			    });
+			    
 			    data = { 
-				cidades: localizacao.attributes,
-				regiao: localizacao_str,
-				tags: tags,
+				cidades: localizacaoModel.attributes,
+				regiao: localizacao,
+				localizacao_atual: localizacao,
+				tags: tag,
 				lang: get_user_lang()
 			    }
-
 			    var compiledMapa = _.template(MapaTpl, data);
 			    $('#mapa-posicao').html(compiledMapa);	    
 			    var compiledRegiao = _.template(RegiaoTpl, data);
 			    $('#lista-cidades').html(compiledRegiao);	    
 			}
 		    });
-		} else {
-		    // se recebe ID passa direto o nome da cidade
-		    // TODO: puxar regiao pelo nome da cidade
-		    // - sem esse comportamento, nao vai carregar a lista de cidades
-		    // - definir como fica o comportamento da cidade quando é ela a atual (fica bold?)
 		}
-
-		// definir comportamento tbm para puxar mapa se nao passar nome de regiao
 	    }
-
+	    
+	    
 	    //// get_default_lang
 	    // - pega lang default do usuario
 	    get_user_lang = function() {
@@ -479,13 +501,13 @@ define([
 
 	    // init main functionalities
 	    _init_main = function(lang, tags, localizacao) {
-		var tags = tags || '',
-		localizacao = localizacao || '';
+		var tags = tags || 'todos',
+		localizacao = localizacao || 'brasil';
 		
 		data = {
 		    carregandoTags: '&nbsp;',
 		    lang: $('body').data('userLang'),
-		    regiao: 'todos',
+		    regiao: 'brasil',
 		    tags: tags
 		}
 		
@@ -494,8 +516,9 @@ define([
 		    $('#header').html(compiledHeader, lang);
 		}
 		$('#content').html("<div class='loading'></div>");
-		_generate_tag_cloud(tags, localizacao); // TODO: colocar check pra ver se ja carregou & manter expandido
-		_generate_map(localizacao, tags);
+		//_generate_tag_cloud(tags, localizacao); // TODO: colocar check pra ver se ja carregou & manter expandido
+		//_generate_map(localizacao, tags);
+		_generate_header(tags, localizacao);
 		_load_museus(lang, tags, localizacao);		
 	    }
 	    

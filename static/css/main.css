@@ -23,7 +23,8 @@ div #lista-cidades { }
 .botao-retangular { background-color: #4a5d61; color: #fff; padding: 10px; font-weight: bold; font-size: 16px; border-radius: 5px; text-align: center; }
 
 #tag_cloud a { text-decoration: none; float: left; margin: 2px}
-#tag_cloud .atual {background-color: #FFDD55; color: #4a5d61; }
+#tag_cloud .todos {font-size: 18pt; color: #FFDD55 }
+#tag_cloud .atual {background-color: #FFDD55; color: #4a5d61 !important; }
 div.tag { display: inline;  }
 
 div#regiao { margin-top: 20px}
