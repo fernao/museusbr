@@ -58,6 +58,10 @@ div#regiao { margin-top: 20px}
 
 /* subpages museu mapa */
 .mapa-imagem img { margin: 4px}
+.page-mapa div {padding-top: 10px}
+.page-mapa div.coluna-lateral { float: right; width: 250px; margin-bottom: 20px; margin-right: 70px; margin-left: 0  }
+.page-mapa div.coluna-lateral div { margin-left: 0; margin-bottom: 20px; padding: 0 }
+.page-mapa div.mapa-imagem {float: left; height: 100%; width: 600px; }
 
 /* subpages museu foto */
 .page-imagens { padding: 8px; }
