@@ -1,5 +1,9 @@
-<% if (localizacao_atual != 'brasil') { %>
-<% _.each(cidades, function(cidade){ %>
-      <a class="botao-retangular<% if (cidade.tid == localizacao_atual) { %> atual<% } %>" href="#<%= lang %>/todos/<%= cidade.tid %>"><%= cidade.name %></a><br/><br/><br/>
-<% }); %>
-<% } %>
+<div>
+  <% if (localizacao_atual != 'brasil') { %>
+  <% _.each(cidades, function(cidade){ %>
+      <a class="cidades <% if (cidade.tid == localizacao_atual) { %> cidade-atual<% } %>" href="#<%= lang %>/todos/<%= cidade.tid %>"><%= cidade.name %></a><br/><br/><br/>
+      <% }); %>
+      <% } %>
+      <br/>
+      <a class="botao-retangular <% if (localizacao_atual == 'brasil') { %> atual<% } %>" href="#<%= lang %>/todos/brasil">Brasil</a><br/><br/><br/>
+</div>

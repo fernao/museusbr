@@ -50,61 +50,105 @@ define([
 		var tag = tag || 'todos',
 		localizacao = localizacao || 'brasil',
 		lang = $('body').data('userLang'),
-		regioes = _get_regioes();
+		regioes = _get_regioes(),
+		localizacao_tids = '',
+		regiao = '',
+		is_cidade = false,
+		is_regiao = false;
 		
 		var localizacaoModel = new LocalizacaoModel();		
 		
-		//////
 		// recebeu REGIAO
+		// chama url que retorna ids das cidades da regiao, para uso interno da url rest
 		if (_.contains(regioes, localizacao)) { 
-		    // chama url que retorna ids das cidades da regiao, para uso interno da url rest
+		    is_regiao = true;
 		    localizacaoModel.url +=  localizacao;
-		    localizacaoModel.fetch({
-			success: function() {
-			    
-			    var tags = new TagModel();
+		    regiao = localizacao;
+		}
+		
+		//recebeu CIDADE
+		if ($.isNumeric(localizacao)) {
+		    is_cidade = true;
+		    localizacaoModel.url +=  'regiao/' + localizacao;
+		}
+		
+		localizacaoModel.fetch({
+		    success: function() {
+			var tags = new TagModel();
+			
+			// regiao: transforma lista de cidades em argumentos tids
+			if (is_regiao) { 
 			    localizacao_tids = _get_localizacao_tids(localizacaoModel.attributes);
+			}
+			
+			// cidades: gera lista de cidades com o atributo regiao que acabou de descobrir
+			if (is_cidade) {
+			    localizacao_tids = localizacao;
+			    regiao = localizacaoModel.attributes[0].name;
 			    
-			    // localizacao passada deve ser um tid
-			    tags.url = '/museubr/tagcloud/' + lang + '/' + localizacao_tids;
-			    
-			    tags.fetch({
+			    var cidadesModel = new LocalizacaoModel();
+			    cidadesModel.url += regiao;
+			    // pega lista de cidades
+			    cidadesModel.fetch({
 				success: function() {
-				    data = {
-					tags: tags.attributes,
-					tag: tag,
-					localizacao: localizacao,
-					lang: lang
-				    }
+				    data = { 
+					cidades: cidadesModel.attributes,
+					regiao: regiao,
+					localizacao_atual: localizacao,
+					tags: tag,
+					lang: get_user_lang()
+				    }	
 				    
-				    var compiledTags = _.template(TagsTpl, data);
-				    $('#header-tags').html(compiledTags);
-
-				    $.fn.tagcloud.defaults = {
-					size: {start: 14, end: 18, unit: 'pt'},
-					color: {start: '#fada53', end: '#fada53'}
-				    };
-
-				    $(function () {
-					$('#tag_cloud a').tagcloud();
-				    });
+				    var compiledMapa = _.template(MapaTpl, data);
+				    $('#mapa-posicao').html(compiledMapa);	    
+				    var compiledRegiao = _.template(RegiaoTpl, data);
+				    $('#lista-cidades').html(compiledRegiao);
 				}
 			    });
-			    
+			}
+			
+			// TAGS
+			// localizacao passada deve ser um tid
+			tags.url = '/museubr/tagcloud/' + lang + '/' + localizacao_tids;			    
+			tags.fetch({
+			    success: function() {
+				data = {
+				    tags: tags.attributes,
+				    tag: tag,
+				    localizacao: localizacao,
+				    lang: lang
+				}
+				
+				var compiledTags = _.template(TagsTpl, data);
+				$('#header-tags').html(compiledTags);
+				
+				$.fn.tagcloud.defaults = {
+				    size: {start: 14, end: 18, unit: 'pt'},
+				    color: {start: '#fada53', end: '#fada53'}
+				};
+				
+				$(function () {
+				    $('#tag_cloud a').tagcloud();
+				});
+			    }
+			});
+			
+			if (is_regiao) {
 			    data = { 
 				cidades: localizacaoModel.attributes,
-				regiao: localizacao,
+				regiao: regiao,
 				localizacao_atual: localizacao,
 				tags: tag,
 				lang: get_user_lang()
 			    }
+			    
 			    var compiledMapa = _.template(MapaTpl, data);
 			    $('#mapa-posicao').html(compiledMapa);	    
 			    var compiledRegiao = _.template(RegiaoTpl, data);
 			    $('#lista-cidades').html(compiledRegiao);	    
 			}
-		    });
-		}
+		    }
+		});	
 	    }
 	    
 	    
