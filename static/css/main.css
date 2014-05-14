@@ -3,7 +3,7 @@ body {background-color: #374548; font-family: sans-serif; color: #fff; }
 #header {color: #ffd959; height: 210px; width: 100%; }
 #content-full {margin: 0 auto; float: left; width: 100%}
 #footer {height: 100px}
-a {text-decoration: none }
+a {text-decoration: none; color: #fff }
 
 #header h3 {font-weight: bold; font-size: 18px; color: #fff; }
 div #header-titulo { float: left; width: 25%; min-width: 200px }

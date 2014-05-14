@@ -194,7 +194,7 @@ define([
 		// restaura estado do museu ativo
 		$(target).animate(
 		    { height: "0" },
-		    { duration: this.config['transitionScrollDuration'],
+		    { duration: $('body').data('config').transitionScrollDuration,
 		      start: function() { 
 			  _toggle_click_button('off', el_onclick);
 		      },
@@ -212,36 +212,8 @@ define([
 		
 		$('body').data('museu_ativo', '');
 	    }
-
-	    //// _load_config
-	    // - carrega configuracoes da api/json
-	    _load_config = function() {
-		this.config = {};
-		var config = new ConfigModel();
-		config.fetch({
-		    success: function() {
-			configs = config.attributes;
-			_.each(configs, function(config) {
-			    this.config[config.name] = config.value
-			});
-		    }
-		});
-	    }
 	    
-	    _load_mensagens = function(lang) {
-		this.mensagens = {};
-		var mensagens = new MensagensModel();
-		mensagens.url += lang;
-		mensagens.fetch({
-		    success: function() {
-			msgs = mensagens.attributes;
-			_.each(msgs, function(msg) {
-			    this.mensagens[msg.name] = msg.value
-			});
-		    }
-		})
-	    }
-
+	    
 	    //// _init_museu
 	    // - carrega varias informacoes do museu quando ele é clicado
 	    // - inicia navegacao no museu particular
@@ -285,8 +257,8 @@ define([
 		if (dataMuseu == defaultDataMuseu) {
 		    // carrega div ainda sem conteudo e anima deslocamento
 		    $(el).animate(
-			{ height: this.config['museuDivHeight']},
-			{ duration: this.config['transitionScrollDuration'],
+			{ height: $('body').data('config').museuDivHeight},
+			{ duration: $('body').data('config').transitionScrollDuration,
 			  start: function() { 
 			      _toggle_click_button('off', el_onclick);
 			  },
@@ -300,7 +272,7 @@ define([
 		    el_div = el + " .page"
 		    $(el_div).animate(
 			{ opacity: 1 },
-			{ duration: this.config['transitionOpacityDuration'] }
+			{ duration: $('body').data('config').transitionOpacityDuration }
 		    );
 		    _toggle_navigation(nid);
 		}  
@@ -419,7 +391,7 @@ define([
 		
 		$('body').data('museu_tab_ativo', museu_tab_next);
 	    }
-
+	    
 	    // executa navegacao
 	    _reposition_tabs = function(nid, direction) {
 		var factor = '',
@@ -443,7 +415,7 @@ define([
 		position = parseInt(eval(current_position + (factor * tab_width))) + 'px';
 		$(museu_content).animate({ 
 		    left: position 
-		}, this.config['navigationScrollDuration'], function() {
+		}, $('body').data('config').navigationScrollDuration, function() {
 		    // ativa botoes (fim)
 		    _toggle_navigation_buttons(nid, true);
 		});    
@@ -505,7 +477,7 @@ define([
 		nodes  = museus.models[0].attributes,
 		data = {
 		    nodes: nodes,
-		    emptyMessage: this.mensagens['naoEncontrado']
+		    emptyMessage: $('body').data('mensagens').naoEncontrado
 		}
 		
 		var compiledTemplate = _.template(MuseuIndexTpl, data);
@@ -519,9 +491,9 @@ define([
 		
 		// seta tags (se houver)
 		if (tags != '') {
-		    document.title = this.mensagens['portalMuseuBr'] + ' - ' + this.mensagens['exibindoMuseusDe'] + tags.toUpperCase();
+		    //document.title = this.mensagens['portalMuseuBr'] + ' - ' + this.mensagens['exibindoMuseusDe'] + tags.toUpperCase();
 		} else {
-		    document.title = this.mensagens['portalMuseuBr'];
+		    //document.title = this.mensagens['portalMuseuBr'];
 		}
 		
 	    }
@@ -555,19 +527,13 @@ define([
 		    tags: tags
 		}
 		
-		if ($('#header').html() == '') {
-		    var compiledHeader = _.template(HeaderTpl, data);
-		    $('#header').html(compiledHeader, lang);
-		}
+		var compiledHeader = _.template(HeaderTpl, data);
+		$('#header').html(compiledHeader, lang);
 		$('#content').html("<div class='loading'></div>");
-		//_generate_tag_cloud(tags, localizacao); // TODO: colocar check pra ver se ja carregou & manter expandido
-		//_generate_map(localizacao, tags);
+		
 		_generate_header(tags, localizacao);
 		_load_museus(lang, tags, localizacao);		
 	    }
-	    
-	    _load_config();
-	    _load_mensagens(lang);
 	    
 	    // language check for sending to init_main
 	    if (lang == '') {
