@@ -51,6 +51,9 @@ define([
 	    // confs do museu
 	    ConfigFunctions.loadConfig();
 	    MensagensFunctions.loadMensagens(lang);
+	    
+	    var termosDeUsoView = new TermosDeUsoView();
+	    termosDeUsoView.render(lang);	    
 	},
 
     });
