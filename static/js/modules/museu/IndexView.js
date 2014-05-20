@@ -29,7 +29,7 @@ define([
 	    localizacao = localizacao || '';
 
 	    _get_regioes = function() {
-		return ['brasil', 'norte', 'nordeste', 'centro-oeste', 'sul', 'sudeste'];
+		return ['norte', 'nordeste', 'centro-oeste', 'sul', 'sudeste'];
 	    }
 
 	    _get_localizacao_tids = function(localizacao) {
@@ -72,6 +72,10 @@ define([
 		    localizacaoModel.url +=  'regiao/' + localizacao;
 		}
 		
+		if (localizacao == 'brasil') {
+		   regiao = localizacao; 
+		}	
+	
 		localizacaoModel.fetch({
 		    success: function() {
 			var tags = new TagModel();
@@ -135,7 +139,7 @@ define([
 			    }
 			});
 			
-			if (is_regiao) {
+			if (is_regiao || localizacao == 'brasil') {
 			    data = { 
 				cidades: localizacaoModel.attributes,
 				regiao: regiao,
