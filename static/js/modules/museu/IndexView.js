@@ -1,4 +1,4 @@
-efine([
+define([
     'jquery', 
     'underscore',
     'backbone',
