@@ -24,6 +24,17 @@ define([
 		    
 		}
 	    });
+	},
+	
+	//// get_default_lang
+	// - pega lang default do usuario
+	get_user_lang: function() {
+	    lang = $('body').data('userLang');
+	    return lang;
+	},
+
+	set_user_lang: function(lang) {
+	    $('body').data('userLang', lang);
 	}
     }
 });

@@ -3,6 +3,7 @@ define([
     'underscore',
     'backbone',
     'tagcloud',
+    'modules/config/functions',
     'modules/museu/model',
     'modules/museu/collection',
     'modules/config/model',
@@ -19,7 +20,7 @@ define([
     'text!templates/museu/MuseuMapa.html',
     'text!templates/museu/MuseuHorario.html',
     'text!templates/museu/MuseuNavigation.html',
-], function($, _, Backbone, TagCloud, MuseuModel, MuseuCollection, ConfigModel, MensagensModel, TagModel, LocalizacaoModel, HeaderTpl, MapaTpl, RegiaoTpl, TagsTpl, MuseuIndexTpl, MuseuHomeTpl, MuseuImagensTpl, MuseuMapaTpl, MuseuHorarioTpl, MuseuNavigationTpl){
+], function($, _, Backbone, TagCloud, ConfigFunctions, MuseuModel, MuseuCollection, ConfigModel, MensagensModel, TagModel, LocalizacaoModel, HeaderTpl, MapaTpl, RegiaoTpl, TagsTpl, MuseuIndexTpl, MuseuHomeTpl, MuseuImagensTpl, MuseuMapaTpl, MuseuHorarioTpl, MuseuNavigationTpl){
     var default_lang = '';
     var IndexView = Backbone.View.extend({
 	
@@ -96,7 +97,7 @@ define([
 					regiao: regiao,
 					localizacao_atual: localizacao,
 					tags: tag,
-					lang: get_user_lang()
+					lang: ConfigFunctions.get_user_lang()
 				    }	
 				    
 				    var compiledMapa = _.template(MapaTpl, data);
@@ -139,7 +140,7 @@ define([
 				regiao: regiao,
 				localizacao_atual: localizacao,
 				tags: tag,
-				lang: get_user_lang()
+				lang: ConfigFunctions.get_user_lang()
 			    }
 			    
 			    var compiledMapa = _.template(MapaTpl, data);
@@ -152,17 +153,6 @@ define([
 	    }
 	    
 	    
-	    //// get_default_lang
-	    // - pega lang default do usuario
-	    get_user_lang = function() {
-		lang = $('body').data('userLang');
-		return lang;
-	    }
-	    
-	    set_user_lang = function(lang) {
-		$('body').data('userLang', lang);
-	    }
-
 	    //// toggle_museu
 	    // - expande / contrái museu e chama home
 	    toggle_museu = function(e) {
@@ -170,7 +160,7 @@ define([
 		var target = e.currentTarget,
 		match = /^\w*_(\d*)$/.exec(target.id),
 		nid = match[1],
-		lang = get_user_lang(),
+		lang = ConfigFunctions.get_user_lang(),
 		museu_ativo = $('body').data('museu_ativo'),
 		museu_clicado = '#nid_' + nid + ' .subpages-container';
 				
@@ -238,7 +228,7 @@ define([
 	    // - carrega home do museu
 	    _load_museu_home = function(lang, nid, dataMuseu) {
 		var defaultDataMuseu = {museu: { nid: nid} },
-		lang = lang || get_user_lang(),
+		lang = lang || ConfigFunctions.get_user_lang(),
 		dataMuseu = dataMuseu || defaultDataMuseu,
 		el = "",
 		el_off = '',
@@ -519,9 +509,9 @@ define([
 	    _init_main = function(lang, tags, localizacao) {
 		var tags = tags || 'todos',
 		localizacao = localizacao || 'brasil';
-		
 		data = {
 		    carregandoTags: '&nbsp;',
+		    mensagens: $('body').data('mensagens'),
 		    lang: $('body').data('userLang'),
 		    regiao: 'brasil',
 		    tags: tags
@@ -542,13 +532,13 @@ define([
 		    dataType: 'json', 
 		    success: function(data) {
 			lang = data.userLang;
-			set_user_lang(lang);
+			ConfigFunctions.set_user_lang(lang);
 			$('#headerUrl').attr('href', '#'  + lang);
 			_init_main(lang, tags, localizacao);
 		    }
 		});
 	    } else {
-		set_user_lang(lang);
+		ConfigFunctions.set_user_lang(lang);
 		_init_main(lang, tags, localizacao);
 	    }
 	    

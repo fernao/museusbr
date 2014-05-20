@@ -12,8 +12,7 @@ define([
 		if (!_.isEmpty($('body').data('mensagens'))) {
 		    data = {
 			carregandoTags: '&nbsp;',
-			mensagemTermosDeUsoTitulo: $('body').data('mensagens').mensagemTermosDeUsoTitulo,
-			mensagemTermosDeUsoTexto: $('body').data('mensagens').mensagemTermosDeUsoTexto,
+			mensagens: $('body').data('mensagens'),
 			lang: $('body').data('userLang'),
 		    }
 		    
