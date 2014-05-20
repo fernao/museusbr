@@ -218,7 +218,8 @@ define([
 		museu.fetch({
 		    success: function() {
 			dataMuseu = {
-			    museu: museu.attributes[0]
+			    museu: museu.attributes[0],
+			    mensagens: $('body').data('mensagens'),
 			}
 			_load_museu_home(lang, nid, dataMuseu);
 			_load_museu_tabs(lang, nid, dataMuseu);
