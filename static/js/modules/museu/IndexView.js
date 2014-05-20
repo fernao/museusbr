@@ -18,9 +18,8 @@ define([
     'text!templates/museu/MuseuHome.html',
     'text!templates/museu/MuseuImagens.html',
     'text!templates/museu/MuseuMapa.html',
-    'text!templates/museu/MuseuHorario.html',
     'text!templates/museu/MuseuNavigation.html',
-], function($, _, Backbone, TagCloud, ConfigFunctions, MuseuModel, MuseuCollection, ConfigModel, MensagensModel, TagModel, LocalizacaoModel, HeaderTpl, MapaTpl, RegiaoTpl, TagsTpl, MuseuIndexTpl, MuseuHomeTpl, MuseuImagensTpl, MuseuMapaTpl, MuseuHorarioTpl, MuseuNavigationTpl){
+], function($, _, Backbone, TagCloud, ConfigFunctions, MuseuModel, MuseuCollection, ConfigModel, MensagensModel, TagModel, LocalizacaoModel, HeaderTpl, MapaTpl, RegiaoTpl, TagsTpl, MuseuIndexTpl, MuseuHomeTpl, MuseuImagensTpl, MuseuMapaTpl, MuseuNavigationTpl){
     var default_lang = '';
     var IndexView = Backbone.View.extend({
 	
@@ -286,10 +285,9 @@ define([
 		tab_width = $('#nid_' + nid).width();
 		// TODO: adicionar evento: quando redimensionar, recalcula
 		
-		museu_tabs = ['#home_museu_' + nid, '#fotos_museu_' + nid, '#mapa_museu_' + nid, '#planta_museu_' + nid];		
+		museu_tabs = ['#home_museu_' + nid, '#mapa_museu_' + nid, '#fotos_museu_' + nid];		
 		var compiledMapaTpl = _.template(MuseuMapaTpl, dataMuseu);
-		var compiledHorarioTpl = _.template(MuseuHorarioTpl, dataMuseu);		
-
+		
 		// so mostra tab de fotos se tiver imagens
 		if (dataMuseu.museu.imagens != '') {
 		    var compiledImagensTpl = _.template(MuseuImagensTpl, dataMuseu);
@@ -304,9 +302,8 @@ define([
 		$('body').data('museu_tab_ativo', museu_tabs[0]); // inicializa na home
 		
 		el = "#nid_" + nid + " .subpages-container";
-		$(el).append(compiledImagensTpl);
 		$(el).append(compiledMapaTpl);
-		$(el).append(compiledHorarioTpl);
+		$(el).append(compiledImagensTpl);
 		$(el + ' .page').css('opacity', 1);
 		$(el + ' .page').css('width', tab_width);
 	    }
