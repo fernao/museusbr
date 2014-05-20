@@ -187,6 +187,7 @@ define([
 		nid = _.last(nid[0].split('_'));
 		el_onclick = "#btnnid_" + nid;
 		
+		$(target).css('left', 0);
 		// restaura estado do museu ativo
 		$(target).animate(
 		    { height: "0" },
