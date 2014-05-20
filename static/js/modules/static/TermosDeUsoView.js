@@ -16,7 +16,7 @@ define([
 			mensagemTermosDeUsoTexto: $('body').data('mensagens').mensagemTermosDeUsoTexto,
 			lang: $('body').data('userLang'),
 		    }
-		    
+		    console.log(data);
 		    var compiledHeader = _.template(HeaderTpl, data);
 		    $('#header').html(compiledHeader, lang);
 		    
