@@ -142,6 +142,7 @@ define([
 				regiao: regiao,
 				localizacao_atual: localizacao,
 				tags: tag,
+				mensagens: $('body').data('mensagens'),
 				lang: ConfigFunctions.get_user_lang()
 			    }
 			    
