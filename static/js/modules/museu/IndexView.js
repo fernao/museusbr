@@ -1,4 +1,4 @@
-define([
+efine([
     'jquery', 
     'underscore',
     'backbone',
@@ -97,6 +97,7 @@ define([
 					regiao: regiao,
 					localizacao_atual: localizacao,
 					tags: tag,
+					mensagens: $('body').data('mensagens'),
 					lang: ConfigFunctions.get_user_lang()
 				    }	
 				    
@@ -116,6 +117,7 @@ define([
 				data = {
 				    tags: tags.attributes,
 				    tag: tag,
+				    mensagens: $('body').data('mensagens'),
 				    localizacao: localizacao,
 				    lang: lang
 				}
