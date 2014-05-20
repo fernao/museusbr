@@ -1,4 +1,4 @@
-body {background-color: #374548; font-family: sans-serif; color: #fff; }
+body {background-color: #374548; font-family: 'PT Sans', sans-serif; color: #fff; }
 #container {}
 #header {color: #ffd959; height: 210px; width: 100%; }
 #content-full {margin: 0 auto; float: left; width: 100%}
@@ -16,6 +16,7 @@ div #header-lang { float: left; width: 10%; min-width: 100px}
 #header-mapa #lista-cidades ul {margin: 0; padding: 0 ; list-style-type: none; font-size: 11px; }
 #header-mapa #lista-cidades li {}
 #header-mapa #lista-cidades li a { color: #ffdd55; font-size: 14px; font-weight: bold }
+#header-url { font-size: 30px; font-weight: bold; font-family: 'PT Sans', sans-serif;}
 
 div #header-lang span, div #header-lang span a {text-decoration: none; color: #bfc0c2; font-size: 11px; font-weight: bold}
 div #lista-cidades { }
