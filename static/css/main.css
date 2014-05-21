@@ -16,17 +16,19 @@ div #header-lang { float: left; width: 10%; min-width: 100px}
 #header-mapa #lista-cidades ul {margin: 0; padding: 0 ; list-style-type: none; font-size: 11px; }
 #header-mapa #lista-cidades li {}
 #header-mapa #lista-cidades li a { color: #ffdd55; font-size: 14px; font-weight: bold }
-#header-url { font-size: 30px; font-weight: bold; }
+#header-url { font-size: 42px; font-weight: bold; }
 
 div #header-lang span, div #header-lang span a {text-decoration: none; color: #bfc0c2; font-size: 11px; font-weight: bold}
 div #lista-cidades { }
 
 .botao-retangular { background-color: #4a5d61; color: #fff; padding: 10px; font-weight: bold; font-size: 16px; border-radius: 5px; text-align: center; }
 
-#tag_cloud a { text-decoration: none; float: left; margin: 2px}
-.cidade-atual, .tag-atual { color: #fff !important }
-.botao-retangular.atual {background-color: #FFDD55; color: #4a5d61 !important; }
-div.tag { display: inline;  }
+#tag_cloud a { text-decoration: none; margin: 0px; padding:10px;line-height:160%}
+#tag_cloud a:hover {background-color: #4A5E62;border-radius:5px;}
+.cidade-atual, .tag-atual {background-color: #4A5E62;border-radius:5px;color: #fff !important }
+.botao-retangular.atual {background-color: #ffdd55; color: #4a5d61 !important}
+
+div.tag { display: inline;}
 
 a.cidades {color: #ffdd55; font-size:16pt }
 
@@ -43,9 +45,9 @@ div#regiao { margin-top: 20px}
 /* subpages - home */ 
 .subpages-container {width: 0; z-index: 5; position: relative }
 .page { height: 100%; width: 0; z-index: 10; cursor: default; opacity: 0; position: relative; right: 0 }
-.museu-subpages div {font-size: 12px; margin-left: 65px; }
-.museu-subpages .foto_home {width: 30%; float: left; padding: 8px; }
-.museu-subpages .texto_home {width: 40%; float: left; padding: 8px}
+.museu-subpages div {font-size: 13px; margin-left: 65px; }
+.museu-subpages .foto_home {width: 30%; float: left; padding: 45px 5px; }
+.museu-subpages .texto_home {width: 45%; float: left; padding: 45px 0 0 25px;}
 .museu-subpages .imagens_home {width: 25%; float: right; padding: 8px}
 #navigation {z-index: 100; position: relative; top: 180px; }
 #navigation .left { background-image: url("../images/left.png"); margin-left: 10px; float: left; width: 52px; height: 47px }
@@ -53,13 +55,13 @@ div#regiao { margin-top: 20px}
 #navigation .left:hover { background-image: url("../images/left-up.png"); cursor: pointer}
 #navigation .right:hover { background-image: url("../images/right-up.png"); cursor: pointer}
 
-.museu-tabs {float: left; display: inline; margin: 0 auto; color: #fff}
+.museu-tabs {float: left; display: inline; margin: 0 auto; padding: 0; color: #fff}
 #filter-tags {color: #FFDD55; text-align: center;}
 #filter-tags span {font-weight: bold; font-style: italic}
 
 /* subpages museu mapa */
 .mapa-imagem img { margin: 4px}
-.page-mapa div {padding-top: 10px}
+.page-mapa div {padding-top: 45px}
 .page-mapa div.coluna-lateral { float: right; width: 250px; margin-bottom: 20px; margin-right: 70px; margin-left: 0  }
 .page-mapa div.coluna-lateral div { margin-left: 0; margin-bottom: 20px; padding: 0 }
 .page-mapa div.mapa-imagem {float: left; height: 100%; width: 600px; }
