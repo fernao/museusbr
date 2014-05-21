@@ -14,8 +14,7 @@ define([
 	Routers: {},
 	
 	routes: {
-	    ':lang/:page' : 'staticPages',
-	    ':lang/termos-de-uso' : 'termosDeUso',
+	    ':lang/page/:page' : 'staticPages',
 	    ':lang/:tags/:localizacao' : 'index',
 	    ':lang/:tags' : 'index',
 	    ':lang' : 'index',
@@ -42,6 +41,7 @@ define([
 
 	staticPages: function(lang, page) {
 	    var lang = lang || $('body').data('userLang');
+	    var page = page || '';
 	    
 	    if (page == 'sobre') {
 		var pageView = new SobreView();
