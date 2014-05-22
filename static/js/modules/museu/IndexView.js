@@ -11,6 +11,7 @@ define([
     'modules/tag/model',
     'modules/localizacao/model',
     'text!templates/header.html',
+    'text!templates/footer.html',
     'text!templates/mapa.html',
     'text!templates/regiao.html',
     'text!templates/tags.html',
@@ -19,7 +20,7 @@ define([
     'text!templates/museu/MuseuImagens.html',
     'text!templates/museu/MuseuMapa.html',
     'text!templates/museu/MuseuNavigation.html',
-], function($, _, Backbone, TagCloud, ConfigFunctions, MuseuModel, MuseuCollection, ConfigModel, MensagensModel, TagModel, LocalizacaoModel, HeaderTpl, MapaTpl, RegiaoTpl, TagsTpl, MuseuIndexTpl, MuseuHomeTpl, MuseuImagensTpl, MuseuMapaTpl, MuseuNavigationTpl){
+], function($, _, Backbone, TagCloud, ConfigFunctions, MuseuModel, MuseuCollection, ConfigModel, MensagensModel, TagModel, LocalizacaoModel, HeaderTpl, FooterTpl, MapaTpl, RegiaoTpl, TagsTpl, MuseuIndexTpl, MuseuHomeTpl, MuseuImagensTpl, MuseuMapaTpl, MuseuNavigationTpl){
     var default_lang = '';
     var IndexView = Backbone.View.extend({
 	
@@ -478,6 +479,7 @@ define([
 		
 		var compiledTemplate = _.template(MuseuIndexTpl, data);
 		$('#content').html(compiledTemplate);
+		$('#footer').html(_.template(FooterTpl));
 		
 		// bind click event 
 		_.each(nodes, function(museu) {
