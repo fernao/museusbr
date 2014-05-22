@@ -310,7 +310,7 @@ define([
 		
 		el = "#nid_" + nid + " .subpages-container";
 		$(el).append(compiledMapaTpl);
-		$(el).append(compiledImagensTpl);
+		//$(el).append(compiledImagensTpl);
 		$(el + ' .page').css('opacity', 1);
 		$(el + ' .page').css('width', tab_width);
 	    }
@@ -479,6 +479,7 @@ define([
 		
 		var compiledTemplate = _.template(MuseuIndexTpl, data);
 		$('#content').html(compiledTemplate);
+		$('#content').append("<div style='height: 100px'>&nbsp;</div>");
 		$('#footer').html(_.template(FooterTpl));
 		
 		// bind click event 

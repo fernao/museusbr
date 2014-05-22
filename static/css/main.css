@@ -17,7 +17,7 @@ div #header-lang { position:relative; float:right;}
 #header-mapa #lista-cidades li {}
 #header-mapa #lista-cidades li a { color: #ffdd55; font-size: 14px; font-weight: bold }
 #header-url { font-size: 42px; font-weight: bold; }
-#footer {position: fixed; bottom: -8px; width: 100%; left: 0px; z-index: 10 }
+#footer {position: fixed; bottom: -8px; width: 100%; left: 0px; z-index: 1000 }
 #footer div.footer-inside {width: 100%; text-align: center; margin: 0 auto; }
 
 div #header-lang span, div #header-lang span a {text-decoration: none; color: #bfc0c2; font-size: 12px;}
