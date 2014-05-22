@@ -8,7 +8,7 @@ a {text-decoration: none; color: #fff }
 #header h3 {font-weight: bold; font-size: 18px; color: #fff; }
 div #header-titulo { float: left; min-width: 200px }
 div #header-tags { float: left;  width: 40%; min-width: 200px; text-align: center }
-div #header-mapa { float: left; }
+div #header-mapa { float: left; padding-left:80px; }
 div #header-lang { position:relative; float:right;}
 
 #header-mapa div#mapa-posicao {float: left; padding:10px;}
@@ -23,18 +23,21 @@ div #header-lang { position:relative; float:right;}
 div #header-lang span, div #header-lang span a {text-decoration: none; color: #bfc0c2; font-size: 12px;}
 div #lista-cidades { }
 
-.botao-retangular { background-color: #4a5d61; color: #fff; padding: 10px; font-weight: bold; font-size: 16px; border-radius: 5px; text-align: center; }
+.botao-retangular { background-color: #ffdd55; color: #4a5d61; padding: 10px; font-weight: bold; font-size: 16px; border-radius: 5px; text-align: center; }
+.botao-retangular:hover {color: #ffffff;}
 
 #tag_cloud a { text-decoration: none; margin: 0px; padding:10px;line-height:160%}
 #tag_cloud a:hover {background-color: #4A5E62;border-radius:5px;}
-.cidade-atual, .tag-atual {background-color: #4A5E62;border-radius:5px;color: #fff !important }
-.botao-retangular.atual {background-color: #ffdd55; color: #4a5d61; float: right; position: relative; top: 20px; }
-.botao-retangular.atual:hover {color: #ffffff;}
+.cidade-atual {color: #fff !important}
+.tag-atual {background-color: #4A5E62;border-radius:5px;color: #fff !important }
+.botao-retangular.atual {background-color: #ffdd55; color: #4a5d61; float: right; position: relative; top: 5px; }
+.botao-retangular.atual:hover {color: #ffffff; background-color: #4a5e62;}
 div.tag { display: inline;}
 
-a.cidades {color: #ffdd55; font-size:12pt; float:left; clear:both; padding:5px 0;}
-
+a.cidades {color: #ffdd55; font-size:12pt; float:left; clear:both; padding:5px 0 0 10px; position:relative; top:50px;}
+#lista-cidades a.botao-retangular{position:absolute;top:120px;left:5px;}
 div#regiao { margin-top: 20px}
+#tag_cloud a.botao-retangular {position:absolute;top:128px;left:720px;}
 
 #content { background-color: #374548; height: 100%; width: 1020px; overflow: hidden; min-width: 190px; margin: 0 auto; margin-top: 10px}
 .bloco-titulo {width: 168px; margin-left: 124px; padding: 10px; padding-left: 20px; padding-right: 20px; height: 80px; color: #fff; font-size: 16px; font-weight: bold}
