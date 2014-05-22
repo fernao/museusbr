@@ -7,7 +7,7 @@ a {text-decoration: none; color: #fff }
 
 #header h3 {font-weight: bold; font-size: 18px; color: #fff; }
 div #header-titulo { float: left; min-width: 200px }
-div #header-tags { float: left;  width: 40%; min-width: 200px; }
+div #header-tags { float: left;  width: 40%; min-width: 200px; text-align: center }
 div #header-mapa { float: left; }
 div #header-lang { position:relative; float:right;}
 
