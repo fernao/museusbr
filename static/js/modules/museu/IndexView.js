@@ -268,7 +268,9 @@ define([
 		    );
 		} else {
 		    // carrega conteudo dentro da div e anima fade in
-		    el_div = el + " .page"
+		    el_div = el + " .page";
+                    $(el_div).css('opacity', 0); // fix para piscada
+		    
 		    $(el_div).animate(
 			{ opacity: 1 },
 			{ duration: $('body').data('config').transitionOpacityDuration }
