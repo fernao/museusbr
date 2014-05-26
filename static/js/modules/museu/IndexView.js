@@ -299,8 +299,19 @@ define([
 		var compiledMapaTpl = _.template(MuseuMapaTpl, dataMuseu);
 		
 		// so mostra tab de fotos se tiver imagens
-		if (dataMuseu.museu.imagens != '') {
-		    var compiledImagensTpl = _.template(MuseuImagensTpl, dataMuseu);
+		if (!_.isNull(dataMuseu.museu.imagens)) {
+		    $.ajax({
+			url: "/museubr/museu_get_images/" + nid, 
+			dataType: 'json', 
+			success: function(imagens) {
+			    dataMuseu.museu.imagens = imagens;
+			    var compiledImagensTpl = _.template(MuseuImagensTpl, dataMuseu);	    
+			    $(el).append(compiledImagensTpl);			    
+			    $(el + ' .page').css('opacity', 1);
+			    $(el + ' .page').css('width', tab_width);
+			}
+		    });
+		    
 		} else {
 		    museu_tabs.splice(1, 1);
 		}
@@ -313,7 +324,6 @@ define([
 		
 		el = "#nid_" + nid + " .subpages-container";
 		$(el).append(compiledMapaTpl);
-		//$(el).append(compiledImagensTpl);
 		$(el + ' .page').css('opacity', 1);
 		$(el + ' .page').css('width', tab_width);
 	    }

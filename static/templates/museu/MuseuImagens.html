@@ -1,2 +1,11 @@
 <div id="fotos_museu_<%= museu.nid %>" class="museu-subpages page museu-tabs page-imagens">
+  <% if (!_.isNull(museu.imagens)) { %>
+  <div class="lista-imagens">    
+    <% _.each(museu.imagens, function(imagem) { %>
+    <div>
+      <img src="<%= imagem.url %>">
+    </div>
+    <% }); %>
+  </div>
+  <% } %>
 </div>
