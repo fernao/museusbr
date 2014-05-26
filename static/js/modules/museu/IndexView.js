@@ -269,12 +269,13 @@ define([
 		} else {
 		    // carrega conteudo dentro da div e anima fade in
 		    el_div = el + " .page";
-                    $(el_div).css('opacity', 0); // fix para piscada
-		    
+                    $(el_div).css('opacity', 1);
+		    /*
 		    $(el_div).animate(
 			{ opacity: 1 },
 			{ duration: $('body').data('config').transitionOpacityDuration }
-		    );
+		    );*/
+		    
 		    _toggle_navigation(nid);
 		}  
 	    }
@@ -527,6 +528,9 @@ define([
 		    regiao: 'brasil',
 		    tags: tags
 		}
+
+		$('body').removeClass();
+		$('body').addClass('page-index');		    
 		
 		var compiledHeader = _.template(HeaderTpl, data);
 		$('#header').html(compiledHeader, lang);

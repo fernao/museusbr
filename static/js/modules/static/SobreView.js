@@ -15,7 +15,8 @@ define([
 			mensagens: $('body').data('mensagens'),
 			lang: $('body').data('userLang'),
 		    }
-		    
+		    $('body').removeClass();
+		    $('body').addClass('page-sobre');
 		    var compiledHeader = _.template(HeaderTpl, data);
 		    $('#header').html(compiledHeader, lang);
 		    
