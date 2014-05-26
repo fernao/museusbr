@@ -22,7 +22,7 @@ define([
 		    
 		    var compiledTemplate = _.template(SobreTpl, data);
 		    $('#content').html(compiledTemplate);
-		    
+		    $('#content').append("<div style='height: 100px'>&nbsp;</div>");
 		    clearInterval(pointer);
 		}
 	    }, 50);
