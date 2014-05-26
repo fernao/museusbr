@@ -3,8 +3,9 @@ define([
     'underscore',
     'backbone',
     'text!templates/header.html',
+    'text!templates/footer.html',
     'text!templates/sobre.html',
-], function($, _, Backbone, HeaderTpl, SobreTpl){
+], function($, _, Backbone, HeaderTpl, FooterTpl, SobreTpl){
     var SobreView = Backbone.View.extend({
 	
 	render: function(lang){
@@ -23,6 +24,7 @@ define([
 		    var compiledTemplate = _.template(SobreTpl, data);
 		    $('#content').html(compiledTemplate);
 		    $('#content').append("<div style='height: 100px'>&nbsp;</div>");
+		    $('#footer').html(_.template(FooterTpl));
 		    clearInterval(pointer);
 		}
 	    }, 50);
