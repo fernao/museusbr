@@ -45,10 +45,12 @@ div#regiao { margin-top: 20px}
 .btn-museu {width: 100%; height: 100px;}
 
 .museus-content { background-color: #000 }
-.museu-row {background-repeat: repeat-x; width: 100%; margin: 0 auto }
+.museu-row {background-repeat: repeat-x; background-position: top center; width: 100%; }
+
+.tabs-overflow {width: 1020px; overflow: hidden; margin: 0 auto}
 
 /* subpages - home */ 
-.subpages-container {width: 0; z-index: 5; position: relative; width: 1020px; overflow: hidden;  }
+.subpages-container {width: 0; z-index: 5; position: relative; }
 .page { height: 100%; width: 0; z-index: 10; cursor: default; opacity: 0; position: relative; right: 0 }
 .museu-subpages div {font-size: 13px; margin-left: 65px; }
 .museu-subpages .foto_home {width: 30%; float: left; padding: 45px 5px; }

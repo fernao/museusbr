@@ -279,12 +279,6 @@ define([
 		    // carrega conteudo dentro da div e anima fade in
 		    el_div = el + " .page";
                     $(el_div).css('opacity', 1);
-		    /*
-		    $(el_div).animate(
-			{ opacity: 1 },
-			{ duration: $('body').data('config').transitionOpacityDuration }
-		    );*/
-		    
 		    _toggle_navigation(nid);
 		}  
 	    }
@@ -301,9 +295,9 @@ define([
 		compiledMapaTpl = '';
 		
 		// pega tamanho da tab aberta
-		tab_width = $('#nid_' + nid).width();
+		tab_width = $('#nid_' + nid + ' .tabs-overflow').width();
 		// TODO: adicionar evento: quando redimensionar, recalcula
-		
+		console.log(tab_width);
 		museu_tabs = ['#home_museu_' + nid, '#mapa_museu_' + nid, '#fotos_museu_' + nid];		
 		var compiledMapaTpl = _.template(MuseuMapaTpl, dataMuseu);
 		
@@ -326,6 +320,7 @@ define([
 		}
 		
 		total_width = (museu_tabs.length * tab_width) + 20;
+		console.log(total_width);
 		$('#nid_' + nid + ' .subpages-container').css('width', total_width);
 		
 		$('body').data('museu_tabs', museu_tabs);
@@ -417,7 +412,7 @@ define([
 		current_position = '',
 		museu_content = '',
 		position = '',
-		tab_width = $('#nid_' + nid).width();
+		tab_width = $('#nid_' + nid + ' .tabs-overflow').width();
 		
 		_toggle_navigation_buttons(nid, false); // desativa botoes (inicio)
 		factor = (direction == 'left') ? 1 : -1;
