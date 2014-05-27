@@ -1,6 +1,6 @@
 body {background-color: #374548; font-family: 'PT Sans', sans-serif; color: #fff; }
 #container {}
-#header {color: #ffd959; height: 210px; width: 1020px; margin: auto; }
+#header {color: #ffd959; height: 210px; margin: auto; }
 #content-full {margin: 0 auto; float: left; width: 100%}
 #footer {height: 100px}
 a {text-decoration: none; color: #fff }
@@ -39,16 +39,16 @@ a.cidades {color: #ffdd55; font-size:12pt; float:left; clear:both; padding:5px 0
 div#regiao { margin-top: 20px}
 #tag_cloud a.botao-retangular {position:absolute;top:128px;left:720px;}
 
-#content { background-color: #374548; height: 100%; width: 1020px; overflow: hidden; min-width: 190px; margin: 0 auto; margin-top: 10px}
+#content { background-color: #374548; height: 100%; min-width: 190px; margin: 0 auto; margin-top: 10px}
 .bloco-titulo {width: 168px; margin-left: 124px; padding: 10px; padding-left: 20px; padding-right: 20px; height: 80px; color: #fff; font-size: 16px; font-weight: bold}
 #content .loading {text-align: center; margin: 0 auto; background-image: url("../images/carregando.gif"); width: 48px; height: 48px}
 .btn-museu {width: 100%; height: 100px;}
 
 .museus-content { background-color: #000 }
-.museu-row {background-repeat: repeat-x }
+.museu-row {background-repeat: repeat-x; width: 100%; margin: 0 auto }
 
 /* subpages - home */ 
-.subpages-container {width: 0; z-index: 5; position: relative }
+.subpages-container {width: 0; z-index: 5; position: relative; width: 1020px; overflow: hidden;  }
 .page { height: 100%; width: 0; z-index: 10; cursor: default; opacity: 0; position: relative; right: 0 }
 .museu-subpages div {font-size: 13px; margin-left: 65px; }
 .museu-subpages .foto_home {width: 30%; float: left; padding: 45px 5px; }
