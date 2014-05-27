@@ -2,7 +2,7 @@ body {background-color: #374548; font-family: 'PT Sans', sans-serif; color: #fff
 #container {}
 #header {color: #ffd959; height: 210px; margin: auto; }
 #content-full {margin: 0 auto; float: left; width: 100%}
-#footer {height: 43px}
+#footer {height: 43px; width: 100%; margin 0 auto; background-color: #374548 }
 a {text-decoration: none; color: #fff }
 
 #header h3 {font-weight: bold; font-size: 18px; color: #fff; }
