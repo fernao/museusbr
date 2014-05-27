@@ -297,7 +297,6 @@ define([
 		// pega tamanho da tab aberta
 		tab_width = $('#nid_' + nid + ' .tabs-overflow').width();
 		// TODO: adicionar evento: quando redimensionar, recalcula
-		console.log(tab_width);
 		museu_tabs = ['#home_museu_' + nid, '#mapa_museu_' + nid, '#fotos_museu_' + nid];		
 		var compiledMapaTpl = _.template(MuseuMapaTpl, dataMuseu);
 		
@@ -320,7 +319,6 @@ define([
 		}
 		
 		total_width = (museu_tabs.length * tab_width) + 20;
-		console.log(total_width);
 		$('#nid_' + nid + ' .subpages-container').css('width', total_width);
 		
 		$('body').data('museu_tabs', museu_tabs);
@@ -499,10 +497,11 @@ define([
 		$('#content').append("<div style='height: 200px'>&nbsp;</div>");
 		$('#footer').html(_.template(FooterTpl));
 		
-		// bind click event 
+		// bind click event && preload
 		_.each(nodes, function(museu) {
 		    el_onclick = '#btnnid_' + museu.nid;
 		    _toggle_click_button('on', el_onclick, toggle_museu);
+		    _preload_image(museu.foto_museu);
 		});
 		
 		// seta tags (se houver)
@@ -514,6 +513,11 @@ define([
 		
 	    }
 	    
+	    // funcao para fazer preload de imagem
+	    // - recebe caminho para imagem
+	    _preload_image = function(imagemSrc) {
+		var imagePreload = $('<img/>').attr('src', imagemSrc);
+	    }
 	    
 	    // funcao para ligar / desligar botoes
 	    // - state: on, off
