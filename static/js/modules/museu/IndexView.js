@@ -254,6 +254,20 @@ define([
 		$(el).html(compiledHomeTpl);
 		
 		if (dataMuseu == defaultDataMuseu) {
+		    // desloca rolagem para baixo para adequar visualizacao do museu clicado
+		    $('.museus-content').on("click", function(e) {		
+			pageY = e.pageY;
+			relativeY = pageY - window.scrollY;
+			maxY = 170;
+			// se posicao relativa for maior q maximo Y, reposiciona
+			if (relativeY > maxY) {
+			    addY = relativeY - maxY;
+			    nextScroll = window.scrollY + addY;
+			    $('html, body').animate({ scrollTop: nextScroll},1000);
+			}
+			$('.museus-content').off();			
+		    });	
+		    
 		    // carrega div ainda sem conteudo e anima deslocamento
 		    $(el).animate(
 			{ height: $('body').data('config').museuDivHeight},
@@ -492,7 +506,7 @@ define([
 		
 		var compiledTemplate = _.template(MuseuIndexTpl, data);
 		$('#content').html(compiledTemplate);
-		$('#content').append("<div style='height: 100px'>&nbsp;</div>");
+		$('#content').append("<div style='height: 200px'>&nbsp;</div>");
 		$('#footer').html(_.template(FooterTpl));
 		
 		// bind click event 

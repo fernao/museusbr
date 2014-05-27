@@ -74,3 +74,4 @@ div#regiao { margin-top: 20px}
 /* subpages museu foto */
 .page-imagens { padding: 8px; display: inline }
 .lista-imagens div {float: left; margin-left: 2px}
+.lista-imagens img {width: 270px; height: 180px}
