@@ -170,7 +170,12 @@ define([
 		lang = ConfigFunctions.get_user_lang(),
 		museu_ativo = $('body').data('museu_ativo'),
 		museu_clicado = '#nid_' + nid + ' .subpages-container';
-				
+
+		// fix para nao deixar abrir nenhum outro museu quando um está abrindo
+		if ($('body').data('animationRunning') == true) {
+		    return false;
+		}
+		
 		// toggle q abre/fecha museu
 		_toggle_home_div(target, nid);
 		if (museu_ativo != museu_clicado) {		
@@ -194,9 +199,11 @@ define([
 		    { height: "0" },
 		    { duration: $('body').data('config').transitionScrollDuration,
 		      start: function() { 
+			  $('body').data('animationRunning', true);
 			  _toggle_click_button('off', el_onclick);
 		      },
 		      complete: function() {
+			  $('body').data('animationRunning', false);
 			  _toggle_click_button('on', el_onclick, toggle_museu);
 		      }
 		    }
@@ -273,9 +280,11 @@ define([
 			{ height: $('body').data('config').museuDivHeight},
 			{ duration: $('body').data('config').transitionScrollDuration,
 			  start: function() { 
+			      $('body').data('animationRunning', true);
 			      _toggle_click_button('off', el_onclick);
 			  },
 			  complete: function() {
+			      $('body').data('animationRunning', false);
 			      _toggle_click_button('on', el_onclick, toggle_museu);
 			  }
 			}
@@ -545,6 +554,7 @@ define([
 	    _init_main = function(lang, tags, localizacao) {
 		var tags = tags || 'todos',
 		localizacao = localizacao || 'brasil';
+		$('body').data('animationRunning', false);
 		data = {
 		    carregandoTags: '&nbsp;',
 		    mensagens: $('body').data('mensagens'),
