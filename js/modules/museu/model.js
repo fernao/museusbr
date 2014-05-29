@@ -1,14 +1,12 @@
 define([
     'jquery',
     'underscore',
-    'backbone'
-], function($, _, Backbone) {
+    'backbone',
+    'json!site-config.json'
+], function($, _, Backbone, SiteConfig) {
     var MuseuModel = Backbone.Model.extend({
 	idAttribute: 'nid',
-	url: '/museubr/museu/'
-/*	url: function() {
-	    return '/museubr/museu/' + this.id;
-	}*/
+	url: SiteConfig.baseUrl + '/museu/'
     });
     
     return MuseuModel;

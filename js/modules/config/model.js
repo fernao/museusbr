@@ -1,12 +1,12 @@
 define([
     'jquery',
     'underscore',
-    'backbone'
-], function($, _, Backbone) {
+    'backbone',
+    'json!site-config.json'
+], function($, _, Backbone, SiteConfig) {
     var ConfigModel = Backbone.Model.extend({
-	
 	url: function() {
-	    return '/museubr/config';
+	    return SiteConfig.baseUrl + '/config';
 	}	
     });
     

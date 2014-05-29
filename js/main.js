@@ -18,7 +18,7 @@ require.config({
 	templates: '../templates',
         json: 'lib/require/json',
         text: 'lib/require/text',
-        tagcloud: 'lib/jquery.tagcloud',
+        tagcloud: 'lib/jquery.tagcloud'
     },
     waitSeconds: 200
 });

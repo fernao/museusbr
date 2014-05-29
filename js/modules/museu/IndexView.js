@@ -4,6 +4,7 @@ define([
     'backbone',
     'tagcloud',
     'modules/config/functions',
+    'json!site-config.json',
     'modules/museu/model',
     'modules/museu/collection',
     'modules/config/model',
@@ -20,7 +21,7 @@ define([
     'text!templates/museu/MuseuImagens.html',
     'text!templates/museu/MuseuMapa.html',
     'text!templates/museu/MuseuNavigation.html',
-], function($, _, Backbone, TagCloud, ConfigFunctions, MuseuModel, MuseuCollection, ConfigModel, MensagensModel, TagModel, LocalizacaoModel, HeaderTpl, FooterTpl, MapaTpl, RegiaoTpl, TagsTpl, MuseuIndexTpl, MuseuHomeTpl, MuseuImagensTpl, MuseuMapaTpl, MuseuNavigationTpl){
+], function($, _, Backbone, TagCloud, ConfigFunctions, SiteConfig, MuseuModel, MuseuCollection, ConfigModel, MensagensModel, TagModel, LocalizacaoModel, HeaderTpl, FooterTpl, MapaTpl, RegiaoTpl, TagsTpl, MuseuIndexTpl, MuseuHomeTpl, MuseuImagensTpl, MuseuMapaTpl, MuseuNavigationTpl){
     var default_lang = '';
     var IndexView = Backbone.View.extend({
 	
@@ -115,7 +116,7 @@ define([
 			
 			// TAGS
 			// localizacao passada deve ser um tid
-			tags.url = '/museubr/tagcloud/' + lang + '/' + localizacao_tids;			    
+			tags.url = SiteConfig.baseUrl + '/tagcloud/' + lang + '/' + localizacao_tids;			    
 			tags.fetch({
 			    success: function() {
 				data = {
@@ -303,7 +304,7 @@ define([
 		// so mostra tab de fotos se tiver imagens
 		if (!_.isNull(dataMuseu.museu.imagens)) {
 		    $.ajax({
-			url: "/museubr/museu_get_images/" + nid, 
+			url: SiteConfig.baseUrl + "/museu_get_images/" + nid, 
 			dataType: 'json', 
 			success: function(imagens) {
 			    dataMuseu.museu.imagens = imagens;

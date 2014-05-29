@@ -35,9 +35,9 @@ div #lista-cidades { }
 div.tag { display: inline;}
 
 a.cidades {color: #ffdd55; font-size:12pt; float:left; clear:both; padding:5px 0 0 10px; position:relative; top:50px;}
-#lista-cidades a.botao-retangular{position:absolute;top:120px;left:5px;}
+#lista-cidades a.botao-retangular{position:relative;top:120px;left:20px;}
 div#regiao { margin-top: 20px}
-#tag_cloud a.botao-retangular {position:absolute;top:128px;left:720px;}
+#tag_cloud a.botao-retangular {position:relative;float:right;}
 
 #content { background-color: #374548; height: 100%; min-width: 190px; margin: 0 auto; margin-top: 10px}
 .bloco-titulo {width: 168px; margin-left: 124px; padding: 10px; padding-left: 20px; padding-right: 20px; height: 80px; color: #fff; font-size: 16px; font-weight: bold}

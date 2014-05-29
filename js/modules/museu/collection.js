@@ -2,11 +2,12 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'modules/museu/model'
-], function($, _, Backbone, MuseuModel){
+    'modules/museu/model',
+    'json!site-config.json'
+], function($, _, Backbone, MuseuModel, SiteConfig){
     var MuseuCollection = Backbone.Collection.extend({
 	model: MuseuModel,
-	url: '/museubr/museus/',
+	url: SiteConfig.baseUrl + '/museus/',
     });
     return MuseuCollection;
 });
