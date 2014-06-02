@@ -8,7 +8,7 @@ admin/sites/*/private
 admin/sites/default/files/*
 
 # Ignore default text files
-/admin/.htaccess
+.htaccess
 /admin/private/backup_migrate/manual/.htaccess
 /admin/robots.txt
 /admin/CHANGELOG.txt
