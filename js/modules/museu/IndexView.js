@@ -19,9 +19,8 @@ define([
     'text!templates/museu/MuseuIndex.html',
     'text!templates/museu/MuseuHome.html',
     'text!templates/museu/MuseuImagens.html',
-    'text!templates/museu/MuseuMapa.html',
-    'text!templates/museu/MuseuNavigation.html',
-], function($, _, Backbone, TagCloud, ConfigFunctions, SiteConfig, MuseuModel, MuseuCollection, ConfigModel, MensagensModel, TagModel, LocalizacaoModel, HeaderTpl, FooterTpl, MapaTpl, RegiaoTpl, TagsTpl, MuseuIndexTpl, MuseuHomeTpl, MuseuImagensTpl, MuseuMapaTpl, MuseuNavigationTpl){
+    'text!templates/museu/MuseuMapa.html'
+], function($, _, Backbone, TagCloud, ConfigFunctions, SiteConfig, MuseuModel, MuseuCollection, ConfigModel, MensagensModel, TagModel, LocalizacaoModel, HeaderTpl, FooterTpl, MapaTpl, RegiaoTpl, TagsTpl, MuseuIndexTpl, MuseuHomeTpl, MuseuImagensTpl, MuseuMapaTpl){
     var default_lang = '';
     var IndexView = Backbone.View.extend({
 	
@@ -38,7 +37,6 @@ define([
 		var localizacao_str = '',
 		l = 0,
 		maxL = _.size(localizacao);
-		
 		for (l = 0; l < maxL; l+= 1) {
 		    localizacao_str += localizacao[l].tid;
 		    if (l <= maxL -2) {
@@ -253,7 +251,7 @@ define([
 		el_onclick = '#btnnid_' + nid,
 		el = "#nid_" + nid + " .subpages-container",
 		tab_width = $('#nid_' + nid).width();
-		$('#nid_' + nid + ' .page').css('width', tab_width);		
+		//$('#nid_' + nid + ' .page').css('width', tab_width);		
 		var compiledHomeTpl = _.template(MuseuHomeTpl, dataMuseu);
 		// definir ativo
 		$('body').data('museu_ativo', el);
@@ -280,7 +278,6 @@ define([
 		    // carrega conteudo dentro da div e anima fade in
 		    el_div = el + " .page";
                     $(el_div).css('opacity', 1);
-		    _toggle_navigation(nid);
 		}  
 	    }
 	    
@@ -296,7 +293,8 @@ define([
 		compiledMapaTpl = '';
 		
 		// pega tamanho da tab aberta
-		tab_width = $('#nid_' + nid + ' .tabs-overflow').width();
+		//tab_width = $('#nid_' + nid + ' .tabs-overflow').width();
+		
 		// TODO: adicionar evento: quando redimensionar, recalcula
 		museu_tabs = ['#home_museu_' + nid, '#mapa_museu_' + nid, '#fotos_museu_' + nid];		
 		var compiledMapaTpl = _.template(MuseuMapaTpl, dataMuseu);
@@ -311,7 +309,7 @@ define([
 			    var compiledImagensTpl = _.template(MuseuImagensTpl, dataMuseu);	    
 			    $(el).append(compiledImagensTpl);			    
 			    $(el + ' .page').css('opacity', 1);
-			    $(el + ' .page').css('width', tab_width);
+			    //$(el + ' .page').css('width', tab_width);
 			}
 		    });
 		    
@@ -319,16 +317,13 @@ define([
 		    museu_tabs.splice(1, 1);
 		}
 		
-		total_width = (museu_tabs.length * tab_width) + 20;
-		$('#nid_' + nid + ' .subpages-container').css('width', total_width);
-		
 		$('body').data('museu_tabs', museu_tabs);
 		$('body').data('museu_tab_ativo', museu_tabs[0]); // inicializa na home
 		
 		el = "#nid_" + nid + " .subpages-container";
 		$(el).append(compiledMapaTpl);
 		$(el + ' .page').css('opacity', 1);
-		$(el + ' .page').css('width', tab_width);
+		//$(el + ' .page').css('width', tab_width);
 	    }
 	    
 	    _toggle_home_div = function(el, nid) {
@@ -341,97 +336,6 @@ define([
 		    // define novo museu aberto
 		    $('body').data('museu_ativo', '#nid_' + nid + " .subpages-container");		    
 		}
-	    }
-	    
-	    //// _toggle_navigation
-	    // - coloca/tira setas 
-	    _toggle_navigation = function(nid) {
-		var el = "#nid_" + nid;
-		
-		$(el).prepend(MuseuNavigationTpl);
-		$(el + " .left").on('click', (function(e) { _navigate(nid, 'left') }));
-		$(el + " .right").on('click', (function(e) { _navigate(nid, 'right') }));
-	    }
-	    
-	    //// _toggle_navigation_buttons
-	    // - liga/desliga botoes de navegacao
-	    _toggle_navigation_buttons = function(nid, status) {
-		var el = "#nid_" + nid;
-		if (status == true) { 
-		    $(el + " .left").one('click', (function(e) { _navigate(nid, 'left') }));
-		    $(el + " .right").one('click', (function(e) { _navigate(nid, 'right') }));
-		} else {
-		    $(el + " .left").off('click');
-		    $(el + " .right").off('click');
-		}
-	    }
-
-	    // gerencia navegacao
-	    _navigate = function(nid, direction) {
-		var museu_tab_ativo = '',
-		museus_tabs = '',
-		tabs_size = '',
-		id_ativo = '',
-		id_next = '',
-		museu_tab_next = '';
-		
-		// pega o estado atual
-		museu_tab_ativo = $('body').data('museu_tab_ativo');
-		museu_tabs = $('body').data('museu_tabs');
-		tabs_size = museu_tabs.length - 1;
-		id_ativo = _.indexOf(museu_tabs, museu_tab_ativo);
-		
-		if (direction == 'left') {
-		    if (id_ativo === 0) {
-			// TODO: desligar botao caso esteja no comeco
-			return false;
-		    } else {
-			id_next = id_ativo -1;
-			museu_tab_next = museu_tabs[id_next];
-			_reposition_tabs(nid, direction);
-		    }
-		}
-		
-		if (direction == 'right') {
-		    if (id_ativo == tabs_size) {
-			return false;
-		    } else {
-			id_next = id_ativo +1;
-			museu_tab_next = museu_tabs[id_next];
-			_reposition_tabs(nid, direction);
-		    }
-		}
-		
-		$('body').data('museu_tab_ativo', museu_tab_next);
-	    }
-	    
-	    // executa navegacao
-	    _reposition_tabs = function(nid, direction) {
-		var factor = '',
-		current_position = '',
-		museu_content = '',
-		position = '',
-		tab_width = $('#nid_' + nid + ' .tabs-overflow').width();
-		
-		_toggle_navigation_buttons(nid, false); // desativa botoes (inicio)
-		factor = (direction == 'left') ? 1 : -1;
-		museu_content = '#nid_' + nid + ' .subpages-container';
-		current_position = $(museu_content).css('left');
-		
-		if (current_position.search(/px/) != -1) {
-		    // firefox
-		    current_position = parseInt(_.first(current_position.split('px')));
-		} else {
-		    // chromium
-		    current_position = (current_position == 'auto') ? 0 : current_position;
-		}
-		position = parseInt(eval(current_position + (factor * tab_width))) + 'px';
-		$(museu_content).animate({ 
-		    left: position 
-		}, $('body').data('config').navigationScrollDuration, function() {
-		    // ativa botoes (fim)
-		    _toggle_navigation_buttons(nid, true);
-		});    
 	    }
 	    
 	    // carrega museus - tela inicial
