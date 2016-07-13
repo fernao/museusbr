@@ -453,9 +453,6 @@ define([
 		    tags: tags
 		}
 
-		$('body').removeClass();
-		$('body').addClass('page-index');		    
-		
 		var compiledHeader = _.template(HeaderTpl, data);
 		$('#header').html(compiledHeader, lang);
 		$('#content').html("<div class='loading'></div>");

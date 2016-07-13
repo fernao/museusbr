@@ -1,24 +1,143 @@
-<div id="header-titulo">
-  <a href="#<%= lang %>" id="header-url"><%= mensagens.logoHome %></a><br/>
-  <a href="#<%=lang %>/page/sobre"><%= mensagens.paginaSobre %></a><br/>
-<!--  <a href="#<%=lang %>/page/termos-de-uso"><%= mensagens.paginaTermosDeUso %></a>-->
+<div class="wrapper">
+  <div class="section group bg-color header-menu">
+    <div class="col span_1_of_12">
+    </div>
+    <div class="col span_10_of_12">
+      <div class="left">
+	<nav class="nav-menu">
+	  <a class="selector">
+	    <div class="icon-wrapper-big bg-body square">
+	      <div class="icon-wrapper-bar">
+		<span class="icon bar-icon first bg-gray"></span>
+		<span class="icon bar-icon bg-gray"></span>
+		<span class="icon bar-icon bg-gray"></span>
+	      </div>
+	    </div>
+	  </a>
+	</nav>
+      </div>
+      <div class="right">
+	<nav class="nav-menu">
+	  <a class="selector">
+	    <div class="icon-wrapper bg-body round">PT</div>
+	  </a>
+	</nav>
+	<nav class="nav-menu">
+	  <a class="selector">
+	    <div class="icon-wrapper bg-body round">EN</div>
+	  </a>
+	</nav>
+	<nav class="nav-menu">
+	  <a class="selector">
+	    <div class="icon-wrapper bg-body round">ES</div>
+	  </a>
+	</nav>
+	<nav class="nav-menu">
+	  <a class="selector">
+	    <div class="icon-wrapper bg-body round">FR</div>
+	  </a>
+	</nav>
+      </div>
+    </div>
+  </div>
+  <div class="section group bg-color header-border">
+    <div class="section group">
+      <div class="col span_1_of_12">
+      </div>
+      <div class="col span_7_of_12">
+	<div class="title-museubr">
+	  <h1 class="museubr"><a href="#<%= lang %>"><%= mensagens.logoHome %></a></h1>
+	</div>
+      </div>
+      <div class="col span_3_of_12 bg-color">
+	<img width="100%" src="images/LOGO_petrobras.png">
+      </div>
+    </div>
+  </div>
 </div>
 
-<div id="header-tags"><p><%= carregandoTags %></p></div>
+
+<div class="wrapper">
+  <div class="section group">
+    <div class="col span_1_of_12">
+    </div>
+    
+    <div class="col span_7_of_12">
+      <div class="margin-top-80" id="header-tags">
+	<div href="" class="aba-filtros aba">
+	  TEMAS
+	</div>
+	<div class="tag_cloud borda-filtros">
+	  <div id="header-tags"><p><%= carregandoTags %></p></div>
+	</div>
+	<div href="" class="aba-limpar">
+	  <div class="icon-text">
+	    Limpar filtro
+	    </div>
+	  <nav class="nav-menu">
+	    <a class="selector">
+	      <div class="icon-wrapper icon-color round">
+		<div class="icon-wrapper-x">
+		  <span class="icon x-icon bg-color span-right light"></span>
+		  <span class="icon x-icon bg-color span-left light"></span>
+		  </div>
+		</div>
+	      </a>
+	    </nav>
+	  </div>
+	</div>
+      </div>
+    <div class="col span_3_of_12 area-titulo bg-color">
+      <div class="margin-top-80">
+	<div href="" class="aba-filtros aba">
+	  REGIÕES
+	  </div>
+	<div class="mapa borda-filtros">
+	  <img width="100%" src="images/mapabr-brasil.png">
+	  </div>
+	</div>
+      <div class="cidades" id="lista-cidades">
+	<a class="cidades">Belo Horizonte</a>
+	<a class="cidades">Rio de Janeiro</a>
+	<a class="cidades">São Paulo</a>
+	</div>
+      <div href="" class="aba-limpar">
+	<div class="icon-text">
+	  Limpar filtro
+	  </div>
+	<nav class="nav-menu">
+	  <a class="selector">
+	    <div class="icon-wrapper icon-color round">
+	      <div class="icon-wrapper-x">
+		<span class="icon x-icon bg-color span-right light"></span>
+		<span class="icon x-icon bg-color span-left light"></span>
+		</div>
+	      </div>
+	    </a>
+	  </nav>
+	</div>
+      </div>
+    <div class="col span_1_of_12">
+      </div>
+</div>
+<div class="section group bg-color">
+  <div class="col span_1_of_12">
+    </div>
+  <div class="col span_3_of_12">
+    </div>
+  <div class="col span_7_of_12">
+    </div>
+</div>
+
+</div>
+
+
 
 <div id="header-mapa">
   <div id="mapa-posicao">
   </div>
   <div id="lista-cidades">
   </div>
-</div>
-<div id="header-lang">
-  <span>
-    <a href="#pt-br">PT</a> | 
-<!--    <a href="#en">EN</a> | 
-    <a href="#es">ES</a> |-->
-    <a href="#fr">FR</a>
-  </span>
 </div>
 
 <br class="clearBoth" />

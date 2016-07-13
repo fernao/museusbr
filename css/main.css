@@ -1,15 +1,20 @@
+@charset "utf-8";
+
+
 body {
     font-family:'PT Sans',sans-serif;
     font-size: 100%;
     color: #FFFFFF;
-    background: url("fundo.png") no-repeat center center fixed;
+    background: url("../images/fundo.png") no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+
 }
 
 html, body {position: relative;margin: 0 0;}
+
 
 .bg-body {
     background-color: #4A5E62;
@@ -23,7 +28,12 @@ html, body {position: relative;margin: 0 0;}
     background-color: #9BA2A3;
 }
 
+/*   WRAPPER   */
+
 div.wrapper {}
+
+
+/*  SECTIONS  */
 
 .section {
     clear: both;
@@ -465,8 +475,57 @@ border-bottom:2px solid #4A5E62;
     background: url("cob_7.png") repeat;
 }
 
+/* MUSEUBR */
 
-/* museubr */
+div#lista-cidades {
+
+}
+
+div.cidades {
+    float: right;
+    overflow: visible;
+    z-index: 200;
+    margin-top:
+    background-color: #374548;
+}
+
+a.cidades {
+    color: #FFDD55;
+    position: relative;
+    float: left;
+    clear: both;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+a.cidades:hover, a.cidade-atual {
+    background-color: #4A5E62;
+    border-radius:5px;
+    color: #FFFFFF;
+}
+
+div.FAQ {
+    padding: 4px 10px 0 20px;
+}
+
+a.FAQ {
+    color: #9BA2A3;
+    text-decoration: none;
+}
+
+a.FAQ:hover {
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+/* ABERTO */
+
+div.aberto_1 {
+    height: 40vmin;
+    padding: 5px;
+    margin-top: 40px;
+}
+
 .coluna-lateral {
     padding: 20px;
 }
@@ -479,14 +538,8 @@ border-bottom:2px solid #4A5E62;
 /* museubr antigo */
 
 #container {}
-#header {color: #ffd959; height: 210px; margin: auto;}
-#content-full {margin: 0 auto; float: left; width: 100%}
-#footer {height: 60px; width: 100%; margin 0 auto; background-color: #374548 }
-a {text-decoration: none; color: #fff }
+/*#content-full {margin: 0 auto; float: left; width: 100%}
 
-#header h3 {font-weight: bold; font-size: 18px; color: #fff; }
-div #header-titulo { float: left; min-width: 200px }
-div #header-tags { float: left;  width: 40%; min-width: 200px; text-align: center }
 div #header-mapa { float: left; padding-left:80px; }
 div #header-lang {padding-right:10px; position:relative; float:right;}
 
@@ -495,15 +548,13 @@ div #header-lang {padding-right:10px; position:relative; float:right;}
 #header-mapa #lista-cidades ul {margin: 0; padding: 0 ; list-style-type: none; font-size: 11px; }
 #header-mapa #lista-cidades li {}
 #header-mapa #lista-cidades li a { color: #ffdd55; font-size: 14px; font-weight: bold }
-#header-url { font-size: 42px; font-weight: bold; }
-#footer {position: fixed; bottom: -8px; width: 100%; left: 0px; z-index: 1000 }
-#footer div.footer-inside {padding:3px 0;width: 100%; text-align: center; margin: 0 auto; }
 
 div #header-lang span, div #header-lang span a {text-decoration: none; color: #bfc0c2; font-size: 12px;}
 div #lista-cidades { }
 
 .botao-retangular { background-color: #ffdd55; color: #4a5d61; padding: 10px; font-weight: bold; font-size: 16px; border-radius: 5px; text-align: center; }
 .botao-retangular:hover {color: #ffffff;}
+*/
 
 #tag_cloud a { text-decoration: none; margin: 0px; padding:10px;line-height:160%}
 #tag_cloud a:hover {background-color: #4A5E62;border-radius:5px;}
