@@ -126,10 +126,11 @@ define([
 				}
 				
 				var compiledTags = _.template(TagsTpl, data);
-				$('#header-tags').html(compiledTags);
+				console.log(compiledTags);
+				$('#tag_cloud').html(compiledTags);
 				
 				$.fn.tagcloud.defaults = {
-				    size: {start: 10, end: 16, unit: 'pt'},
+				    size: {start: 14, end: 20, unit: 'pt'},
 				    color: {start: '#fada53', end: '#fada53'}
 				};
 				
