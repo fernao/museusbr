@@ -451,6 +451,7 @@ define([
 		    mensagens: $('body').data('mensagens'),
 		    lang: $('body').data('userLang'),
 		    regiao: 'brasil',
+		    localizacao: localizacao,
 		    tags: tags
 		}
 
