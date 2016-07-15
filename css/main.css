@@ -538,36 +538,9 @@ div.aberto_1 {
 /* museubr antigo */
 
 #container {}
-/*#content-full {margin: 0 auto; float: left; width: 100%}
-
-div #header-mapa { float: left; padding-left:80px; }
-div #header-lang {padding-right:10px; position:relative; float:right;}
-
-#header-mapa div#mapa-posicao {float: left; padding:10px;}
-#header-mapa div#lista-cidades {position: relative; float:right; }
-#header-mapa #lista-cidades ul {margin: 0; padding: 0 ; list-style-type: none; font-size: 11px; }
-#header-mapa #lista-cidades li {}
-#header-mapa #lista-cidades li a { color: #ffdd55; font-size: 14px; font-weight: bold }
-
-div #header-lang span, div #header-lang span a {text-decoration: none; color: #bfc0c2; font-size: 12px;}
-div #lista-cidades { }
-
-.botao-retangular { background-color: #ffdd55; color: #4a5d61; padding: 10px; font-weight: bold; font-size: 16px; border-radius: 5px; text-align: center; }
-.botao-retangular:hover {color: #ffffff;}
-*/
-
-/*#tag_cloud a { text-decoration: none; margin: 0px; padding:10px;line-height:160%}*/
-/*#tag_cloud a:hover {background-color: #4A5E62;border-radius:5px;}*/
 .cidade-atual {color: #fff !important}
-.tag-atual {background-color: #4A5E62;border-radius:5px;color: #fff !important }
 .botao-retangular.atual {background-color: #ffdd55; color: #4a5d61; float: right; position: relative; top: 5px; }
 .botao-retangular.atual:hover {color: #ffffff; background-color: #4a5e62;}
-/*div.tag { display: inline;}*/
-
-a.cidades {color: #ffdd55; font-size:12pt; float:left; clear:both; padding:5px 0 0 10px; position:relative; top:50px;}
-#lista-cidades a.botao-retangular{position:relative;top:120px;left:20px;}
-div#regiao { margin-top: 20px}
-/*#tag_cloud a.botao-retangular {position:relative;float:right;}*/
 
 #content { background-color: #374548; height: 100%; min-width: 190px; margin: 0 auto; margin-top: 10px}
 .bloco-titulo {width: 168px; margin-left: 124px; padding: 10px; padding-left: 20px; padding-right: 20px; height: 80px; color: #fff; font-size: 16px; font-weight: bold}
@@ -599,68 +572,3 @@ div#regiao { margin-top: 20px}
 .page-imagens { padding: 8px; display: inline }
 .lista-imagens div {float: left; margin-left: 2px}
 .lista-imagens img {width: 270px; height: 180px}
-
-
-
-/* css novo */
-
-.col {
-    display: block;
-    float: left;
-    margin: 1% 0 0 0.5% important;   
-}
-
-.col:first-child {
-    margin-left: 0;
-}
-
-/* grid of twelve */
-.span_12_of_12 {
-    width: 100%;
-}
-
-.span_11_of_12 {
-    width: 91.62%;
-}
-
-.span_10_of_12 {
-    width: 83.25%;
-}
-
-.span_9_of_12 {
-    width: 74.87%;
-}
-
-.span_8_of_12 {
-    width: 66.5%;
-}
-
-.span_7_of_12 {
-    width: 58.12%;
-}
-
-.span_6_of_12 {
-    width: 49.75%;
-}
-
-.span_5_of_12 {
-    width: 41.73%;
-}
-
-.span_4_of_12 {
-    width: 33%;
-}
-
-.span_3_of_12 {
-    width: 24.62%;
-}
-
-.span_2_of_12 {
-    width: 16.25%;
-}
-
-.span_1_of_12 {
-    width: 7.875;
-}
-
-    
