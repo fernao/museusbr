@@ -75,7 +75,7 @@ define([
 		if (localizacao == 'brasil') {
 		   regiao = localizacao; 
 		}	
-	
+		
 		localizacaoModel.fetch({
 		    success: function() {
 			var tags = new TagModel();
@@ -109,13 +109,15 @@ define([
 				    
 				    var compiledRegiao = _.template(RegiaoTpl, data);
 				    $('#lista-cidades').html(compiledRegiao);
+
+				    _resize_map();
 				}
 			    });
 			}
 			
 			// TAGS
 			// localizacao passada deve ser um tid
-			tags.url = SiteConfig.baseUrl + '/tagcloud/' + lang + '/' + localizacao_tids;			    
+			tags.url = SiteConfig.baseUrl + '/tagcloud/' + lang + '/' + localizacao_tids;
 			tags.fetch({
 			    success: function() {
 				data = {
@@ -155,7 +157,7 @@ define([
 			    			    
 			    var compiledRegiao = _.template(RegiaoTpl, data);
 			    $('#lista-cidades').html(compiledRegiao);
-
+			    
 			    _resize_map();
 			}
 		    }
@@ -498,6 +500,7 @@ define([
 		    url: "userlang.php", 
 		    dataType: 'json', 
 		    success: function(data) {
+			museubr = {};
 			lang = data.userLang;
 			ConfigFunctions.set_user_lang(lang);
 			$('#headerUrl').attr('href', '#'  + lang);
