@@ -106,7 +106,6 @@ define([
 				    
 				    var compiledMapa = _.template(MapaTpl, data);
 				    $('#mapa-posicao').html(compiledMapa);
-				    _resize_map();
 				    
 				    var compiledRegiao = _.template(RegiaoTpl, data);
 				    $('#lista-cidades').html(compiledRegiao);
@@ -153,10 +152,11 @@ define([
 			    
 			    var compiledMapa = _.template(MapaTpl, data);
 			    $('#mapa-posicao').html(compiledMapa);
-			    _resize_map();
-			    
+			    			    
 			    var compiledRegiao = _.template(RegiaoTpl, data);
-			    $('#lista-cidades').html(compiledRegiao);	    
+			    $('#lista-cidades').html(compiledRegiao);
+
+			    _resize_map();
 			}
 		    }
 		});	
@@ -168,11 +168,12 @@ define([
 	    toggle_museu = function(e) {
 		// pega variaveis basicas
 		var target = e.currentTarget,
-		match = /^\w*_(\d*)$/.exec(target.id),
-		nid = match[1],
-		lang = ConfigFunctions.get_user_lang(),
-		museu_ativo = $('body').data('museu_ativo'),
-		museu_clicado = '#nid_' + nid + ' .subpages-container';
+		    match = /^\w*_(\d*)$/.exec(target.id),
+		    nid = match[1],
+		    lang = ConfigFunctions.get_user_lang();
+
+		data.museu_ativo = $('body').data('museu_ativo');
+		data.museu_clicado = '#nid_' + nid + ' .subpages-container';
 
 		// fix para nao deixar abrir nenhum outro museu quando um está abrindo
 		if ($('body').data('animationRunning') == true) {
@@ -181,7 +182,7 @@ define([
 		
 		// toggle q abre/fecha museu
 		_toggle_home_div(target, nid);
-		if (museu_ativo != museu_clicado) {		
+		if (data.museu_ativo != data.museu_clicado) {		
 		    // inicializa museu internamente	
 		    _init_museu(lang, nid);
 		}
@@ -196,7 +197,8 @@ define([
 		nid = _.last(nid[0].split('_'));
 		el_onclick = "#btnnid_" + nid;
 		
-		$(target).css('left', 0);
+		$(target).removeClass('aberto_1');
+		
 		// restaura estado do museu ativo
 		$(target).animate(
 		    { height: "0" },
@@ -233,12 +235,11 @@ define([
 		museu.url += lang + '/' + nid;
 		museu.fetch({
 		    success: function() {
-			dataMuseu = {
+			var dataMuseu = {
 			    museu: museu.attributes[0],
 			    mensagens: $('body').data('mensagens'),
 			}
 			_load_museu_home(lang, nid, dataMuseu);
-			_load_museu_tabs(lang, nid, dataMuseu);
 		    }
 		});
 	    }
@@ -247,26 +248,61 @@ define([
 	    // - carrega home do museu
 	    _load_museu_home = function(lang, nid, dataMuseu) {
 		var defaultDataMuseu = {museu: { nid: nid} },
-		lang = lang || ConfigFunctions.get_user_lang(),
-		dataMuseu = dataMuseu || defaultDataMuseu,
-		el = "",
-		el_off = '',
-		el_div = '',
-		el_onclick = '#btnnid_' + nid,
-		el = "#nid_" + nid + " .subpages-container",
-		tab_width = $('#nid_' + nid).width();
-		//$('#nid_' + nid + ' .page').css('width', tab_width);		
+		    lang = lang || ConfigFunctions.get_user_lang(),
+		    dataMuseu = dataMuseu || defaultDataMuseu,
+		    el = "",
+		    el_off = '',
+		    el_div = '',
+		    el_onclick = '#btnnid_' + nid,
+		    el = "#nid_" + nid + " .subpages-container",
+		    tab_width = $('#nid_' + nid).width(),
+		    tab_height = 0;
+		
 		var compiledHomeTpl = _.template(MuseuHomeTpl, dataMuseu);
 		// definir ativo
 		$('body').data('museu_ativo', el);
 		
 		// aplica template renderizado
 		$(el).html(compiledHomeTpl);
+
+		/*
+		if (!_.isNull(dataMuseu.museu.imagens)) {
+		    $.ajax({
+			url: SiteConfig.baseUrl + "/museu_get_images/" + nid, 
+			dataType: 'json', 
+			success: function(imagens) {
+			    dataMuseu.museu.imagens = imagens;
+			    var compiledImagensTpl = _.template(MuseuImagensTpl, dataMuseu);	    
+			    $(el).append(compiledImagensTpl);			    
+			    $(el + ' .page').css('opacity', 1);
+			}
+		    });
+		}
+		*/
+
+		tab_height = $('#subpages_' + nid).height();
 		
 		if (dataMuseu == defaultDataMuseu) {
+
+		    // move scroll para local
+		    // - subtraido tamanho do box do titulo
+		    // - se tem museu aberto, executar somente quando o outro terminar <----
+		    var topoAntigo = (data.museu_ativo != "") ? $(data.museu_ativo.split(' .subpages-container')[0]).offset().top : 0,
+			topoNovo = $("#nid_" + nid).offset().top,
+			ajusteScroll = 0;
+
+		    if ((topoAntigo !== 0) && (topoAntigo < topoNovo)) {
+			ajusteScroll = - $(data.museu_ativo).height();
+		    }
+		    
+		    $('html,body').animate({
+			scrollTop: $("#nid_" + nid).offset().top + ajusteScroll
+		    });
+		    
+		    
 		    // carrega div ainda sem conteudo e anima deslocamento
 		    $(el).animate(
-			{ height: $('body').data('config').museuDivHeight},
+			{ height: $('body').data('config').museuDivHeight},  // TODO: tirar essa definição manual e colocar flexível
 			{ duration: $('body').data('config').transitionScrollDuration,
 			  start: function() { 
 			      $('body').data('animationRunning', true);
@@ -282,54 +318,14 @@ define([
 		    // carrega conteudo dentro da div e anima fade in
 		    el_div = el + " .page";
                     $(el_div).css('opacity', 1);
+		    $(el_div).addClass('aberto_1');
 		}  
 	    }
+
 	    
-	    //// _load_museu_tabs
-	    // - carrega outras tabs/janelas
-	    _load_museu_tabs = function(lang, nid, dataMuseu) {
-		var tab_width = 0,
-		total_width = 0,
-		museu_tabs = [],
-		el = '',
-		compiledHomeTpl = '',
-		compiledFotosTpl = '',
-		compiledMapaTpl = '';
-		
-		// pega tamanho da tab aberta
-		//tab_width = $('#nid_' + nid + ' .tabs-overflow').width();
-		
-		// TODO: adicionar evento: quando redimensionar, recalcula
-		museu_tabs = ['#home_museu_' + nid, '#mapa_museu_' + nid, '#fotos_museu_' + nid];		
-		var compiledMapaTpl = _.template(MuseuMapaTpl, dataMuseu);
-		
-		// so mostra tab de fotos se tiver imagens
-		if (!_.isNull(dataMuseu.museu.imagens)) {
-		    $.ajax({
-			url: SiteConfig.baseUrl + "/museu_get_images/" + nid, 
-			dataType: 'json', 
-			success: function(imagens) {
-			    dataMuseu.museu.imagens = imagens;
-			    var compiledImagensTpl = _.template(MuseuImagensTpl, dataMuseu);	    
-			    $(el).append(compiledImagensTpl);			    
-			    $(el + ' .page').css('opacity', 1);
-			    //$(el + ' .page').css('width', tab_width);
-			}
-		    });
-		    
-		} else {
-		    museu_tabs.splice(1, 1);
-		}
-		
-		$('body').data('museu_tabs', museu_tabs);
-		$('body').data('museu_tab_ativo', museu_tabs[0]); // inicializa na home
-		
-		el = "#nid_" + nid + " .subpages-container";
-		$(el).append(compiledMapaTpl);
-		$(el + ' .page').css('opacity', 1);
-		//$(el + ' .page').css('width', tab_width);
-	    }
-	    
+	    /*
+	     * abre novo museu
+	     */
 	    _toggle_home_div = function(el, nid) {
 		var museu_ativo = '';		
 		
@@ -428,7 +424,7 @@ define([
 		var imagePreload = $('<img/>').attr('src', imagemSrc);
 	    }
 	    
-	    // funcao para ligar / desligar botoes
+	    // funcao para ligar / desligar botoes dos museus
 	    // - state: on, off
 	    _toggle_click_button = function(state, el, callback) {
 		var state = state || false,
@@ -445,34 +441,33 @@ define([
 	    }
 
 	    _resize_map = function() {
-		window.onload = function () {
-		    var ImageMap = function (map) {
-			var n,
-			    areas = map.getElementsByTagName('area'),
-			    len = areas.length,
-			    coords = [],
-			    previousWidth = 1920;
+		var ImageMap = function (map) {
+		    var n,
+			areas = map.getElementsByTagName('area'),
+			len = areas.length,
+			coords = [],
+			previousWidth = 850;
+
+		    for (n = 0; n < len; n++) {
+			coords[n] = areas[n].coords.split(',');
+		    }
+		    this.resize = function () {
+			var n, m, clen,
+			    x = document.body.clientWidth / previousWidth;
 			for (n = 0; n < len; n++) {
-			    coords[n] = areas[n].coords.split(',');
-			}
-			this.resize = function () {
-			    var n, m, clen,
-				x = document.body.clientWidth / previousWidth;
-			    for (n = 0; n < len; n++) {
-				clen = coords[n].length;
-				for (m = 0; m < clen; m++) {
-				    coords[n][m] *= x;
-				}
-				areas[n].coords = coords[n].join(',');
+			    clen = coords[n].length;
+			    for (m = 0; m < clen; m++) {
+				coords[n][m] *= x;
 			    }
-			    previousWidth = document.body.clientWidth;
-			    return true;
-			};
-			window.onresize = this.resize;
-		    },
-			imageMap = new ImageMap(document.getElementById('map_ID'));
-		    imageMap.resize();
-		}
+			    areas[n].coords = coords[n].join(',');
+			}
+			previousWidth = document.body.clientWidth;
+			return true;
+		    };
+		    window.onresize = this.resize;
+		},
+		    imageMap = new ImageMap(document.getElementById('mapa-brasil'));
+		imageMap.resize();
 	    }
 	    
 	    // init main functionalities
@@ -494,7 +489,7 @@ define([
 		$('#content').html("<div class='loading'></div>");
 		
 		_generate_header(tags, localizacao);
-		_load_museus(lang, tags, localizacao);		
+		_load_museus(lang, tags, localizacao);
 	    }
 	    
 	    // language check for sending to init_main

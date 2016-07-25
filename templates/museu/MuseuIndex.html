@@ -2,13 +2,13 @@
   <div id="filter-tags"></div>
   <% _.each(nodes, function(museu){ %>
   <div class="museu-row" style="background-image: url(<%= museu.pano_de_fundo %>)" id="nid_<%= museu.nid %>">
-    <div id="btnnid_<%= museu.nid %>" class="btn-museu">
+    <div id="btnnid_<%= museu.nid %>" class="btn-museu section group">
       <div class="bloco-titulo" style="background-color: <%= museu.cor %>">
 	<%= museu.titulo %>
       </div>	  
     </div>
     <div class="tabs-overflow">
-      <div class="subpages-container"></div>
+      <div class="subpages-container" id="subpages_<%= museu.nid %>"></div>
     </div>
   </div>
 <% }); %>
