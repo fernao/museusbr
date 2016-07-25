@@ -446,7 +446,7 @@ define([
 			areas = map.getElementsByTagName('area'),
 			len = areas.length,
 			coords = [],
-			previousWidth = 850;
+			previousWidth = (document.body.clientWidth > 440) ? 850 : 195; // configuração padrão ou de celular
 
 		    for (n = 0; n < len; n++) {
 			coords[n] = areas[n].coords.split(',');
