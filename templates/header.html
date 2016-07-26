@@ -70,23 +70,25 @@
 	<div class="tag_cloud borda-filtros" id="tag_cloud">
 	  <p><%= carregandoTags %></p>
 	</div>
+	<% if (localizacao != 'brasil') { %>
 	<div href="" class="aba-limpar">
 	  <div class="icon-text">
 	    Limpar filtro
-	    </div>
+	  </div>
 	  <nav class="nav-menu">
 	    <a class="selector" href="#<%= lang %>/todos/<%= localizacao %>">
 	      <div class="icon-wrapper icon-color round">
 		<div class="icon-wrapper-x">
 		  <span class="icon x-icon bg-color span-right light"></span>
 		  <span class="icon x-icon bg-color span-left light"></span>
-		  </div>
 		</div>
-	      </a>
-	    </nav>
-	  </div>
+	      </div>
+	    </a>
+	  </nav>
 	</div>
+	<% } %>
       </div>
+    </div>
     <div class="col span_3_of_12 area-titulo bg-color">
       <div class="margin-top-80">
 	<div href="" class="aba-filtros aba">
@@ -99,22 +101,24 @@
 	</div>
       <div class="cidades" id="lista-cidades">
       </div>
+      <% if (localizacao != 'brasil') { %>
       <div href="" class="aba-limpar">
 	<div class="icon-text">
 	  Limpar filtro
-	  </div>
+	</div>
 	<nav class="nav-menu">
 	  <a class="selector" href="#<%= lang %>/<%= tags %>/brasil">
 	    <div class="icon-wrapper icon-color round">
 	      <div class="icon-wrapper-x">
 		<span class="icon x-icon bg-color span-right light"></span>
 		<span class="icon x-icon bg-color span-left light"></span>
-		</div>
 	      </div>
-	    </a>
-	  </nav>
-	</div>
+	    </div>
+	  </a>
+	</nav>
       </div>
+      <% } %>
+    </div>
     <div class="col span_1_of_12">
     </div>
   </div>
