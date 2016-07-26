@@ -46,7 +46,7 @@
       </div>
       <div class="col span_7_of_12">
 	<div class="title-museubr">
-	  <h1 class="museubr"><%= mensagens.logoHome %></h1>
+	  <h1 class="museubr"><%= data.mensagens.logoHome %></h1>
 	</div>
       </div>
       <div class="col span_3_of_12 bg-color">
@@ -135,13 +135,14 @@
     <div class="col span_2_of_12 cob nome-museu-bloco bg-color">
       <div class="resultados">MUSEUS:</div>
     </div>
-    <div class="col span_8_of_12">
+    <div class="col span_8_of_12" id="botoes-termos">
 
-      <% if (localizacao !== 'brasil') { %>
+      <% if (localizacao !== 'brasil' && isNaN(localizacao)) { %>
       <div href="" class="aba-limpar bg-body">
-	<div class="icon-text">
+	<div class="icon-text" >
 	  <%= localizacao %>
 	</div>
+	
 	<nav class="nav-menu">
 	  <a class="selector" href="#<%= lang %>/<%= tags %>/brasil">
 	    <div class="icon-wrapper icon-color round">
@@ -157,7 +158,7 @@
 
 
       <% if (tags !== 'todos') { %>
-      <div href="" class="aba-limpar bg-body">
+      <div href="" class="aba-limpar bg-body  botao-filtro">
 	<div class="icon-text">
 	  <%= tags %>
 	</div>

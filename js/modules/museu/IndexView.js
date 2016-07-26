@@ -19,8 +19,9 @@ define([
     'text!templates/museu/MuseuIndex.html',
     'text!templates/museu/MuseuHome.html',
     'text!templates/museu/MuseuImagens.html',
-    'text!templates/museu/MuseuMapa.html'
-], function($, _, Backbone, TagCloud, ConfigFunctions, SiteConfig, MuseuModel, MuseuCollection, ConfigModel, MensagensModel, TagModel, LocalizacaoModel, HeaderTpl, FooterTpl, MapaTpl, RegiaoTpl, TagsTpl, MuseuIndexTpl, MuseuHomeTpl, MuseuImagensTpl, MuseuMapaTpl){
+    'text!templates/museu/MuseuMapa.html',
+    'text!templates/botao-localizacao.html',
+], function($, _, Backbone, TagCloud, ConfigFunctions, SiteConfig, MuseuModel, MuseuCollection, ConfigModel, MensagensModel, TagModel, LocalizacaoModel, HeaderTpl, FooterTpl, MapaTpl, RegiaoTpl, TagsTpl, MuseuIndexTpl, MuseuHomeTpl, MuseuImagensTpl, MuseuMapaTpl, BotaoLocalizacaoTpl){
     var default_lang = '';
     var IndexView = Backbone.View.extend({
 	
@@ -48,13 +49,13 @@ define([
 	    
 	    _generate_header = function(tag, localizacao) {
 		var tag = tag || 'todos',
-		localizacao = localizacao || 'brasil',
-		lang = $('body').data('userLang'),
-		regioes = _get_regioes(),
-		localizacao_tids = '',
-		regiao = '',
-		is_cidade = false,
-		is_regiao = false;
+		    localizacao = localizacao || 'brasil',
+		    lang = $('body').data('userLang'),
+		    regioes = _get_regioes(),
+		    localizacao_tids = '',
+		    regiao = '',
+		    is_cidade = false,
+		    is_regiao = false;
 		
 		var localizacaoModel = new LocalizacaoModel();		
 		
@@ -95,7 +96,7 @@ define([
 			    // pega lista de cidades
 			    cidadesModel.fetch({
 				success: function() {
-				    data = { 
+				    var data = { 
 					cidades: cidadesModel.attributes,
 					regiao: regiao,
 					localizacao_atual: localizacao,
@@ -110,9 +111,34 @@ define([
 				    var compiledRegiao = _.template(RegiaoTpl, data);
 				    $('#lista-cidades').html(compiledRegiao);
 
+				    // carrega botão de localizacao
+				    var dataLocalizacao = {
+					tag: tag,
+					lang: lang,
+					cidade: _.findWhere(data.cidades, {tid: localizacao})
+				    }
+				    $('#botoes-termos').prepend(_.template(BotaoLocalizacaoTpl, dataLocalizacao));
 				    _resize_map();
 				}
 			    });
+			    
+			} else if (is_regiao || localizacao == 'brasil') {
+			    var dataCidades = { 
+				cidades: localizacaoModel.attributes,
+				regiao: regiao,
+				localizacao_atual: localizacao,
+				tags: tag,
+				mensagens: $('body').data('mensagens'),
+				lang: ConfigFunctions.get_user_lang()
+			    }
+			    
+			    var compiledMapa = _.template(MapaTpl, dataCidades);
+			    $('#mapa-posicao').html(compiledMapa);
+			    			    
+			    var compiledRegiao = _.template(RegiaoTpl, dataCidades);
+			    $('#lista-cidades').html(compiledRegiao);
+			    
+			    _resize_map();
 			}
 			
 			// TAGS
@@ -120,15 +146,14 @@ define([
 			tags.url = SiteConfig.baseUrl + '/tagcloud/' + lang + '/' + localizacao_tids;
 			tags.fetch({
 			    success: function() {
-				data = {
+				var dataTags = {
 				    tags: tags.attributes,
 				    tag: tag,
 				    mensagens: $('body').data('mensagens'),
 				    localizacao: localizacao,
 				    lang: lang
 				}
-				
-				var compiledTags = _.template(TagsTpl, data);
+				var compiledTags = _.template(TagsTpl, dataTags);
 				$('#tag_cloud').html(compiledTags);
 				
 				$.fn.tagcloud.defaults = {
@@ -141,25 +166,6 @@ define([
 				});
 			    }
 			});
-			
-			if (is_regiao || localizacao == 'brasil') {
-			    data = { 
-				cidades: localizacaoModel.attributes,
-				regiao: regiao,
-				localizacao_atual: localizacao,
-				tags: tag,
-				mensagens: $('body').data('mensagens'),
-				lang: ConfigFunctions.get_user_lang()
-			    }
-			    
-			    var compiledMapa = _.template(MapaTpl, data);
-			    $('#mapa-posicao').html(compiledMapa);
-			    			    
-			    var compiledRegiao = _.template(RegiaoTpl, data);
-			    $('#lista-cidades').html(compiledRegiao);
-			    
-			    _resize_map();
-			}
 		    }
 		});	
 	    }
