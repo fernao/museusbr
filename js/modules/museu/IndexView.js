@@ -57,6 +57,9 @@ define([
 		    is_cidade = false,
 		    is_regiao = false;
 		
+		$('.museubr').click(function() {
+		    Backbone.history.navigate('', true);
+		});
 		var localizacaoModel = new LocalizacaoModel();		
 		
 		// recebeu REGIAO
@@ -407,7 +410,6 @@ define([
 		
 		var compiledTemplate = _.template(MuseuIndexTpl, data);
 		$('#content').html(compiledTemplate);
-		$('#content').append("<div style='height: 200px'>&nbsp;</div>");
 		$('#footer').html(_.template(FooterTpl));
 		
 		// bind click event && preload
