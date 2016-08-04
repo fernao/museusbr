@@ -5,7 +5,7 @@ body {
 	font-family:'PT Sans',sans-serif;
 	font-size: 100%;
 	color: #313E40;
-	background: url("../images/fundo.png") no-repeat center center fixed;
+	background: url("fundo.png") no-repeat center center fixed;
 	-webkit-background-size: cover;
   	-moz-background-size: cover;
   	-o-background-size: cover;
@@ -253,7 +253,7 @@ html, body {position: relative;margin: 0 0;}
 	span.beta {
 		font-weight: normal;
 		color: #9BA2A3;
-		font-size: 18px;
+		font-size: 24px;
 	}
 
 
