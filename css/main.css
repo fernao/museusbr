@@ -520,10 +520,18 @@ a.FAQ:hover {
 
 /* ABERTO */
 
-div.aberto_1 {
+div.aberto-1 {
     height: 40vmin;
     padding: 5px;
     margin-top: 40px;
+}
+
+.foto_home {
+    padding-top: 20px;
+}
+
+.mapa_home {
+   padding-top: 20px; 
 }
 
 .coluna-lateral {
@@ -532,6 +540,15 @@ div.aberto_1 {
 
 .coluna-lateral p {
     margin: 0;
+    padding-right: 20px;
+}
+
+.coluna-lateral div.endereco,
+.coluna-lateral div.telefone,
+.coluna-lateral div.url,
+.coluna-lateral div.horario_func {
+   padding-right: 20px;
+   padding-bottom: 10px;
 }
 
 
