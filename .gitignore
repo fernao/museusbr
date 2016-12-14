@@ -61,3 +61,6 @@ tramp
 Session.vim
 .netrwhist
 *~
+
+### Misc
+.DS_Store
