@@ -1,0 +1,581 @@
+@charset "utf-8";
+
+
+body {
+	font-family:'PT Sans',sans-serif;
+	font-size: 100%;
+	color: #FFFFFF;
+	background: url("MS_2016_00009.jpg") no-repeat center center fixed;
+	-webkit-background-size: cover;
+  	-moz-background-size: cover;
+  	-o-background-size: cover;
+ 	background-size: cover;
+
+}
+
+html, body {position: relative;margin: 0 0;}
+
+
+	.bg-body {
+		background-color: #4A5E62;
+	}
+
+	.bg-color {
+		background-color: #374548;
+	}
+
+	.bg-gray {
+		background-color: #9BA2A3;
+	}
+
+	.bg-opacity {
+		background-color:rgba(255,255,255,0.6);
+	}
+
+	.bg-transparent {
+		background: tranparent;
+	}
+
+	.espaco-imagem {
+		height: 80vmax;
+	}
+
+	.text-yellow {
+		color: #FFD959;
+	}
+
+	a.link-museubr, a.link-museubr:hover, a.link-museubr:active, a.link-museubr:visited {
+		color: #374548;
+	}
+
+/*   WRAPPER   */
+
+	div.wrapper {}
+
+
+/*  SECTIONS  */
+
+	.section {
+		clear: both;
+		padding: 0px;
+		margin: 0px;
+	}
+
+/*  COLUMN SETUP  */
+
+	.col {
+		display: block;
+		float: left;
+		margin: 1% 0 0 0.5% !important;
+		overflow: hidden;
+	}
+
+	.col:first-child { margin-left: 0; }
+
+	.transparent {
+		background: transparent;
+	}
+
+/*  GROUPING  */
+
+	.group:before,	.group:after {
+		content:"";
+		display:table;
+	}
+
+	.group:after {
+		clear:both;
+	}
+
+	.group {
+    		zoom:1; /* For IE 6/7 */
+	}		
+
+/*  GRID OF TWELVE  */
+
+	.span_12_of_12 {
+		width: 100%;
+	}
+
+	.span_11_of_12 {
+	  	width: 91.62%;
+	}
+
+	.span_10_of_12 {
+	  	width: 83.25%;
+	}
+
+	.span_9_of_12 {
+  		width: 74.87%;
+	}
+
+	.span_8_of_12 {
+	  	width: 66.5%;
+	}
+
+	.span_7_of_12 {
+	  	width: 58.12%;
+	}
+
+	.span_6_of_12 {
+	  	width: 49.75%;
+	}
+
+	.span_5_of_12 {
+	  	width: 41.37%;
+	}
+
+	.span_4_of_12 {
+	  	width: 33%;
+	}
+
+	.span_3_of_12 {
+	  	width: 24.62%;
+	}
+
+	.span_2_of_12 {
+	  	width: 16.25%;
+	}
+
+	.span_1_of_12 {
+	  	width: 7.875%;
+	}
+
+/*  GO FULL WIDTH AT LESS THAN 480 PIXELS */
+
+@media only screen and (max-width: 480px) {
+	.col { 
+		margin: 1% 0 1% 0%;
+	}
+}
+
+@media only screen and (max-width: 480px) {
+	.span_12_of_12 {
+		width: 100%; 
+	}
+	.span_11_of_12 {
+		width: 100%; 
+	}
+	.span_10_of_12 {
+		width: 100%; 
+	}
+	.span_9_of_12 {
+		width: 100%; 
+	}
+	.span_8_of_12 {
+		width: 100%; 
+	}
+	.span_7_of_12 {
+		width: 100%; 
+	}
+	.span_6_of_12 {
+		width: 100%; 
+	}
+	.span_5_of_12 {
+		width: 100%; 
+	}
+	.span_4_of_12 {
+		width: 100%; 
+	}
+	.span_3_of_12 {
+		width: 100%; 
+	}
+	.span_2_of_12 {
+		width: 100%; 
+	}
+	.span_1_of_12 {
+		width: 100%;
+	}
+}
+
+/*   GENERAL   */
+
+	.left {
+		float: left;
+	}
+
+	.right {
+		float: right;
+	}
+
+	.margin-top-35	{
+		margin-top: 35px;
+	}
+
+	.margin-top-80 {
+		margin-top: 80px;
+	}
+
+
+/*   HEADER   */
+
+	.fixed {
+		position: fixed;
+		width: 100%;
+		z-index: 300;
+	}
+
+	.header-height {
+	}
+
+	.header-menu {
+		padding: 10px;
+		margin: 0;
+	}
+
+	.header-border {
+		border-bottom: 6px solid #4A5E62;
+	}
+
+	.title-museubr {
+		font-size: 42px;
+		color: #374548;
+
+	}
+	.title-museubr-white {
+		font-size: 20px;
+		color: #FFFFFF;
+
+	}
+
+	h1.museubr {
+		margin: 0 0 0 0;
+		padding: 0 10px;
+	}
+
+	span.beta {
+		font-weight: normal;
+		color: #9BA2A3;
+		font-size: 24px;
+	}
+
+
+/*   TAG CLOUD  */
+
+	div #header-tags {
+		text-align: center;
+	}
+
+	div.tag_cloud { 
+		padding: 20px;
+
+	}
+
+	.tag_cloud a:link {
+		margin: 0px;
+		padding: 10px;
+		color: #FFD959;
+		font-size: 150%;
+		line-height: 200%;
+		text-decoration: none;
+	}
+
+	.tag_cloud a:hover, a.tag-atual {
+		background-color: #4A5E62;
+		border-radius:5px;
+		color: #FFFFFF !important;
+	}
+
+	.tag_cloud a:visited {
+		color: #FFD959;
+	}
+
+/*   MAPA  */
+
+	.mapa {
+		padding: 20px;
+	}
+
+/*   LINKS e HOVER  */
+
+	a, a:hover, a:active, a:visited {
+		text-decoration: none;
+		color: #9BA2A3;
+	}
+
+	a:hover {
+		text-decoration: none;
+		color: #FFFFFF;
+	}
+
+
+/* IMAGENS */
+
+	.img-middle {
+		display: block;
+		margin-left:auto;
+		margin-right:auto;
+	}
+
+/*   FILTROS  */
+
+	.aba-filtros {
+		position: relative;
+    		float: left;
+		padding: 10px 10px 12px 10px;
+		margin: 0 10px;
+		background-color: #4A5E62;
+		color: #FFFFFF;
+		text-align: center;
+		font-weight: normal;
+	}
+	
+	.aba {
+		top: -41px;
+		border-radius: 5px 5px 0 0;
+	}
+
+	.aba-limpar {
+		position: relative;
+    		float: left;
+		padding: 10px 10px 12px 10px;
+		margin: 0 10px;
+		color: #FFFFFF;
+		text-align: center;
+		font-weight: normal;
+	}
+
+	.borda-filtros {
+		border-top:2px solid #4A5E62;
+		border-bottom:2px solid #4A5E62; 
+	}
+
+/*   ICON  */
+
+	.nav-menu {
+		float:left;
+	}
+
+	.selector .icon-wrapper-big {
+		transform: scale(0.9);
+		width: 20px;
+		height: 20px;
+		padding: 10px;
+		cursor: pointer;
+    		border-radius: 2px;
+	}
+
+	.icon-wrapper-big:hover {
+    		transform:scale(1,1);
+	}
+
+	.icon-wrapper-big:hover span.bg-gray {
+		background-color: #FFFFFF;
+	}
+
+	.selector .icon-wrapper {
+		transform: scale(0.7);
+		width: 20px;
+		height: 20px;
+		padding: 10px;
+		cursor: pointer;
+	}
+
+	.selector:hover, .icon-wrapper:hover {
+    		transform:scale(0.8,0.8);
+	}
+
+	.icon-wrapper-x {
+		position: relative;
+		top: 8px;
+	}
+
+	.bar-icon {
+		margin-top: 4px;
+	}
+
+	.first {
+		margin-top: 2px;
+	}
+
+	.icon {
+	    display: block;
+	    height: 2px;
+	    width: 20px;
+	}
+
+	.icon-color {
+	    background: #FFD959;
+	}
+
+	.round {
+	    border-radius: 25px;
+	}
+
+	.light {
+	    height: 2px;
+	    width: 20px;
+	}
+
+	.x-icon {
+	    position: absolute;
+	}
+
+	.span-right {
+	    -webkit-transform: rotate(45deg);
+	    -moz-transform: rotate(45deg);
+	    transform: rotate(45deg);
+	}
+
+	.span-left {
+		-webkit-transform: rotate(-45deg);
+		-moz-transform: rotate(-45deg);
+		transform: rotate(-45deg);
+	}
+
+	.icon-text {
+		color: #9BA2A3;
+		float: right;
+		padding: 10px 5px 0 5px;
+	
+	}
+
+	/*.icon-text:hover {
+		color: #FFFFFF;
+		cursor: pointer;
+	}*/
+
+/*   LISTA MUSEUS  */
+
+	.bg-lista {
+		background-color: #4A5E62;
+	}
+
+	/*.bg-lista:hover {
+		background-color: #FFD959;
+		color: #4A5E62;
+	}*/
+
+	.nome-museu-bloco {
+	/*	height: 80px; */ padding: 20px 0;
+		color: #FFFFFF;
+		font-size: 20px;
+	}
+
+	.nome-museu , .resultados {
+		padding: 10px;
+		padding-left: 20px;
+		padding-right: 20px;
+	}
+
+/*   COBOGOL  */
+
+	.cob {}
+
+	.opacity {
+		opacity: 0.5;
+		filter: alpha(opacity=50);
+	}
+
+	.col.cob {
+		margin: 0 0 0 0.5% !important;
+	}
+
+	.cob:hover {
+		opacity: 1;
+		filter: alpha(opacity=100);
+		cursor: pointer;
+	}
+
+
+/*	.cob_W, .cob_V, .cob_X, .cob_7 {
+		border-bottom:2px solid #4A5E62;
+	}
+*/
+
+
+	.cob_W {
+		background: url("cob_W.png") repeat;
+	}
+
+	.cob_V {
+		background: url("cob_V.png") repeat;
+	}
+	
+	.cob_X {
+		background: url("cob_X.png") repeat;
+	}
+
+	.cob_7 {
+		background: url("cob_7.png") repeat;
+	}
+
+/* MUSEUBR */
+
+	div#lista-cidades {
+		
+	}
+
+	div.cidades {
+		float: right;
+		overflow: visible;
+		z-index: 200;
+		margin-top: 
+		background-color: #374548;
+	}
+
+	a.cidades {
+		color: #FFDD55;
+		position: relative;
+		float: left;
+		clear: both;
+		padding: 5px 10px;
+		cursor: pointer;
+	}
+
+	a.cidades:hover, a.cidade-atual {
+		background-color: #4A5E62;
+		border-radius:5px;
+		color: #FFFFFF;
+	}
+
+	div.FAQ {
+		padding: 4px 10px 0 20px;
+	}
+
+	a.FAQ {
+		color: #9BA2A3;
+		text-decoration: none;
+	}
+	
+	a.FAQ:hover {
+		color: #FFFFFF;
+		text-decoration: none;
+	}
+
+/* ABERTO */
+
+	div.aberto_1 {
+		height: 40vmin;
+		padding: 5px;
+		margin-top: 40px;
+	}
+
+	.coluna-lateral {
+		padding: 20px;
+	}
+	
+	.coluna-lateral p {
+		margin: 0;
+	}
+
+	div.foto_home {
+		padding: 20px;
+	}
+
+	div.mapa-imagem {
+		padding: 20px;
+	}
+
+	img.mosaico {
+		opacity: 0.7;
+		filter: alpha(opacity=70);
+		cursor: pointer;
+		background-color: #FFFFFF;
+	}
+
+	img.mosaico:hover {
+		opacity: 1;
+		filter: alpha(opacity=100);
+		cursor: pointer;
+	}
