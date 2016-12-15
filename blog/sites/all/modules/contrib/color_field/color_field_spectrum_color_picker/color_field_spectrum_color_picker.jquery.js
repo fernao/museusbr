@@ -15,7 +15,6 @@
           showPaletteOnly: this.show_palette_only,
           palette:[this.palette],
           showButtons: this.show_buttons,
-          allowEmpty: this.allow_empty,
         });
       });
     }

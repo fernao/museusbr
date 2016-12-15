@@ -19,12 +19,7 @@ function theme_token_tree_link($variables) {
   }
 
   $info = token_theme();
-  $tree_variables = array_intersect_key($variables, $info['token_tree']['variables']);
-  $tree_variables = drupal_array_diff_assoc_recursive($tree_variables, $info['token_tree']['variables']);
-  if (!isset($variables['options']['query']['options'])) {
-    $variables['options']['query']['options'] = array();
-  }
-  $variables['options']['query']['options'] += $tree_variables;
+  $variables['options']['query']['options'] = array_intersect_key($variables, $info['token_tree']['variables']);
 
   // We should never pass the dialog option to theme_token_tree(). It is only
   // used for this function.
