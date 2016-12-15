@@ -1,7 +1,8 @@
 <div class="museus-content">
   <div id="filter-tags"></div>
   <% _.each(nodes, function(museu){ %>
-  <div class="museu-row" style="background-image: url(<%= museu.pano_de_fundo %>)" id="nid_<%= museu.nid %>">
+  <% var rand = Math.round(Math.random() * 3); %>
+  <div class="museu-row" style="background: rgba(0, 0, 0, 0) url('images/cob_<%= rand %>.png') repeat scroll 0 0;" id="nid_<%= museu.nid %>">
     <div id="btnnid_<%= museu.nid %>" class="btn-museu section group">
       <div class="bloco-titulo" style="background-color: <%= museu.cor %>">
 	<%= museu.titulo %>
