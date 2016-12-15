@@ -18,18 +18,24 @@ define([
     'text!templates/tags.html',
     'text!templates/museu/MuseuIndex.html',
     'text!templates/museu/MuseuHome.html',
-    'text!templates/museu/MuseuImagens.html',
+    'text!templates/museu/ImagensSlideshow.html',
     'text!templates/museu/MuseuMapa.html',
     'text!templates/botao-localizacao.html',
-], function($, _, Backbone, TagCloud, ConfigFunctions, SiteConfig, MuseuModel, MuseuCollection, ConfigModel, MensagensModel, TagModel, LocalizacaoModel, HeaderTpl, FooterTpl, MapaTpl, RegiaoTpl, TagsTpl, MuseuIndexTpl, MuseuHomeTpl, MuseuImagensTpl, MuseuMapaTpl, BotaoLocalizacaoTpl){
+], function($, _, Backbone, TagCloud, ConfigFunctions, SiteConfig, MuseuModel, MuseuCollection, ConfigModel, MensagensModel, TagModel, LocalizacaoModel, HeaderTpl, FooterTpl, MapaTpl, RegiaoTpl, TagsTpl, MuseuIndexTpl, MuseuHomeTpl, ImagensSlideshowTpl, MuseuMapaTpl, BotaoLocalizacaoTpl){
     var default_lang = '';
     var IndexView = Backbone.View.extend({
 	
-	render: function(lang, tags, localizacao){
+	render: function(lang, tags, localizacao, nid){
 	    var tags = tags || '',
-	    lang = lang || '',
-	    localizacao = localizacao || '';
+		lang = lang || '',
+		localizacao = localizacao || '',
+		nid = nid || '';
 
+
+	    /*
+	     * definicao de funcoes
+	     */
+	    
 	    _get_regioes = function() {
 		return ['norte', 'nordeste', 'centro-oeste', 'sul', 'sudeste'];
 	    }
@@ -272,24 +278,52 @@ define([
 		var compiledHomeTpl = _.template(MuseuHomeTpl, dataMuseu);
 		// definir ativo
 		$('body').data('museu_ativo', el);
+
+		// slideshow
+		slideIndex = 1;
+		
+		plusSlides = function(n) {
+		    showSlides(slideIndex += n);
+		}
+
+		currentSlide = function(n) {
+		    showSlides(slideIndex = n);
+		}
+
+		showSlides = function(n) {
+		    var i;
+		    var slides = document.getElementsByClassName("mySlides");
+		    var dots = document.getElementsByClassName("dot");
+		    if (n > slides.length) {slideIndex = 1}
+		    if (n < 1) {slideIndex = slides.length}
+		    for (i = 0; i < slides.length; i++) {
+			slides[i].style.display = "none";
+		    }
+		    for (i = 0; i < dots.length; i++) {
+			dots[i].className = dots[i].className.replace(" active", "");
+		    }
+		    slides[slideIndex-1].style.display = "block";
+		    dots[slideIndex-1].className += " active";
+		}
+
 		
 		// aplica template renderizado
 		$(el).html(compiledHomeTpl);
 
-		/*
 		if (!_.isNull(dataMuseu.museu.imagens)) {
 		    $.ajax({
 			url: SiteConfig.baseUrl + "/museu_get_images/" + nid, 
 			dataType: 'json', 
 			success: function(imagens) {
 			    dataMuseu.museu.imagens = imagens;
-			    var compiledImagensTpl = _.template(MuseuImagensTpl, dataMuseu);	    
-			    $(el).append(compiledImagensTpl);			    
+			    var compiledImagensTpl = _.template(ImagensSlideshowTpl, dataMuseu);	    
+			    $(el + ' #slideshow').append(compiledImagensTpl);
+			    slideIndex = 1;
+			    showSlides(slideIndex);
 			    $(el + ' .page').css('opacity', 1);
 			}
 		    });
 		}
-		*/
 
 		tab_height = $('#subpages_' + nid).height();
 		
@@ -350,19 +384,28 @@ define([
 	    }
 	    
 	    // carrega museus - tela inicial
-	    _load_museus = function(lang, tags, localizacao_str) {
+	    _load_museus = function(lang, tags, localizacao_str, nid) {
 		var tags = tags || 'todos',
-		lang = lang || '',
-		localizacao_str = localizacao_str || '',
-		regioes = ['norte', 'nordeste', 'centro-oeste', 'sul', 'sudeste']; //TODO: centralizar isso em algum lugar, talvez drupal
+		    lang = lang || '',
+		    localizacao_str = localizacao_str || '',
+		    nid = nid || '',
+		    regioes = ['norte', 'nordeste', 'centro-oeste', 'sul', 'sudeste']; //TODO: centralizar isso em algum lugar, talvez drupal
 		
 		// armazena museu ativo
 		$('body').data('museu_ativo', '');
-		
+
 		var museus = new MuseuCollection([]);
-		museus.url += lang + '/' + tags;
-		museus.lang = lang;
-		museus.tags = tags;
+
+		console.log('nid:' + nid);
+		if (nid != '') {
+		    museus.url = SiteConfig.baseUrl + '/museu_individual/' + lang + '/' + nid;
+		    localizacao_str = '';
+		} else {
+		    museus.url += lang + '/' + tags;
+		    museus.lang = lang;
+		    museus.tags = tags;
+		}
+		
 		// se recebeu uma regiao (taxonomy parent) como parametro, mas tem q pegar ids para conseguir fazer a busca
 		if (_.contains(regioes, localizacao_str)) { 
 		    var localizacao = new LocalizacaoModel();		
@@ -481,9 +524,10 @@ define([
 	    }
 	    
 	    // init main functionalities
-	    _init_main = function(lang, tags, localizacao) {
+	    _init_main = function(lang, tags, localizacao, nid) {
 		var tags = tags || 'todos',
-		localizacao = localizacao || 'brasil';
+		    localizacao = localizacao || 'brasil',
+		    nid = nid || '';
 		$('body').data('animationRunning', false);
 		data = {
 		    carregandoTags: '&nbsp;',
@@ -491,15 +535,15 @@ define([
 		    lang: $('body').data('userLang'),
 		    regiao: 'brasil',
 		    localizacao: localizacao,
-		    tags: tags
+		    tags: tags,
+		    nid: nid
 		}
-
 		var compiledHeader = _.template(HeaderTpl, data);
 		$('#header').html(compiledHeader, lang);
 		$('#content').html("<div class='loading'></div>");
 		
 		_generate_header(tags, localizacao);
-		_load_museus(lang, tags, localizacao);
+		_load_museus(lang, tags, localizacao, nid);
 	    }
 	    
 	    // language check for sending to init_main
@@ -512,12 +556,12 @@ define([
 			lang = data.userLang;
 			ConfigFunctions.set_user_lang(lang);
 			$('#headerUrl').attr('href', '#'  + lang);
-			_init_main(lang, tags, localizacao);
+			_init_main(lang, tags, localizacao, nid);
 		    }
 		});
 	    } else {
 		ConfigFunctions.set_user_lang(lang);
-		_init_main(lang, tags, localizacao);
+		_init_main(lang, tags, localizacao, nid);
 	    }
 	    
 	},
