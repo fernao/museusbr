@@ -396,7 +396,6 @@ define([
 
 		var museus = new MuseuCollection([]);
 
-		console.log('nid:' + nid);
 		if (nid != '') {
 		    museus.url = SiteConfig.baseUrl + '/museu_individual/' + lang + '/' + nid;
 		    localizacao_str = '';
@@ -435,21 +434,26 @@ define([
 		    }
 		    museus.fetch({
 			success: function() {
-			    _museu_parse_fetch(MuseuIndexTpl, museus, tags);
+			    _museu_parse_fetch(MuseuIndexTpl, museus, tags, nid);
 			}
 		    });
 		}		   		  
 	    }
 
 	    // da o parse do fetch dos museus
-	    _museu_parse_fetch = function(MuseuIndexTpl, museus, tags) {
-		var el_onclick = '',
-		mensagem = '',
-		nodes  = museus.models[0].attributes,
-		data = {
-		    nodes: nodes,
-		    emptyMessage: $('body').data('mensagens').naoEncontrado
-		}
+	    _museu_parse_fetch = function(MuseuIndexTpl, museus, tags, nid) {
+		var MuseuIndexTpl = MuseuIndexTpl || '',
+		    museus = museus || '',
+		    tags = tags || '',
+		    nid = nid || '',
+		    
+		    el_onclick = '',
+		    mensagem = '',
+		    nodes  = museus.models[0].attributes,
+		    data = {
+			nodes: nodes,
+			emptyMessage: $('body').data('mensagens').naoEncontrado
+		    }
 		
 		var compiledTemplate = _.template(MuseuIndexTpl, data);
 		$('#museus-content').html(compiledTemplate);
@@ -461,6 +465,11 @@ define([
 		    _toggle_click_button('on', el_onclick, toggle_museu);
 		    _preload_image(museu.foto_museu);
 		});
+
+		// se for busca por nid
+		if (nid) {
+		    $('#btnnid_' + nid).click();
+		}
 		
 		// seta tags (se houver)
 		if (tags != '') {

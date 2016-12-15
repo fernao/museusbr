@@ -51,7 +51,9 @@ define([
 	    var pointer = setInterval(function() {	
 		if (!_.isEmpty($('body').data('mensagens'))) {
 		    var indexView = new IndexView();
-		    indexView.render(lang, '', '', nid);		    
+		    indexView.render(lang, '', '', nid);
+		    $('#tela_museu_' + nid).scrollTop();
+		    
 		    clearInterval(pointer);
 		}
 	    }, 50);
