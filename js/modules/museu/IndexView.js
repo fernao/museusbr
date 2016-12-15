@@ -409,7 +409,7 @@ define([
 		}
 		
 		var compiledTemplate = _.template(MuseuIndexTpl, data);
-		$('#content').html(compiledTemplate);
+		$('#museus-content').html(compiledTemplate);
 		$('#footer').html(_.template(FooterTpl));
 		
 		// bind click event && preload

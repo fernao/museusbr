@@ -1,11 +1,11 @@
 <div class="wrapper">
-  <div class="section group bg-color header-menu">
+  <div class="section group bg-opacity header-menu">
     <div class="col span_1_of_12">
     </div>
     <div class="col span_10_of_12">
       <div class="left">
 	<nav class="nav-menu">
-	  <a class="selector" href="/sobre">
+	  <a class="selector" href="sobre.html">
 	    <div class="icon-wrapper-big bg-body square">
 	      <div class="icon-wrapper-bar">
 		<span class="icon bar-icon first bg-gray"></span>
@@ -18,172 +18,96 @@
       </div>
       <div class="right">
 	<nav class="nav-menu">
-	  <a class="selector" href="#pt-br">
+	  <a class="selector">
 	    <div class="icon-wrapper bg-body round">PT</div>
 	  </a>
 	</nav>
 	<nav class="nav-menu">
-	  <a class="selector" href="#en">
+	  <a class="selector">
 	    <div class="icon-wrapper bg-body round">EN</div>
 	  </a>
 	</nav>
 	<nav class="nav-menu">
-	  <a class="selector" href="#es">
+	  <a class="selector">
 	    <div class="icon-wrapper bg-body round">ES</div>
 	  </a>
 	</nav>
 	<nav class="nav-menu">
-	  <a class="selector" href="#fr">
+	  <a class="selector">
 	    <div class="icon-wrapper bg-body round">FR</div>
 	  </a>
 	</nav>
       </div>
     </div>
   </div>
-  <div class="section group bg-color header-border">
+  <div class="section group bg-opacity">
     <div class="section group">
       <div class="col span_1_of_12">
       </div>
       <div class="col span_7_of_12">
 	<div class="title-museubr">
-	  <h1 class="museubr"><%= data.mensagens.logoHome %> <span class="beta"> [vers&atilde;o beta]</span></h1>
+	  <h1 class="museubr"><a href="index_2.html" class="link-museubr">museubr </a></h1>
 	</div>
       </div>
-      <div class="col span_3_of_12 bg-color">
-	<p style="padding-left:20px; margin:0 0; color: #9BA2A3;">Patroc&iacute;nio</p>
-	<a href="http://www.petrobras.com.br" target="_blank" stlye="cursor pointer">
-	  <img width="100%" src="images/LOGO_petrobras-pb.png">
-	</a>
+      <div class="col span_3_of_12">
+	<img src="images/LOGO_petrobras.png" width="100%">
       </div>
     </div>
   </div>
 </div>
 
+<div class="wrapper">
+  <div class="section group bg-transparent espaco-imagem">
+    <div class="section group">
+      <div class="col span_11_of_12">
+	<br>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class="wrapper">
-  <div class="section group">
+  <div class="section group bg-opacity header-menu">
     <div class="col span_1_of_12">
     </div>
     
-    <div class="col span_7_of_12">
-      <div class="margin-top-80" id="header-tags">
-	<div href="" class="aba-filtros aba">
-	  TEMAS
-	</div>
-	<div class="tag_cloud borda-filtros" id="tag_cloud">
-	  <p><%= carregandoTags %></p>
-	</div>
-	<% if (localizacao != 'brasil') { %>
-	<div href="" class="aba-limpar">
-	  <div class="icon-text">
-	    Limpar filtro
-	  </div>
-	  <nav class="nav-menu">
-	    <a class="selector" href="#<%= lang %>/todos/<%= localizacao %>">
-	      <div class="icon-wrapper icon-color round">
-		<div class="icon-wrapper-x">
-		  <span class="icon x-icon bg-color span-right light"></span>
-		  <span class="icon x-icon bg-color span-left light"></span>
-		</div>
+    <div class="col span_10_of_12">
+      <!-- wraper pesquisa -->
+      <div class="wrapper">
+	<div class="section group bg-color">
+	  <div class="section group">
+	    <div class="col span_1_of_12">
+	    </div>
+	    <div class="col span_7_of_12">
+	      <div class="title-museubr-white">
+		<h1 class="museubr">museubr <span class="beta">[ pesquisa ]</span></h1>
 	      </div>
-	    </a>
-	  </nav>
-	</div>
-	<% } %>
-      </div>
-    </div>
-    <div class="col span_3_of_12 area-titulo bg-color">
-      <div class="margin-top-80">
-	<div href="" class="aba-filtros aba">
-	  REGIÕES
-	  </div>
-	<div class="mapa borda-filtros">
-	    <div id="mapa-posicao">
+	    </div>
+	    <div class="col span_2_of_12">
 	    </div>
 	  </div>
 	</div>
-      <div class="cidades" id="lista-cidades">
       </div>
-      <% if (localizacao != 'brasil') { %>
-      <div href="" class="aba-limpar">
-	<div class="icon-text">
-	  Limpar filtro
-	</div>
-	<nav class="nav-menu">
-	  <a class="selector" href="#<%= lang %>/<%= tags %>/brasil">
-	    <div class="icon-wrapper icon-color round">
-	      <div class="icon-wrapper-x">
-		<span class="icon x-icon bg-color span-right light"></span>
-		<span class="icon x-icon bg-color span-left light"></span>
-	      </div>
-	    </div>
-	  </a>
-	</nav>
-      </div>
-      <% } %>
-    </div>
-    <div class="col span_1_of_12">
-    </div>
-  </div>
-  <div class="section group bg-color">
-    <div class="col span_1_of_12">
-    </div>
-    <div class="col span_3_of_12">
-    </div>
-    <div class="col span_7_of_12">
-    </div>
-  </div>
-</div>
-
-<div class="wrapper">
-  <div class="section group">
-    <div class="col span_1_of_12">
-    </div>
-    <div class="col span_2_of_12 cob nome-museu-bloco bg-color">
-      <div class="resultados">MUSEUS:</div>
-    </div>
-    <div class="col span_8_of_12" id="botoes-termos">
-
-      <% if (localizacao !== 'brasil' && isNaN(localizacao)) { %>
-      <div href="" class="aba-limpar bg-body">
-	<div class="icon-text" >
-	  <%= localizacao %>
-	</div>
-	
-	<nav class="nav-menu">
-	  <a class="selector" href="#<%= lang %>/<%= tags %>/brasil">
-	    <div class="icon-wrapper icon-color round">
-	      <div class="icon-wrapper-x">
-		<span class="icon x-icon bg-color span-right light"></span>
-		<span class="icon x-icon bg-color span-left light"></span>
-	      </div>
-	    </div>
-	  </a>
-	</nav>
-      </div>
-      <% } %>
-
-
-      <% if (tags !== 'todos') { %>
-      <div href="" class="aba-limpar bg-body  botao-filtro">
-	<div class="icon-text">
-	  <%= tags %>
-	</div>
-	<nav class="nav-menu">
-	  <a class="selector" href="#<%= lang %>/todos/<%= localizacao %>">
-	    <div class="icon-wrapper icon-color round">
-	      <div class="icon-wrapper-x">
-		<span class="icon x-icon bg-color span-right light"></span>
-		<span class="icon x-icon bg-color span-left light"></span>
-	      </div>
-	    </div>
-	  </a>
-	</nav>
-      </div>
-      <% } %>
+      <!-- fim wraper pesquisa -->
       
-    </div>
-  </div>
-  </div>
+      <!-- wraper tags  -->
+      <div class="wrapper" id="museus-content">
+	<div class="col span_1_of_12">
+	</div>
+	<div class="col span_7_of_12">
+	  <div id="header-tags" class="margin-top-80">
+	    <div class="aba-filtros aba" href="">
+	      <%=data.mensagens.Temas %>
+	    </div>
+	  </div>
+	</div>
+	<div class="col span_3_of_12 area-titulo bg-color">
+	</div>	
+      </div>
+      <div id="filter-tags"></div>
+      <!-- fim wraper tags  -->
 
-<br class="clearBoth" />
+      <!-- wraper museus-content  -->
+      <div class="wrapper" id="museus-content">
+      </div>
+      <!-- wraper museus-content  -->

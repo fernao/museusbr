@@ -1,19 +1,23 @@
-<div class="museus-content">
-  <div id="filter-tags"></div>
-  <% _.each(nodes, function(museu){ %>
-  <% var rand = Math.round(Math.random() * 3); %>
-  <div class="museu-row" style="background: rgba(0, 0, 0, 0) url('images/cob_<%= rand %>.png') repeat scroll 0 0;" id="nid_<%= museu.nid %>">
-    <div id="btnnid_<%= museu.nid %>" class="btn-museu section group">
-      <div class="bloco-titulo" style="background-color: <%= museu.cor %>">
-	<%= museu.titulo %>
-      </div>	  
+<div class="wrapper bg-color">
+    <% _.each(nodes, function(museu){ %>
+    <% var cobClass = 'cob_' + Math.ceil(Math.random() * 4); %>
+    <div class="section group cob opacity museu-row <%=cobClass %>" id="nid_<%= museu.nid %>">
+      <div class="col span_1_of_12">
+      </div>
+      <div id="btnnid_<%= museu.nid %>" class="btn-museu col span_3_of_12 cob nome-museu-bloco bg-lista">
+	<div class="nome-museu">
+	  <%= museu.titulo %>
+	</div>	  
+      </div>
+      <div class="col span_7_of_12 cob">
+      </div>
+      <div class="tabs-overflow">
+	<div class="subpages-container" id="subpages_<%= museu.nid %>"></div>
+      </div>
     </div>
-    <div class="tabs-overflow">
-      <div class="subpages-container" id="subpages_<%= museu.nid %>"></div>
-    </div>
+    <% }); %>
+    <% if (_.isEmpty(nodes)) { %>
+    <h4 class="message"><%= emptyMessage %></h4>
+    <% } %>
   </div>
-<% }); %>
-  <% if (_.isEmpty(nodes)) { %>
-  <h4 class="message"><%= emptyMessage %></h4>
-  <% } %>
 </div>
