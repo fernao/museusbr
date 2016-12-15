@@ -1,11 +1,23 @@
 <div id="home_museu_<%= museu.nid %>" class="section group aberto-1">
   <div class="col span_1_of_12"></div>
-  <div id="foto_home_<%= museu.nid %>" class="col span_6_of_12 foto_home">
-    <% if (museu.foto_museu && museu.foto_museu.foto_museu != '') { %>
-    <img width="100%" src="<%= museu.foto_museu %>" />
-    <% } %>
+  <div id="container-slideshow" class="col span_7_of_12 foto_home">
+    <div id="slideshow">
+          <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+	  <a class="next" onclick="plusSlides(1)">&#10095;</a>    	  
+    </div>
+
+
+    <div class="row" style="text-align: center">
+      <span class="dot" onclick="currentSlide(1)"></span>
+      <span class="dot" onclick="currentSlide(2)"></span>
+      <span class="dot" onclick="currentSlide(3)"></span>
+      <span class="dot" onclick="currentSlide(4)"></span>
+      <span class="dot" onclick="currentSlide(5)"></span>
+      <span class="dot" onclick="currentSlide(6)"></span>
+    </div>
   </div>
-  <div id="texto_home_<%= museu.nid %>" class="col span_4_of_12 coluna-lateral"><%= museu.texto_home %></div>
+
+  <div id="texto_home_<%= museu.nid %>" class="col span_3_of_12 coluna-lateral"><%= museu.texto_home %></div>
 </div>
 
 <div id="mapa_museu_<%= museu.nid %>" class="section group">
