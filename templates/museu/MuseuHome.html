@@ -1,21 +1,10 @@
 <a name="tela_museu_<%= museu.nid %>" id="tela_museu_<%= museu.nid %>">
 <div id="home_museu_<%= museu.nid %>" class="section group aberto-1">
   <div class="col span_1_of_12"></div>
-  <div id="container-slideshow" class="col span_7_of_12 foto_home">
-    <div id="slideshow">
-          <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-	  <a class="next" onclick="plusSlides(1)">&#10095;</a>    	  
+  <div id="container-slideshow_<%= museu.nid %>" class="col span_7_of_12 foto_home">
+    <div id="slideshow_<%= museu.nid %>">
     </div>
 
-
-    <div class="row" style="text-align: center">
-      <span class="dot" onclick="currentSlide(1)"></span>
-      <span class="dot" onclick="currentSlide(2)"></span>
-      <span class="dot" onclick="currentSlide(3)"></span>
-      <span class="dot" onclick="currentSlide(4)"></span>
-      <span class="dot" onclick="currentSlide(5)"></span>
-      <span class="dot" onclick="currentSlide(6)"></span>
-    </div>
   </div>
 
   <div id="texto_home_<%= museu.nid %>" class="col span_3_of_12 coluna-lateral"><%= museu.texto_home %></div>

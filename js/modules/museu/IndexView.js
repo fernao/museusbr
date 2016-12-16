@@ -19,9 +19,10 @@ define([
     'text!templates/museu/MuseuIndex.html',
     'text!templates/museu/MuseuHome.html',
     'text!templates/museu/ImagensSlideshow.html',
+    'text!templates/museu/SlideshowNavigation.html',
     'text!templates/museu/MuseuMapa.html',
     'text!templates/botao-localizacao.html',
-], function($, _, Backbone, TagCloud, ConfigFunctions, SiteConfig, MuseuModel, MuseuCollection, ConfigModel, MensagensModel, TagModel, LocalizacaoModel, HeaderTpl, FooterTpl, MapaTpl, RegiaoTpl, TagsTpl, MuseuIndexTpl, MuseuHomeTpl, ImagensSlideshowTpl, MuseuMapaTpl, BotaoLocalizacaoTpl){
+], function($, _, Backbone, TagCloud, ConfigFunctions, SiteConfig, MuseuModel, MuseuCollection, ConfigModel, MensagensModel, TagModel, LocalizacaoModel, HeaderTpl, FooterTpl, MapaTpl, RegiaoTpl, TagsTpl, MuseuIndexTpl, MuseuHomeTpl, ImagensSlideshowTpl, SlideshowNavigationTpl, MuseuMapaTpl, BotaoLocalizacaoTpl){
     var default_lang = '';
     var IndexView = Backbone.View.extend({
 	
@@ -316,10 +317,17 @@ define([
 			dataType: 'json', 
 			success: function(imagens) {
 			    dataMuseu.museu.imagens = imagens;
+			    var compiledNavigationTpl = _.template(SlideshowNavigationTpl, dataMuseu);
 			    var compiledImagensTpl = _.template(ImagensSlideshowTpl, dataMuseu);	    
-			    $(el + ' #slideshow').append(compiledImagensTpl);
+			    
+			    //$('#container-slideshow_' + nid).append(compiledNavigationTpl);			    
+			    $('#slideshow_' + nid).html(compiledImagensTpl + compiledNavigationTpl);
+
 			    slideIndex = 1;
 			    showSlides(slideIndex);
+
+			    
+			    
 			    $(el + ' .page').css('opacity', 1);
 			}
 		    });
@@ -549,7 +557,7 @@ define([
 		}
 		var compiledHeader = _.template(HeaderTpl, data);
 		$('#header').html(compiledHeader, lang);
-		$('#content').html("<div class='loading'></div>");
+		//$('#content').html("<div id='' class='loading'></div>");
 		
 		_generate_header(tags, localizacao);
 		_load_museus(lang, tags, localizacao, nid);
