@@ -6,8 +6,10 @@
     </div>
 
   </div>
-
-  <div id="texto_home_<%= museu.nid %>" class="col span_3_of_12 coluna-lateral"><%= museu.texto_home %></div>
+  
+  <div id="texto_home_<%= museu.nid %>" class="col span_3_of_12 coluna-lateral">
+      <%= museu.texto_home %>
+  </div>
 </div>
 
 <div id="mapa_museu_<%= museu.nid %>" class="section group">
@@ -24,5 +26,17 @@
       <div class="url"><a href="<%= museu.url %>"><%= museu.url %></a></div>
       <div class="horario_func"><strong><%= data.mensagens.horarioFuncionamentoTitulo %></strong> <br/><%= museu.horario_func %></div>
     </div>
+
+    <div class="" style="text-align: right">
+    <%
+var paginaAtual = Backbone.history.location.href,
+    paginaMuseu = paginaAtual.split('#')[1].search('museu');
+// se estiver na pagina de museu omite essa mensagem
+if (paginaMuseu === -1) {
+    %>
+	<a href="#<%= lang %>/museu/<%= museu.nid %>">exibir apenas esse museu</a><br/><br/>
+	<% } %>
+    </div>
+
   </div>
 </div>
