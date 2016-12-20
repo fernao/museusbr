@@ -13,7 +13,6 @@ define([
     'modules/localizacao/model',
     'text!templates/header.html',
     'text!templates/footer.html',
-    'text!templates/mapa.html',
     'text!templates/regiao.html',
     'text!templates/tags.html',
     'text!templates/museu/MuseuIndex.html',
@@ -22,7 +21,7 @@ define([
     'text!templates/museu/SlideshowNavigation.html',
     'text!templates/museu/MuseuMapa.html',
     'text!templates/botao-localizacao.html',
-], function($, _, Backbone, TagCloud, ConfigFunctions, SiteConfig, MuseuModel, MuseuCollection, ConfigModel, MensagensModel, TagModel, LocalizacaoModel, HeaderTpl, FooterTpl, MapaTpl, RegiaoTpl, TagsTpl, MuseuIndexTpl, MuseuHomeTpl, ImagensSlideshowTpl, SlideshowNavigationTpl, MuseuMapaTpl, BotaoLocalizacaoTpl){
+], function($, _, Backbone, TagCloud, ConfigFunctions, SiteConfig, MuseuModel, MuseuCollection, ConfigModel, MensagensModel, TagModel, LocalizacaoModel, HeaderTpl, FooterTpl, RegiaoTpl, TagsTpl, MuseuIndexTpl, MuseuHomeTpl, ImagensSlideshowTpl, SlideshowNavigationTpl, MuseuMapaTpl, BotaoLocalizacaoTpl){
     var default_lang = '';
     var IndexView = Backbone.View.extend({
 	
@@ -112,11 +111,9 @@ define([
 					localizacao_atual: localizacao,
 					tags: tag,
 					mensagens: $('body').data('mensagens'),
-					lang: ConfigFunctions.get_user_lang()
+					lang: ConfigFunctions.get_user_lang(),
+					regioes: _get_regioes()
 				    }	
-				    
-				    var compiledMapa = _.template(MapaTpl, data);
-				    $('#mapa-posicao').html(compiledMapa);
 				    
 				    var compiledRegiao = _.template(RegiaoTpl, data);
 				    $('#lista-cidades').html(compiledRegiao);
@@ -128,7 +125,6 @@ define([
 					cidade: _.findWhere(data.cidades, {tid: localizacao})
 				    }
 				    $('#botoes-termos').prepend(_.template(BotaoLocalizacaoTpl, dataLocalizacao));
-				    _resize_map();
 				}
 			    });
 			    
@@ -139,16 +135,13 @@ define([
 				localizacao_atual: localizacao,
 				tags: tag,
 				mensagens: $('body').data('mensagens'),
-				lang: ConfigFunctions.get_user_lang()
+				lang: ConfigFunctions.get_user_lang(),
+				regioes: _get_regioes()
 			    }
 			    
-			    var compiledMapa = _.template(MapaTpl, dataCidades);
-			    $('#mapa-posicao').html(compiledMapa);
-			    			    
 			    var compiledRegiao = _.template(RegiaoTpl, dataCidades);
 			    $('#lista-cidades').html(compiledRegiao);
 			    
-			    _resize_map();
 			}
 			
 			// TAGS

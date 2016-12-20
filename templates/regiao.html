@@ -1,5 +1,12 @@
 <div>
-  <% if (localizacao_atual != 'brasil') { %>
+  <% if (regiao == 'brasil') { %>
+  <% _.each(regioes, function(nomeRegiao) { %>
+  <a href="#<%= lang %>/<%= tags %>/<%= nomeRegiao %>" class="cidades" name="regioes" alt="<%= nomeRegiao %>"><%= nomeRegiao %></a>
+  <% }) %>
+  <% } else { %>
+
+  <h3><%= regiao %></h3>
+  
   <% _.each(cidades, function(cidade){ %>
       <a class="cidades <% if (cidade.tid == localizacao_atual) { %> cidade-atual<% } %>" href="#<%= lang %>/<%= tags %>/<%= cidade.tid %>"><%= cidade.name %></a>
       <% }); %>
