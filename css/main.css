@@ -13,6 +13,12 @@ body {
 
 }
 
+.imagem1 { background-image: url("../images/imagem1.jpg") ; }
+.imagem2 { background-image: url("../images/imagem2.jpg") ; }
+.imagem3 { background-image: url("../images/imagem3.jpg") ; }
+.imagem4 { background-image: url("../images/imagem4.jpg") ; }
+
+
 html, body {position: relative;margin: 0 0;}
 
 
@@ -228,7 +234,7 @@ html, body {position: relative;margin: 0 0;}
 	}
 
 	.title-museubr {
-		font-size: 42px;
+		font-size: 34px;
 		color: #374548;
 
 	}
@@ -337,7 +343,6 @@ a:hover {
 
 .borda-filtros {
     border-top:2px solid #4A5E62;
-    border-bottom:2px solid #4A5E62;
 }
 
 /*   ICON  */

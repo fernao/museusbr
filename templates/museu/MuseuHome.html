@@ -30,7 +30,10 @@
     <div class="" style="text-align: right">
     <%
 var paginaAtual = Backbone.history.location.href,
-    paginaMuseu = paginaAtual.split('#')[1].search('museu');
+paginaMuseu = paginaAtual.split('#');
+if (typeof paginaMuseu !== 'undefined') {
+    paginaMuseu = paginaAtual[1].search('museu');
+}
 // se estiver na pagina de museu omite essa mensagem
 if (paginaMuseu === -1) {
     %>

@@ -3,13 +3,13 @@
   <head>
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link href='https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700' rel='stylesheet' type='text/css'>
-    <title>museubr</title>
+    <title>museuBrasil</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta property="og:url"           content="http://www.museubr.org" />
+    <meta property="og:url"           content="http://www.museubrasil.org" />
     <meta property="og:type"          content="website" />
-    <meta property="og:title"         content="museubr.org" />
+    <meta property="og:title"         content="museubrasil.org" />
     <meta property="og:description"   content="Um portal para os museus brasileiros." />
     <meta property="og:image"         content="museubr-thumb.jpg" />
 
@@ -23,8 +23,14 @@
       ga('send', 'pageview');
     </script>
   </head>
-
-<body class="bg-body">
+  <body>
+    <script type='text/javascript'>
+      // aleatoriza fundo
+      var num = Math.floor(Math.random() * 4) + 1;
+      console.log(num);
+    document.getElementsByTagName('body')[0].className += ' imagem' + num ;
+  </script>				   
+    
   <div id="header"></div>
   <div class="wrapper" id="content-full">
     <div id="content"></div>
