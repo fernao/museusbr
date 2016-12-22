@@ -241,7 +241,7 @@ define([
 	    // - inicia navegacao no museu particular
 	    _init_museu = function(lang, nid) {
 		// carrega vazio primeiro
-		_load_museu_home(lang, nid);
+		_load_museu_home(lang, nid, null, true);
 		
 		var museu = new MuseuModel({nid: nid});
 		museu.url += lang + '/' + nid;
@@ -258,10 +258,11 @@ define([
 	    
 	    //// _load_museu_home
 	    // - carrega home do museu
-	    _load_museu_home = function(lang, nid, dataMuseu) {
+	    _load_museu_home = function(lang, nid, dataMuseu, vazio) {
 		var defaultDataMuseu = {museu: { nid: nid} },
 		    lang = lang || ConfigFunctions.get_user_lang(),
 		    dataMuseu = dataMuseu || defaultDataMuseu,
+		    vazio = vazio || false;
 		    el = "",
 		    el_off = '',
 		    el_div = '',
@@ -305,7 +306,8 @@ define([
 		// aplica template renderizado
 		$(el).html(compiledHomeTpl);
 
-		if (!_.isNull(dataMuseu.museu.imagens)) {
+		// nao entra caso seja init vazio
+		if (!vazio) {
 		    $.ajax({
 			url: SiteConfig.baseUrl + "/museu_get_images/" + nid, 
 			dataType: 'json', 
@@ -314,7 +316,7 @@ define([
 			    var compiledNavigationTpl = _.template(SlideshowNavigationTpl, dataMuseu);
 			    var compiledImagensTpl = _.template(ImagensSlideshowTpl, dataMuseu);	    
 			    
-			    //$('#container-slideshow_' + nid).append(compiledNavigationTpl);			    
+			    //$('#container-slideshow_' + nid).append(compiledNavigationTpl);
 			    $('#slideshow_' + nid).html(compiledImagensTpl + compiledNavigationTpl);
 
 			    slideIndex = 1;
