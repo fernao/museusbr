@@ -1,0 +1,112 @@
+    <!-- bloco espaco -->
+    <div class="col span_1_of_12">
+    </div>
+
+    <!-- bloco meio -->
+    <div class="col span_10_of_12">
+      <!-- wraper pesquisa -->
+      <div class="wrapper">
+	<div class="section group bg-color">
+	  <div class="section group">
+	    <div class="col span_1_of_12">
+	    </div>
+	    <div class="col span_7_of_12">
+	      <div class="title-museubr-white">
+		<h1 class="museubr">museu<em>brasil</em><span class="beta">[ pesquisa ]</span></h1>
+	      </div>
+	    </div>
+	    <div class="col span_2_of_12">
+	    </div>
+	  </div>
+	</div>
+      </div>
+      <!-- fim wraper pesquisa -->
+
+      <!-- wraper temas e regiões -->
+      <div class="wrapper">
+	<div class="section group bg-color">
+	  <div class="section group">
+	    <div class="col span_1_of_12">
+	    </div>
+	    <div class="col span_7_of_12">
+	      <div class="margin-top-80" id="header-tags">
+		<div href="" class="aba-filtros aba">
+		  TEMAS
+		</div>
+		<div class="tag_cloud borda-filtros" id="tag_cloud">
+		  <p><%= carregandoTags %></p>
+		</div>
+		<% if (localizacao != 'brasil') { %>
+		<div href="" class="aba-limpar">
+		  <div class="icon-text">
+		    Limpar filtro
+		  </div>
+		  <nav class="nav-menu">
+		    <a class="selector" href="#<%= lang %>/todos/<%= localizacao %>">
+		      <div class="icon-wrapper icon-color round">
+			<div class="icon-wrapper-x">
+			  <span class="icon x-icon bg-color span-right light"></span>
+			  <span class="icon x-icon bg-color span-left light"></span>
+			</div>
+		      </div>
+		    </a>
+		  </nav>
+		</div>
+		<% } %>
+	      </div>	    
+	    </div>
+	    <div class="col span_2_of_12">
+	      
+	      <div class="margin-top-80">
+		<div href="" class="aba-filtros aba">
+		  REGIÕES
+		</div>
+		<div class="mapa borda-filtros">
+		</div>
+	      </div>
+	      <div class="cidades" id="lista-cidades">
+	      </div>
+	      <% if (localizacao != 'brasil') { %>
+	      <div href="" class="aba-limpar">
+		<div class="icon-text">
+		  Limpar filtro
+		</div>
+		<nav class="nav-menu">
+		  <a class="selector" href="#<%= lang %>/<%= tags %>/brasil">
+		    <div class="icon-wrapper icon-color round">
+		      <div class="icon-wrapper-x">
+			<span class="icon x-icon bg-color span-right light"></span>
+			<span class="icon x-icon bg-color span-left light"></span>
+		      </div>
+		    </div>
+		  </a>
+		</nav>
+	      </div>
+	      <% } %>
+	    </div>
+	  </div>
+	</div>
+      </div>
+      <!-- fim wraper pesquisa -->
+      
+      <!-- wraper tags  -->
+      <div class="wrapper" id="museus-content">
+	<div class="col span_1_of_12">
+	</div>
+	<div class="col span_7_of_12">
+	  <div id="header-tags" class="margin-top-80">
+	    <div class="aba-filtros aba" href="">
+	      <%=data.mensagens.Temas %>
+	    </div>
+	  </div>
+	</div>
+	<div class="col span_3_of_12 area-titulo bg-color">
+	</div>	
+      </div>
+      <div id="filter-tags"></div>
+      <!-- fim wraper tags  -->
+
+      <!-- wraper museus-content  -->
+      <div class="wrapper" id="museus-content">
+      </div>
+      <!-- wraper museus-content  -->

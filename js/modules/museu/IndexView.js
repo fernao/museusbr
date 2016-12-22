@@ -12,6 +12,7 @@ define([
     'modules/tag/model',
     'modules/localizacao/model',
     'text!templates/header.html',
+    'text!templates/home.html',    
     'text!templates/footer.html',
     'text!templates/regiao.html',
     'text!templates/tags.html',
@@ -21,7 +22,7 @@ define([
     'text!templates/museu/SlideshowNavigation.html',
     'text!templates/museu/MuseuMapa.html',
     'text!templates/botao-localizacao.html',
-], function($, _, Backbone, TagCloud, ConfigFunctions, SiteConfig, MuseuModel, MuseuCollection, ConfigModel, MensagensModel, TagModel, LocalizacaoModel, HeaderTpl, FooterTpl, RegiaoTpl, TagsTpl, MuseuIndexTpl, MuseuHomeTpl, ImagensSlideshowTpl, SlideshowNavigationTpl, MuseuMapaTpl, BotaoLocalizacaoTpl){
+], function($, _, Backbone, TagCloud, ConfigFunctions, SiteConfig, MuseuModel, MuseuCollection, ConfigModel, MensagensModel, TagModel, LocalizacaoModel, HeaderTpl, HomeTpl, FooterTpl, RegiaoTpl, TagsTpl, MuseuIndexTpl, MuseuHomeTpl, ImagensSlideshowTpl, SlideshowNavigationTpl, MuseuMapaTpl, BotaoLocalizacaoTpl){
     var default_lang = '';
     var IndexView = Backbone.View.extend({
 	
@@ -549,8 +550,10 @@ define([
 		    nid: nid
 		}
 		var compiledHeader = _.template(HeaderTpl, data);
+		var compiledHome = _.template(HomeTpl, data);
+		
 		$('#header').html(compiledHeader, lang);
-		//$('#content').html("<div id='' class='loading'></div>");
+		$('#bloco-conteudo').html(compiledHome, lang);
 		
 		_generate_header(tags, localizacao);
 		_load_museus(lang, tags, localizacao, nid);

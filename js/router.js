@@ -15,7 +15,7 @@ define([
 	
 	routes: {
 	    ':lang/museu/:nid': 'museu',
-	    ':lang/page/:page' : 'staticPages',
+	    ':lang/p/:page' : 'staticPages',
 	    ':lang/:tags/:localizacao' : 'index',
 	    ':lang/:tags' : 'index',
 	    ':lang' : 'index',
