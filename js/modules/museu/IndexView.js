@@ -401,7 +401,6 @@ define([
 			var data = {
 			    posts: data.attributes
 			}
-			console.log(data.posts);
 			var compiledTemplate = _.template(BlogTpl, data);
 			$('#news-content').html(compiledTemplate);			
 		    }
