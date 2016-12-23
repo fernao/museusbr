@@ -1,6 +1,10 @@
 <% /* imagem default se vazio */ 
    if (_.isNull(museu.imagens[0].url)) { %>
-<% museu.imagens[0].url = 'images/fundo-slide-museubr_1.jpg'; %>
+<%
+   if (museu.foto_museu !== '') {
+   museu.imagens[0].url = museu.foto_museu;
+   } else {
+   museu.imagens[0].url = 'images/fundo-slide-museubr_1.jpg'; } %>
 <% } %>
 <% _.each(museu.imagens, function(imagem) { %>
 <div class="mySlides fade">
