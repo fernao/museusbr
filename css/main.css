@@ -46,6 +46,10 @@ html, body {position: relative;margin: 0 0;}
 		height: 80vmax;
 	}
 
+	.espaco-blocos {
+	    height: 30px;
+	}
+
 	.text-yellow {
 		color: #FFD959;
 	}

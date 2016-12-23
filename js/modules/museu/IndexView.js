@@ -7,6 +7,7 @@ define([
     'json!site-config.json',
     'modules/museu/model',
     'modules/museu/collection',
+    'modules/post/model',
     'modules/config/model',
     'modules/mensagens/model',
     'modules/tag/model',
@@ -16,13 +17,15 @@ define([
     'text!templates/footer.html',
     'text!templates/regiao.html',
     'text!templates/tags.html',
+    'text!templates/blog.html',
+    'text!templates/news.html',
     'text!templates/museu/MuseuIndex.html',
     'text!templates/museu/MuseuHome.html',
     'text!templates/museu/ImagensSlideshow.html',
     'text!templates/museu/SlideshowNavigation.html',
     'text!templates/museu/MuseuMapa.html',
     'text!templates/botao-localizacao.html',
-], function($, _, Backbone, TagCloud, ConfigFunctions, SiteConfig, MuseuModel, MuseuCollection, ConfigModel, MensagensModel, TagModel, LocalizacaoModel, HeaderTpl, HomeTpl, FooterTpl, RegiaoTpl, TagsTpl, MuseuIndexTpl, MuseuHomeTpl, ImagensSlideshowTpl, SlideshowNavigationTpl, MuseuMapaTpl, BotaoLocalizacaoTpl){
+], function($, _, Backbone, TagCloud, ConfigFunctions, SiteConfig, MuseuModel, MuseuCollection, PostModel, ConfigModel, MensagensModel, TagModel, LocalizacaoModel, HeaderTpl, HomeTpl, FooterTpl, RegiaoTpl, TagsTpl, BlogTpl, NewsTpl, MuseuIndexTpl, MuseuHomeTpl, ImagensSlideshowTpl, SlideshowNavigationTpl, MuseuMapaTpl, BotaoLocalizacaoTpl){
     var default_lang = '';
     var IndexView = Backbone.View.extend({
 	
@@ -386,6 +389,42 @@ define([
 		    $('body').data('museu_ativo', '#nid_' + nid + " .subpages-container");		    
 		}
 	    }
+
+	    // carrega conteúdo posts
+	    _load_posts = function(lang) {
+		var lang = lang || '';		
+
+		var post = new PostModel();
+		post.url = SiteConfig.baseUrl + '/posts/' + lang + '/noticias';
+		post.fetch({
+		    success: function(data) {
+			var data = {
+			    posts: data.attributes
+			}
+			console.log(data.posts);
+			var compiledTemplate = _.template(BlogTpl, data);
+			$('#news-content').html(compiledTemplate);			
+		    }
+		});
+
+		post.url = SiteConfig.baseUrl + '/posts/' + lang + '/blog';
+		post.fetch({
+		    success: function(data) {
+			var data = {
+			    posts: data.attributes
+			}
+			
+			var compiledTemplate = _.template(BlogTpl, data);
+			$('#blog-content').html(compiledTemplate);
+		    }
+		});
+
+		
+		$('#news-content').html();
+		$('#blog-content').html();
+		
+	    }
+	    
 	    
 	    // carrega museus - tela inicial
 	    _load_museus = function(lang, tags, localizacao_str, nid) {
@@ -559,6 +598,7 @@ define([
 		
 		_generate_header(tags, localizacao);
 		_load_museus(lang, tags, localizacao, nid);
+		_load_posts(lang);
 	    }
 	    
 	    // language check for sending to init_main
