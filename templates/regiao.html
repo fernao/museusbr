@@ -1,11 +1,15 @@
-<div>
-  <% if (regiao == 'brasil') { %>
-  <% _.each(regioes, function(nomeRegiao) { %>
-  <a href="#<%= lang %>/<%= tags %>/<%= nomeRegiao %>" class="cidades" name="regioes" alt="<%= nomeRegiao %>"><%= nomeRegiao %></a>
-  <% }) %>
-  <% } else { %>
+<% if (regiao == 'brasil') { %>
+<ul class="regioes">
 
-  <h3><%= regiao %></h3>
+  <% _.each(regioes, function(nomeRegiao) { %>
+  <li>
+    <a href="#<%= lang %>/<%= tags %>/<%= nomeRegiao %>" class="regioes" name="regioes" alt="<%= nomeRegiao %>"><% nomeRegiao = nomeRegiao.toUpperCase(); %><%= nomeRegiao %></a>
+  </li>
+  <% }) %>
+</ul>
+<% } else { %>
+
+  <p><% regiao = regiao.toUpperCase(); %><%= regiao %></p>
   
   <% _.each(cidades, function(cidade){ %>
       <a class="cidades <% if (cidade.tid == localizacao_atual) { %> cidade-atual<% } %>" href="#<%= lang %>/<%= tags %>/<%= cidade.tid %>"><%= cidade.name %></a>

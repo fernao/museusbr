@@ -3,7 +3,7 @@
 
 body {
 	font-family:'PT Sans',sans-serif;
-	font-size: 100%;
+	font-size: 110%;
 	color: #FFFFFF;
 	background: url("../images/imagem1.jpg") no-repeat center center fixed;
 	-webkit-background-size: cover;
@@ -238,7 +238,7 @@ html, body {position: relative;margin: 0 0;}
 	}
 
 	.title-museubr {
-		font-size: 34px;
+		font-size: 3vmax;
 		color: #374548;
 
 	}
@@ -334,7 +334,7 @@ a:hover {
 }
 
 .aba {
-    top: -41px;
+    top: -43px;
     border-radius: 5px 5px 0 0;
 }
 
@@ -518,7 +518,7 @@ div#lista-cidades {
 }
 
 div.cidades {
-    float: right;
+/*    float: right;*/
     overflow: visible;
     z-index: 200;
     margin-top:
@@ -540,6 +540,8 @@ a.cidades:hover, a.cidade-atual {
     color: #FFFFFF;
 }
 
+
+
 div.FAQ {
     padding: 4px 10px 0 20px;
 }
@@ -547,6 +549,22 @@ div.FAQ {
 a.FAQ {
     color: #9BA2A3;
     text-decoration: none;
+}
+
+ul.regioes {
+    list-style: outside none none;
+    margin: 0;
+    padding: 10px;
+}
+
+ul.regioes li {
+    padding: 5px;
+}
+
+a.regioes {
+    color: #f0f0f0;
+    cursor: pointer;
+    position: relative;
 }
 
 a.FAQ:hover {

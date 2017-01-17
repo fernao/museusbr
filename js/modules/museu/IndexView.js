@@ -319,13 +319,9 @@ define([
 			    var compiledNavigationTpl = _.template(SlideshowNavigationTpl, dataMuseu);
 			    var compiledImagensTpl = _.template(ImagensSlideshowTpl, dataMuseu);	    
 			    
-			    //$('#container-slideshow_' + nid).append(compiledNavigationTpl);
 			    $('#slideshow_' + nid).html(compiledImagensTpl + compiledNavigationTpl);
-
 			    slideIndex = 1;
 			    showSlides(slideIndex);
-
-			    
 			    
 			    $(el + ' .page').css('opacity', 1);
 			}
