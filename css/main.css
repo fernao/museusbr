@@ -435,11 +435,31 @@ a:hover {
     transform: rotate(-45deg);
 }
 
+.span-right-mais {
+    transform: rotate(90deg);
+}
+.mais-icon {
+    position: absolute;
+}
+
 .icon-text {
     color: #9BA2A3;
     float: right;
     padding: 10px 5px 0 5px;
 
+}
+
+.selector .icon-wrapper-mais {
+    cursor: pointer;
+    height: 20px;
+    padding: 10px;
+    transform: scale(0.7);
+    width: 20px;
+}
+
+.icon-wrapper-mais-2 {
+    position: relative;
+    top: 8px;
 }
 
 /*.icon-text:hover {
@@ -747,4 +767,11 @@ div.aberto-1 {
 
 .sobre {
     padding: 10px 30px;
+}
+
+
+div.mostrar-mais {
+    border-top: 2px solid #4a5e62;
+    margin: 0;
+    padding: 40px 20px 100px;
 }

@@ -170,6 +170,10 @@ define([
 				
 				$(function () {
 				    $('#tag_cloud a').tagcloud();
+
+				    $('#mostrar-mais').click(function() {
+					_load_museus(data.lang, data.tags, data.localizacao, data.nid, 5, 0);
+				    });
 				});
 			    }
 			});
@@ -422,11 +426,12 @@ define([
 	    
 	    
 	    // carrega museus - tela inicial
-	    _load_museus = function(lang, tags, localizacao_str, nid) {
+	    _load_museus = function(lang, tags, localizacao_str, nid, limit) {
 		var tags = tags || 'todos',
 		    lang = lang || '',
 		    localizacao_str = localizacao_str || '',
 		    nid = nid || '',
+		    limit = limit || 0,
 		    regioes = ['norte', 'nordeste', 'centro-oeste', 'sul', 'sudeste']; //TODO: centralizar isso em algum lugar, talvez drupal
 		
 		// armazena museu ativo
@@ -460,7 +465,7 @@ define([
 			    museus.url += '/' + tids;
 			    museus.fetch({
 				success: function() {
-				    _museu_parse_fetch(MuseuIndexTpl, museus, tags);
+				    _museu_parse_fetch(MuseuIndexTpl, museus, tags, '', limit);
 				}
 			    });		
 			}
@@ -472,29 +477,68 @@ define([
 		    }
 		    museus.fetch({
 			success: function() {
-			    _museu_parse_fetch(MuseuIndexTpl, museus, tags, nid);
+			    _museu_parse_fetch(MuseuIndexTpl, museus, tags, nid, '', limit);
 			}
 		    });
-		}		   		  
+		}  		  
 	    }
 
 	    // da o parse do fetch dos museus
-	    _museu_parse_fetch = function(MuseuIndexTpl, museus, tags, nid) {
+	    _museu_parse_fetch = function(MuseuIndexTpl, museus, tags, nid, limit) {
 		var MuseuIndexTpl = MuseuIndexTpl || '',
 		    museus = museus || '',
 		    tags = tags || '',
 		    nid = nid || '',
+		    limit = limit || 0,
 		    
 		    el_onclick = '',
 		    mensagem = '',
-		    nodes  = museus.models[0].attributes,
-		    data = {
+		    nodes = museus.models[0].attributes,
+		    localData = {
 			nodes: nodes,
 			emptyMessage: $('body').data('mensagens').naoEncontrado
 		    }
+
+		// inicializa contagem de museus na tela
+		if (typeof data.countMuseus === 'undefined') {
+		    data.countMuseus = 0;
+		}
+
+		// se for passado um limite, incrementa
+		if (limit > 0) {
+		    var nodeCounter = 0,
+			slicedNodes = {},
+			n = 0;
+		    
+		    _.each(nodes, function(node) {
+			n++;
+			// caso ja existam museus, anda até o fim da pilha atual
+			if (data.countMuseus > 0) {
+			    if (n > data.countMuseus) {
+				// adiciona museus enquanto não atinge o limite
+				if (nodeCounter < limit) {
+				    slicedNodes[nodeCounter] = node;
+				    nodeCounter ++;
+				}
+			    }
+			} else {
+			    // adiciona museus enquanto não atinge o limite
+			    if (nodeCounter < limit + data.countMuseus) {
+				slicedNodes[nodeCounter] = node;
+				nodeCounter ++;
+			    }
+			}
+		    });
+		    localData.nodes = slicedNodes;
+		    data.countMuseus = nodeCounter;
+		}
 		
-		var compiledTemplate = _.template(MuseuIndexTpl, data);
-		$('#museus-content').html(compiledTemplate);
+		var compiledTemplate = _.template(MuseuIndexTpl, localData);
+		if (data.countMuseus > 0) {
+		    $('#museus-content').append(compiledTemplate);
+		} else {
+		    $('#museus-content').html(compiledTemplate);
+		}
 		$('#footer').html(_.template(FooterTpl));
 		
 		// bind click event && preload
@@ -592,7 +636,7 @@ define([
 		$('#bloco-conteudo').html(compiledHome, lang);
 		
 		_generate_header(tags, localizacao);
-		_load_museus(lang, tags, localizacao, nid);
+		//_load_museus(lang, tags, localizacao, nid);
 		_load_posts(lang);
 	    }
 	    
