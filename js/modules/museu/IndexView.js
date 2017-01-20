@@ -122,7 +122,7 @@ define([
 				    }	
 				    
 				    var compiledRegiao = _.template(RegiaoTpl, data);
-				    $('#lista-cidades').html(compiledRegiao);
+				    $('#bloco-regiao').html(compiledRegiao);
 
 				    // carrega botão de localizacao
 				    var dataLocalizacao = {
@@ -146,7 +146,7 @@ define([
 			    }
 			    
 			    var compiledRegiao = _.template(RegiaoTpl, dataCidades);
-			    $('#lista-cidades').html(compiledRegiao);
+			    $('#bloco-regiao').html(compiledRegiao);
 			    
 			}
 			

@@ -541,6 +541,7 @@ div.cidades {
 /*    float: right;*/
     overflow: visible;
     z-index: 200;
+    width: 100%;
     margin-top:
     background-color: #374548;
 }
@@ -573,6 +574,18 @@ a.FAQ {
 
 ul.regioes {
     list-style: outside none none;
+    margin: 0;
+    padding: 10px;
+}
+
+div#lista-cidades {
+    background-color: #4a5e62;
+    max-height: 150px;
+    overflow: scroll;
+}
+
+ul.cidades {
+    list-style: inside none none;
     margin: 0;
     padding: 10px;
 }
