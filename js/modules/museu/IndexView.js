@@ -13,7 +13,8 @@ define([
     'modules/tag/model',
     'modules/localizacao/model',
     'text!templates/header.html',
-    'text!templates/home.html',    
+    'text!templates/home.html',
+    'text!templates/diretorio.html',    
     'text!templates/footer.html',
     'text!templates/regiao.html',
     'text!templates/tags.html',
@@ -25,16 +26,16 @@ define([
     'text!templates/museu/SlideshowNavigation.html',
     'text!templates/museu/MuseuMapa.html',
     'text!templates/botao-localizacao.html',
-], function($, _, Backbone, TagCloud, ConfigFunctions, SiteConfig, MuseuModel, MuseuCollection, PostModel, ConfigModel, MensagensModel, TagModel, LocalizacaoModel, HeaderTpl, HomeTpl, FooterTpl, RegiaoTpl, TagsTpl, BlogTpl, NewsTpl, MuseuIndexTpl, MuseuHomeTpl, ImagensSlideshowTpl, SlideshowNavigationTpl, MuseuMapaTpl, BotaoLocalizacaoTpl){
+], function($, _, Backbone, TagCloud, ConfigFunctions, SiteConfig, MuseuModel, MuseuCollection, PostModel, ConfigModel, MensagensModel, TagModel, LocalizacaoModel, HeaderTpl, HomeTpl, DiretorioTpl, FooterTpl, RegiaoTpl, TagsTpl, BlogTpl, NewsTpl, MuseuIndexTpl, MuseuHomeTpl, ImagensSlideshowTpl, SlideshowNavigationTpl, MuseuMapaTpl, BotaoLocalizacaoTpl){
     var default_lang = '';
     var IndexView = Backbone.View.extend({
 	
-	render: function(lang, tags, localizacao, nid){
+	render: function(lang, tags, localizacao, nid, pagina){
 	    var tags = tags || '',
 		lang = lang || '',
 		localizacao = localizacao || '',
-		nid = nid || '';
-
+		nid = nid || '',
+		pagina = pagina || 'index';
 
 	    /*
 	     * definicao de funcoes
@@ -57,9 +58,10 @@ define([
 		return localizacao_str;
 	    }
 	    
-	    _generate_header = function(tag, localizacao) {
+	    _generate_header = function(tag, localizacao, pagina) {
 		var tag = tag || 'todos',
 		    localizacao = localizacao || 'brasil',
+		    pagina = pagina || 'index',
 		    lang = $('body').data('userLang'),
 		    regioes = _get_regioes(),
 		    localizacao_tids = '',
@@ -171,9 +173,18 @@ define([
 				$(function () {
 				    $('#tag_cloud a').tagcloud();
 
-				    $('#mostrar-mais').click(function() {
-					_load_museus(data.lang, data.tags, data.localizacao, data.nid, 5, 0);
-				    });
+				    switch (pagina) {
+				    case 'index':
+					$('#ver-todos').click(function() {
+					    Backbone.history.navigate(lang + '/diretorio', {trigger: true});
+					});
+					break;
+				    case 'diretorio':
+					$('#mostrar-mais').click(function() {
+					    _load_museus(data.lang, data.tags, data.localizacao, data.nid, 5, 0);
+					});
+					break;
+				    }
 				});
 			    }
 			});
@@ -477,7 +488,7 @@ define([
 		    }
 		    museus.fetch({
 			success: function() {
-			    _museu_parse_fetch(MuseuIndexTpl, museus, tags, nid, '', limit);
+			    _museu_parse_fetch(MuseuIndexTpl, museus, tags, nid, limit);
 			}
 		    });
 		}  		  
@@ -503,7 +514,7 @@ define([
 		if (typeof data.countMuseus === 'undefined') {
 		    data.countMuseus = 0;
 		}
-
+		
 		// se for passado um limite, incrementa
 		if (limit > 0) {
 		    var nodeCounter = 0,
@@ -615,10 +626,11 @@ define([
 	    }
 	    
 	    // init main functionalities
-	    _init_main = function(lang, tags, localizacao, nid) {
+	    _init_main = function(lang, tags, localizacao, nid, pagina) {
 		var tags = tags || 'todos',
 		    localizacao = localizacao || 'brasil',
-		    nid = nid || '';
+		    nid = nid || '',
+		    pagina = pagina || 'index';
 		$('body').data('animationRunning', false);
 		data = {
 		    carregandoTags: '&nbsp;',
@@ -630,15 +642,33 @@ define([
 		    nid: nid
 		}
 		var compiledHeader = _.template(HeaderTpl, data);
-		var compiledHome = _.template(HomeTpl, data);
-		
-		$('#header').html(compiledHeader, lang);
-		$('#bloco-conteudo').html(compiledHome, lang);
-		
-		_generate_header(tags, localizacao);
-		//_load_museus(lang, tags, localizacao, nid);
-		_load_posts(lang);
+
+		switch (pagina) {
+		case 'index':
+		    var compiledHome = _.template(HomeTpl, data);
+		    $('#header').html(compiledHeader, lang);
+		    $('#bloco-conteudo').html(compiledHome, lang);
+		    
+		    _generate_header(tags, localizacao, pagina);
+		    _load_posts(lang);
+		    
+		    break;
+		case 'diretorio':
+		    var compiledDiretorio = _.template(DiretorioTpl, data);
+		    $('#header').html(compiledHeader, lang);
+		    $('#bloco-conteudo').html(compiledDiretorio, lang);
+		    
+		    _generate_header(tags, localizacao, pagina);
+		    _load_museus(lang, tags, localizacao, nid, 5);
+		    
+		    break;
+		}
 	    }
+	    
+	    
+	    /*
+	     * inicialização
+	     */
 	    
 	    // language check for sending to init_main
 	    if (lang == '') {
@@ -650,12 +680,12 @@ define([
 			lang = data.userLang;
 			ConfigFunctions.set_user_lang(lang);
 			$('#headerUrl').attr('href', '#'  + lang);
-			_init_main(lang, tags, localizacao, nid);
+			_init_main(lang, tags, localizacao, nid, pagina);
 		    }
 		});
 	    } else {
 		ConfigFunctions.set_user_lang(lang);
-		_init_main(lang, tags, localizacao, nid);
+		_init_main(lang, tags, localizacao, nid, pagina);
 	    }
 	    
 	},

@@ -16,6 +16,7 @@ define([
 	routes: {
 	    ':lang/museu/:nid': 'museu',
 	    ':lang/p/:page' : 'staticPages',
+	    ':lang/diretorio' : 'diretorio',
 	    ':lang/:tags/:localizacao' : 'index',
 	    ':lang/:tags' : 'index',
 	    ':lang' : 'index',
@@ -35,6 +36,24 @@ define([
 		if (!_.isEmpty($('body').data('mensagens'))) {
 		    var indexView = new IndexView();
 		    indexView.render(lang, tags, localizacao);		    
+		    clearInterval(pointer);
+		}
+	    }, 50);
+	},
+
+	diretorio: function(lang, tags, localizacao) {
+	    var tags = tags || '',
+	    lang = lang || '';
+	    localizacao = localizacao || '';
+	    
+	    // confs do museu
+	    ConfigFunctions.loadConfig();
+	    MensagensFunctions.loadMensagens(lang);
+	    
+	    var pointer = setInterval(function() {	
+		if (!_.isEmpty($('body').data('mensagens'))) {
+		    var indexView = new IndexView();
+		    indexView.render(lang, tags, localizacao, '', 'diretorio');
 		    clearInterval(pointer);
 		}
 	    }, 50);
