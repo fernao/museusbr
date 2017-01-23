@@ -119,7 +119,19 @@ define([
 					mensagens: $('body').data('mensagens'),
 					lang: ConfigFunctions.get_user_lang(),
 					regioes: _get_regioes()
-				    }	
+				    }
+
+				    if ($.isNumeric(localizacao)) {
+					if(!_.isEmpty($('#localizacao-nome'))) {
+					    var nomeCidadeAtual = '';
+					    _.each(data.cidades, function(cidade){
+						if (cidade.tid == localizacao) {
+						    nomeCidadeAtual = cidade.name;
+						}
+					    });
+					    $('#localizacao-nome').html(nomeCidadeAtual);
+					}
+				    }
 				    
 				    var compiledRegiao = _.template(RegiaoTpl, data);
 				    $('#bloco-regiao').html(compiledRegiao);

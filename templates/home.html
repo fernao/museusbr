@@ -37,23 +37,6 @@
 		<div class="tag_cloud borda-filtros" id="tag_cloud">
 		  <p><%= carregandoTags %></p>
 		</div>
-		<% if (localizacao != 'brasil') { %>
-		<div href="" class="aba-limpar">
-		  <div class="icon-text">
-		    Limpar filtro
-		  </div>
-		  <nav class="nav-menu">
-		    <a class="selector" href="#<%= lang %>/todos/<%= localizacao %>">
-		      <div class="icon-wrapper icon-color round">
-			<div class="icon-wrapper-x">
-			  <span class="icon x-icon bg-color span-right light"></span>
-			  <span class="icon x-icon bg-color span-left light"></span>
-			</div>
-		      </div>
-		    </a>
-		  </nav>
-		</div>
-		<% } %>
 	      </div>	    
 	    </div>
 	    <div class="col span_2_of_12">
@@ -67,28 +50,57 @@
 	      </div>
 	      <div class="cidades" id="bloco-regiao">
 	      </div>
-	      <% if (localizacao != 'brasil') { %>
-	      <div href="" class="aba-limpar">
-		<div class="icon-text">
-		  Limpar filtro
-		</div>
-		<nav class="nav-menu">
-		  <a class="selector" href="#<%= lang %>/<%= tags %>/brasil">
-		    <div class="icon-wrapper icon-color round">
-		      <div class="icon-wrapper-x">
-			<span class="icon x-icon bg-color span-right light"></span>
-			<span class="icon x-icon bg-color span-left light"></span>
-		      </div>
-		    </div>
-		  </a>
-		</nav>
-	      </div>
-	      <% } %>
 	    </div>
 	  </div>
 	</div>
       </div>
       <!-- fim wraper pesquisa -->
+      <div class="wrapper">
+	<div class="section group bg-color">
+	  <div class="col span_1_of_12">
+	  </div>
+	  <div class="col span_2_of_12 cob nome-museu-bloco bg-color">
+	    <div class="resultados">RESULTADOS:</div>
+	  </div>
+	  <div class="col span_8_of_12">
+	    <% if (localizacao != 'brasil') { %>
+	    <div class="aba-limpar limpar-filtro bg-body" href="#<%= lang %>/todos/<%= localizacao %>">
+	      <div class="icon-text" id="localizacao-nome">
+		<% if ($.isNumeric(localizacao)) { } else { %><%= localizacao %><% } %>
+	      </div>
+	      <nav class="nav-menu">
+		<a class="selector" href="#<%= lang %>/<%= tags %>/brasil">
+		  <div class="icon-wrapper icon-color round">
+		    <div class="icon-wrapper-x">
+		      <span class="icon x-icon bg-color span-right light"></span>
+		      <span class="icon x-icon bg-color span-left light"></span>
+		    </div>
+		  </div>
+		</a>
+	      </nav>
+	    </div>
+	    <% } %>
+
+	    <% if (tags != 'todos') { %>
+	    <div class="aba-limpar bg-body" href="#<%= lang %>/<%= tags %>/brasil">
+	      <div class="icon-text">
+		<%= tags %>
+	      </div>
+	      <nav class="nav-menu">
+		<a class="selector" href="#<%= lang %>/todos/<%= localizacao %>"> 
+		  <div class="icon-wrapper icon-color round">
+		    <div class="icon-wrapper-x">
+		      <span class="icon x-icon bg-color span-right light"></span>
+		      <span class="icon x-icon bg-color span-left light"></span>
+		    </div>
+		  </div>
+		</a>
+	      </nav>
+	    </div>
+	    <% } %>
+	  </div>
+	</div>
+      </div>
       
       <!-- wraper tags  -->
       <div class="wrapper" id="museus-content">
