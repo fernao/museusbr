@@ -55,6 +55,8 @@
 	</div>
       </div>
       <!-- fim wraper pesquisa -->
+      
+      <% if (localizacao != 'brasil' || tags != 'todos') { %>
       <div class="wrapper">
 	<div class="section group bg-color">
 	  <div class="col span_1_of_12">
@@ -101,6 +103,7 @@
 	  </div>
 	</div>
       </div>
+      <% } %>
       
       <!-- wraper tags  -->
       <div class="wrapper" id="museus-content">
