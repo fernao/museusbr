@@ -173,6 +173,24 @@ define([
 				$(function () {
 				    $('#tag_cloud a').tagcloud();
 
+				    $('#link-blog').click(function() {
+					var alturaEl = $('#bloco-blog').offset();
+					alturaEl.top -= 80;
+					window.scroll(alturaEl);
+				    });
+
+				    $('#link-dicas').click(function() {
+					var alturaEl = $('#bloco-dicas').offset();
+					alturaEl.top -= 80;
+					window.scroll(alturaEl);
+				    });
+
+				    $('#link-encontre').click(function() {
+					var alturaEl = $('#bloco-encontre').offset();
+					alturaEl.top -= 80;
+					window.scroll(alturaEl);
+				    });
+
 				    switch (pagina) {
 				    case 'index':
 					$('#ver-todos').click(function() {
@@ -651,6 +669,9 @@ define([
 		    
 		    _generate_header(tags, localizacao, pagina);
 		    _load_posts(lang);
+		    if (tags != '' || localizacao != '') {
+			_load_museus(lang, tags, localizacao, nid, 5);
+		    }
 		    
 		    break;
 		case 'diretorio':

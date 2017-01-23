@@ -4,18 +4,29 @@
     </div>
     <div class="col span_10_of_12">
       <div class="left">
-	<nav class="nav-menu">
-	  <a class="selector" href="#<%= lang %>/p/sobre">
-	    <div class="icon-wrapper-big bg-body square">
-	      <div class="icon-wrapper-bar">
-		<span class="icon bar-icon first bg-gray"></span>
-		<span class="icon bar-icon bg-gray"></span>
-		<span class="icon bar-icon bg-gray"></span>
-	      </div>
-	    </div>
-	  </a>
-	</nav>
+	<div class="dropdown" style="float:left;">
+	  <button class="dropbtn">
+	    <nav class="nav-menu">
+	      <a class="selector">
+		<div class="icon-wrapper-big bg-body square">
+		  <div class="icon-wrapper-bar">
+		    <span class="icon bar-icon first bg-gray"></span>
+		    <span class="icon bar-icon bg-gray"></span>
+		    <span class="icon bar-icon bg-gray"></span>
+		  </div>
+		</div>
+	      </a>
+	    </nav>
+	  </button>
+	  <div class="dropdown-content" style="left:0;">
+	    <a id="link-blog">museu . blog</a>
+	    <a id="link-dicas">museu . dicas</a>
+	    <a id="link-encontre">museu . encontre</a>
+	    <a href="#<%= lang %>/p/sobre">museu . sobre</a>
+	  </div>
+	</div>
       </div>
+      
       <div class="right">
 	<nav class="nav-menu">
 	  <a class="selector" href="#pt-br">
@@ -70,5 +81,15 @@
 <!-- inicio bloco conteudo -->
 <div class="wrapper">
   <div class="section group bg-opacity header-menu" id="bloco-conteudo">
+  </div>
+</div>
+
+<div class="wrapper bg-color">
+  <div class="section group">
+    <div class="col span_1_of_12">
+    </div>
+    <div class="col span_10_of_12 bg-color">
+      <img src="images/logos_rodape.jpg" style="margin: 50px 0;" width="100%">
+    </div>
   </div>
 </div>

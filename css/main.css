@@ -788,3 +788,37 @@ div.mostrar-mais {
     margin: 0;
     padding: 40px 20px 100px;
 }
+
+.dropbtn {
+    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+    border: medium none;
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
+}
+.dropdown {
+    display: inline-block;
+    position: relative;
+}
+.dropdown-content {
+    background-color: #f9f9f9;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    display: none;
+    right: 0;
+    width: 400px;
+}
+.dropdown-content a {
+    color: black;
+    display: block;
+    padding: 20px;
+    text-decoration: none;
+}
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+.dropdown:hover .dropbtn {
+    transform: scale(1.2);
+}
