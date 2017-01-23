@@ -669,7 +669,7 @@ define([
 		    
 		    _generate_header(tags, localizacao, pagina);
 		    _load_posts(lang);
-		    if (tags != '' || localizacao != '') {
+		    if (tags != 'todos' || localizacao != 'brasil') {
 			_load_museus(lang, tags, localizacao, nid, 5);
 		    }
 		    
