@@ -37,6 +37,23 @@
 		<div class="tag_cloud borda-filtros" id="tag_cloud">
 		  <p><%= carregandoTags %></p>
 		</div>
+		<% if (localizacao != 'brasil') { %>
+		<div href="" class="aba-limpar">
+		  <div class="icon-text">
+		    Limpar filtro
+		  </div>
+		  <nav class="nav-menu">
+		    <a class="selector" href="#diretorio/<%= lang %>/todos/<%= localizacao %>">
+		      <div class="icon-wrapper icon-color round">
+			<div class="icon-wrapper-x">
+			  <span class="icon x-icon bg-color span-right light"></span>
+			  <span class="icon x-icon bg-color span-left light"></span>
+			</div>
+		      </div>
+		    </a>
+		  </nav>
+		</div>
+		<% } %>
 	      </div>	    
 	    </div>
 	    <div class="col span_2_of_12">
@@ -50,6 +67,23 @@
 	      </div>
 	      <div class="cidades" id="bloco-regiao">
 	      </div>
+	      <% if (localizacao != 'brasil') { %>
+	      <div href="" class="aba-limpar">
+		<div class="icon-text">
+		  Limpar filtro
+		</div>
+		<nav class="nav-menu">
+		  <a class="selector" href="#diretorio/<%= lang %>/<%= tags %>/brasil">
+		    <div class="icon-wrapper icon-color round">
+		      <div class="icon-wrapper-x">
+			<span class="icon x-icon bg-color span-right light"></span>
+			<span class="icon x-icon bg-color span-left light"></span>
+		      </div>
+		    </div>
+		  </a>
+		</nav>
+	      </div>
+	      <% } %>
 	    </div>
 	  </div>
 	</div>

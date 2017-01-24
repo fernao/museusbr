@@ -3,8 +3,8 @@ define([
     'underscore',
     'backbone',
     'tagcloud',
-    'modules/config/functions',
     'json!site-config.json',
+    'modules/config/functions',
     'modules/museu/model',
     'modules/museu/collection',
     'modules/post/model',
@@ -12,21 +12,13 @@ define([
     'modules/mensagens/model',
     'modules/tag/model',
     'modules/localizacao/model',
+    'text!templates/museu/MuseuHome.html',
     'text!templates/header.html',
-    'text!templates/home.html',
-    'text!templates/diretorio.html',    
     'text!templates/footer.html',
     'text!templates/regiao.html',
     'text!templates/tags.html',
-    'text!templates/blog.html',
-    'text!templates/news.html',
-    'text!templates/museu/MuseuIndex.html',
-    'text!templates/museu/MuseuHome.html',
-    'text!templates/museu/ImagensSlideshow.html',
-    'text!templates/museu/SlideshowNavigation.html',
-    'text!templates/museu/MuseuMapa.html',
     'text!templates/botao-localizacao.html',
-], function($, _, Backbone, TagCloud, ConfigFunctions, SiteConfig, MuseuModel, MuseuCollection, PostModel, ConfigModel, MensagensModel, TagModel, LocalizacaoModel, HeaderTpl, HomeTpl, DiretorioTpl, FooterTpl, RegiaoTpl, TagsTpl, BlogTpl, NewsTpl, MuseuIndexTpl, MuseuHomeTpl, ImagensSlideshowTpl, SlideshowNavigationTpl, MuseuMapaTpl, BotaoLocalizacaoTpl){
+], function($, _, Backbone, TagCloud, SiteConfig, ConfigFunctions, MuseuModel, MuseuCollection, PostModel, ConfigModel, MensagensModel, TagModel, LocalizacaoModel, MuseuHomeTpl, HeaderTpl, FooterTpl, RegiaoTpl, TagsTpl, BotaoLocalizacaoTpl){
     var default_lang = '';
     var IndexView = Backbone.View.extend({
 	
@@ -118,7 +110,8 @@ define([
 					tags: tag,
 					mensagens: $('body').data('mensagens'),
 					lang: ConfigFunctions.get_user_lang(),
-					regioes: _get_regioes()
+					regioes: _get_regioes(),
+					pagina: pagina
 				    }
 
 				    if ($.isNumeric(localizacao)) {
@@ -154,7 +147,8 @@ define([
 				tags: tag,
 				mensagens: $('body').data('mensagens'),
 				lang: ConfigFunctions.get_user_lang(),
-				regioes: _get_regioes()
+				regioes: _get_regioes(),
+				pagina: pagina
 			    }
 			    
 			    var compiledRegiao = _.template(RegiaoTpl, dataCidades);
@@ -234,7 +228,7 @@ define([
 
 		data.museu_ativo = $('body').data('museu_ativo');
 		data.museu_clicado = '#nid_' + nid + ' .subpages-container';
-
+		
 		// fix para nao deixar abrir nenhum outro museu quando um está abrindo
 		if ($('body').data('animationRunning') == true) {
 		    return false;
@@ -318,22 +312,22 @@ define([
 		    el = "#nid_" + nid + " .subpages-container",
 		    tab_width = $('#nid_' + nid).width(),
 		    tab_height = 0;
-		
+
 		var compiledHomeTpl = _.template(MuseuHomeTpl, dataMuseu);
 		// definir ativo
 		$('body').data('museu_ativo', el);
-
+		
 		// slideshow
 		slideIndex = 1;
 		
 		plusSlides = function(n) {
-		    showSlides(slideIndex += n);
+			showSlides(slideIndex += n);
 		}
-
+		
 		currentSlide = function(n) {
 		    showSlides(slideIndex = n);
 		}
-
+		
 		showSlides = function(n) {
 		    var i;
 		    var slides = document.getElementsByClassName("mySlides");
@@ -349,11 +343,11 @@ define([
 		    slides[slideIndex-1].style.display = "block";
 		    dots[slideIndex-1].className += " active";
 		}
-
+		
 		
 		// aplica template renderizado
 		$(el).html(compiledHomeTpl);
-
+		
 		// nao entra caso seja init vazio
 		if (!vazio) {
 		    $.ajax({
@@ -361,29 +355,34 @@ define([
 			dataType: 'json', 
 			success: function(imagens) {
 			    dataMuseu.museu.imagens = imagens;
-			    var compiledNavigationTpl = _.template(SlideshowNavigationTpl, dataMuseu);
-			    var compiledImagensTpl = _.template(ImagensSlideshowTpl, dataMuseu);	    
-			    
-			    $('#slideshow_' + nid).html(compiledImagensTpl + compiledNavigationTpl);
-			    slideIndex = 1;
-			    showSlides(slideIndex);
-			    
-			    $(el + ' .page').css('opacity', 1);
+			    ConfigFunctions.getTemplateManager('templates/museu/SlideshowNavigation', function(SlideshowNavigationTpl) {		
+				var compiledNavigationTpl = _.template(SlideshowNavigationTpl, dataMuseu);
+				
+				ConfigFunctions.getTemplateManager('templates/museu/ImagensSlideshow', function(ImagensSlideshowTpl) {		
+				    var compiledImagensTpl = _.template(ImagensSlideshowTpl, dataMuseu);	    
+				    
+				    $('#slideshow_' + nid).html(compiledImagensTpl + compiledNavigationTpl);
+				    slideIndex = 1;
+				    showSlides(slideIndex);
+				    
+				    $(el + ' .page').css('opacity', 1);
+				});
+			    });
 			}
 		    });
 		}
-
+		
 		tab_height = $('#subpages_' + nid).height();
 		
 		if (dataMuseu == defaultDataMuseu) {
-
+		    
 		    // move scroll para local
 		    // - subtraido tamanho do box do titulo
 		    // - se tem museu aberto, executar somente quando o outro terminar <----
 		    var topoAntigo = (data.museu_ativo != "") ? $(data.museu_ativo.split(' .subpages-container')[0]).offset().top : 0,
 			topoNovo = $("#nid_" + nid).offset().top,
 			ajusteScroll = 0;
-
+		    
 		    if ((topoAntigo !== 0) && (topoAntigo < topoNovo)) {
 			ajusteScroll = - $(data.museu_ativo).height();
 		    }
@@ -392,12 +391,11 @@ define([
 			scrollTop: $("#nid_" + nid).offset().top + ajusteScroll
 		    });
 		    
-		    
 		    // carrega div ainda sem conteudo e anima deslocamento
 		    $(el).animate(
 			{ height: $('body').data('config').museuDivHeight},  // TODO: tirar essa definição manual e colocar flexível
 			{ duration: $('body').data('config').transitionScrollDuration,
-			  start: function() { 
+			  start: function() {
 			      $('body').data('animationRunning', true);
 			      _toggle_click_button('off', el_onclick);
 			  },
@@ -410,9 +408,9 @@ define([
 		} else {
 		    // carrega conteudo dentro da div e anima fade in
 		    el_div = el + " .page";
-                    $(el_div).css('opacity', 1);
+		    $(el_div).css('opacity', 1);
 		    $(el_div).addClass('aberto_1');
-		}  
+		}
 	    }
 
 	    
@@ -423,7 +421,7 @@ define([
 		var museu_ativo = '';		
 		
 		if ($('body').data('museu_ativo') != '') {
-		    museu_ativo = $('body').data('museu_ativo');	    
+		    museu_ativo = $('body').data('museu_ativo');
 		    _close_museu(museu_ativo);
 		} else {
 		    // define novo museu aberto
@@ -442,8 +440,11 @@ define([
 			var data = {
 			    posts: data.attributes
 			}
-			var compiledTemplate = _.template(BlogTpl, data);
-			$('#news-content').html(compiledTemplate);			
+
+			ConfigFunctions.getTemplateManager('templates/blog', function(BlogTpl) {
+			    var compiledTemplate = _.template(BlogTpl, data);
+			    $('#news-content').html(compiledTemplate);
+			});
 		    }
 		});
 
@@ -453,9 +454,11 @@ define([
 			var data = {
 			    posts: data.attributes
 			}
-			
-			var compiledTemplate = _.template(BlogTpl, data);
-			$('#blog-content').html(compiledTemplate);
+
+			ConfigFunctions.getTemplateManager('templates/blog', function(BlogTpl) {
+			    var compiledTemplate = _.template(BlogTpl, data);
+			    $('#blog-content').html(compiledTemplate);
+			});
 		    }
 		});
 
@@ -506,7 +509,7 @@ define([
 			    museus.url += '/' + tids;
 			    museus.fetch({
 				success: function() {
-				    _museu_parse_fetch(MuseuIndexTpl, museus, tags, '', limit);
+				    _museu_parse_fetch(museus, tags, '', limit);
 				}
 			    });		
 			}
@@ -518,16 +521,15 @@ define([
 		    }
 		    museus.fetch({
 			success: function() {
-			    _museu_parse_fetch(MuseuIndexTpl, museus, tags, nid, limit);
+			    _museu_parse_fetch(museus, tags, nid, limit);
 			}
 		    });
 		}  		  
 	    }
 
 	    // da o parse do fetch dos museus
-	    _museu_parse_fetch = function(MuseuIndexTpl, museus, tags, nid, limit) {
-		var MuseuIndexTpl = MuseuIndexTpl || '',
-		    museus = museus || '',
+	    _museu_parse_fetch = function(museus, tags, nid, limit) {
+		var museus = museus || '',
 		    tags = tags || '',
 		    nid = nid || '',
 		    limit = limit || 0,
@@ -573,34 +575,29 @@ define([
 		    localData.nodes = slicedNodes;
 		    data.countMuseus = nodeCounter;
 		}
-		
-		var compiledTemplate = _.template(MuseuIndexTpl, localData);
-		if (data.countMuseus > 0) {
-		    $('#museus-content').append(compiledTemplate);
-		} else {
-		    $('#museus-content').html(compiledTemplate);
-		}
-		$('#footer').html(_.template(FooterTpl));
-		
-		// bind click event && preload
-		_.each(nodes, function(museu) {
-		    el_onclick = '#btnnid_' + museu.nid;
-		    _toggle_click_button('on', el_onclick, toggle_museu);
-		    _preload_image(museu.foto_museu);
-		});
 
-		// se for busca por nid
-		if (nid) {
-		    $('#btnnid_' + nid).click();
-		}
-		
-		// seta tags (se houver)
-		if (tags != '') {
-		    //document.title = this.mensagens['portalMuseuBr'] + ' - ' + this.mensagens['exibindoMuseusDe'] + tags.toUpperCase();
-		} else {
-		    //document.title = this.mensagens['portalMuseuBr'];
-		}
-		
+		ConfigFunctions.getTemplateManager('templates/museu/MuseuIndex', function(MuseuIndexTpl) {
+		    var compiledTemplate = _.template(MuseuIndexTpl, localData);
+		    if (data.countMuseus > 0) {
+			$('#museus-content').append(compiledTemplate);
+		    } else {
+			$('#museus-content').html(compiledTemplate);
+		    }
+		    $('#footer').html(_.template(FooterTpl));
+		    
+		    // bind click event && preload
+		    _.each(nodes, function(museu) {
+			el_onclick = '#btnnid_' + museu.nid;
+			_toggle_click_button('on', el_onclick, toggle_museu);
+			_preload_image(museu.foto_museu);
+		    });
+		    
+		    // se for busca por nid
+		    if (nid) {
+			$('#btnnid_' + nid).click();
+		    }
+		    
+		});		
 	    }
 	    
 	    // funcao para fazer preload de imagem
@@ -624,36 +621,6 @@ define([
 		    $(el).off('click');
 		}
 	    }
-
-	    _resize_map = function() {
-		var ImageMap = function (map) {
-		    var n,
-			areas = map.getElementsByTagName('area'),
-			len = areas.length,
-			coords = [],
-			previousWidth = (document.body.clientWidth > 440) ? 850 : 195; // configuração padrão ou de celular
-
-		    for (n = 0; n < len; n++) {
-			coords[n] = areas[n].coords.split(',');
-		    }
-		    this.resize = function () {
-			var n, m, clen,
-			    x = document.body.clientWidth / previousWidth;
-			for (n = 0; n < len; n++) {
-			    clen = coords[n].length;
-			    for (m = 0; m < clen; m++) {
-				coords[n][m] *= x;
-			    }
-			    areas[n].coords = coords[n].join(',');
-			}
-			previousWidth = document.body.clientWidth;
-			return true;
-		    };
-		    window.onresize = this.resize;
-		},
-		    imageMap = new ImageMap(document.getElementById('mapa-brasil'));
-		imageMap.resize();
-	    }
 	    
 	    // init main functionalities
 	    _init_main = function(lang, tags, localizacao, nid, pagina) {
@@ -675,25 +642,30 @@ define([
 
 		switch (pagina) {
 		case 'index':
-		    var compiledHome = _.template(HomeTpl, data);
-		    $('#header').html(compiledHeader, lang);
-		    $('#bloco-conteudo').html(compiledHome, lang);
-		    
-		    _generate_header(tags, localizacao, pagina);
-		    _load_posts(lang);
-		    if (tags != 'todos' || localizacao != 'brasil') {
-			_load_museus(lang, tags, localizacao, nid, 5);
-		    }
+
+		    ConfigFunctions.getTemplateManager('templates/home', function(HomeTpl) {
+			var compiledHome = _.template(HomeTpl, data);
+			$('#header').html(compiledHeader, lang);
+			$('#bloco-conteudo').html(compiledHome, lang);
+			
+			_generate_header(tags, localizacao, pagina);
+			_load_posts(lang);
+			if (tags != 'todos' || localizacao != 'brasil') {
+			    _load_museus(lang, tags, localizacao, nid, 5);
+			}
+		    });
 		    
 		    break;
 		case 'diretorio':
-		    var compiledDiretorio = _.template(DiretorioTpl, data);
-		    $('#header').html(compiledHeader, lang);
-		    $('#bloco-conteudo').html(compiledDiretorio, lang);
-		    
-		    _generate_header(tags, localizacao, pagina);
-		    _load_museus(lang, tags, localizacao, nid, 5);
-		    
+
+		    ConfigFunctions.getTemplateManager('templates/diretorio', function(DiretorioTpl) {
+			var compiledDiretorio = _.template(DiretorioTpl, data);
+			$('#header').html(compiledHeader, lang);
+			$('#bloco-conteudo').html(compiledDiretorio, lang);
+			
+			_generate_header(tags, localizacao, pagina);
+			_load_museus(lang, tags, localizacao, nid, 5);
+		    });
 		    break;
 		}
 	    }
