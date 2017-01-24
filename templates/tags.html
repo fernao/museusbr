@@ -1,4 +1,4 @@
 <% _.each(tags, function(t){ %>
-<a class='tag <% if (tag == t.name) { %>tag-atual<% } %>' href='#<%= t.lang %>/<%= t.name %>/<%=localizacao %>' rel='<%= t.count %>' title='<%= t.name %>'><%= t.name %></a>
+<a class='tag <% if (tag == t.name) { %>tag-atual<% } %>' href='#<%= t.lang %><% if (pagina != 'index') { %>/<%= pagina %><% } %>/<%= t.name %>/<%=localizacao %>' rel='<%= t.count %>' title='<%= t.name %>'><%= t.name %></a>
 <% }) %>
 

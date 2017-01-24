@@ -166,7 +166,8 @@ define([
 				    tag: tag,
 				    mensagens: $('body').data('mensagens'),
 				    localizacao: localizacao,
-				    lang: lang
+				    lang: lang,
+				    pagina: pagina
 				}
 				var compiledTags = _.template(TagsTpl, dataTags);
 				$('#tag_cloud').html(compiledTags);
@@ -510,6 +511,10 @@ define([
 			    museus.fetch({
 				success: function() {
 				    _museu_parse_fetch(museus, tags, '', limit);
+
+				    var totalMuseus = Object.keys(museus.models[0].attributes).length,
+					mensagem = (totalMuseus > 0) ? totalMuseus + ' museus' : 'Nenhum museu'; // TODO: tradução
+				    $('#num-museus').html(mensagem);
 				}
 			    });		
 			}
@@ -522,6 +527,10 @@ define([
 		    museus.fetch({
 			success: function() {
 			    _museu_parse_fetch(museus, tags, nid, limit);
+
+			    var totalMuseus = Object.keys(museus.models[0].attributes).length,
+				mensagem = (totalMuseus > 0) ? totalMuseus + ' museus' : 'Nenhum museu'; // TODO: tradução
+			    $('#num-museus').html(mensagem);
 			}
 		    });
 		}  		  
