@@ -1,15 +1,26 @@
 <a name="tela_museu_<%= museu.nid %>" id="tela_museu_<%= museu.nid %>">
 <div id="home_museu_<%= museu.nid %>" class="section group aberto-1">
   <div class="col span_1_of_12"></div>
-  <div id="container-slideshow_<%= museu.nid %>" class="col span_7_of_12 foto_home">
+  <div id="container-slideshow_<%= museu.nid %>" class="col span_10_of_12 foto_home">
     <div id="slideshow_<%= museu.nid %>">
     </div>
 
   </div>
-  
-  <div id="texto_home_<%= museu.nid %>" class="col span_3_of_12 coluna-lateral">
-      <%= museu.texto_home %>
+</div>
+
+<div class="section group aberto-1">
+  <div class="col span_1_of_12">
   </div>
+  <div class="col span_10_of_12">
+    <div class="coluna-lateral">
+      <%= museu.texto_home %>
+    </div>
+    <div class="coluna-lateral conexoes">
+      <h3 class="conexoes">Conexões:</h3>
+      <p class="conexoes">Roteiros | Belo Horizonte<br><a href="">Circuito <em>Descobrir Brincando</em></a></p>
+    </div>
+  </div>
+  
 </div>
 
 <div id="mapa_museu_<%= museu.nid %>" class="section group">
