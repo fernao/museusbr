@@ -4,17 +4,19 @@
   </div>
   <div class="col span_4_of_12">
     <div class="foto_home">
-      <% if (post.imagem !== '') { %>
+      <% if (!_.isNull(post.imagem)) { %>
       <img src="<%= post.imagem %>" width="100%">
+      <% } else { %>
+      <img src="images/default-image-blog.jpg" width="100%">
       <% } %>
     </div>
   </div>
   <div class="col span_6_of_12">
     <div class="coluna-lateral">
       <p><% var categoria = post.categoria; categoria = categoria.toUpperCase(); %><%= categoria %></p>
-      <div class="titulo-blog"><a class="titulo-blog" href="<%= post.nid %>"><%= post.titulo %></a></div>
-      <%= post.resumo %>
-      <a class="ler-mais">[ler mais]</a></p>
+      <div class="titulo-blog"><a class="titulo-blog" href="blog/node/<%= post.nid %>"><%= post.titulo %></a></div>
+      <p><%= post.resumo %></p>
+      <a class="ler-mais" href="blog/node/<%= post.nid %>">[ler mais]</a></p>
     </div>
   </div>
 </div>
