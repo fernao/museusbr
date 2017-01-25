@@ -626,8 +626,7 @@ div.aberto-1 {
 }
 
 .coluna-lateral p {
-    margin: 0;
-    padding-right: 20px;
+    margin: 10px 0;
 }
 
 .coluna-lateral div.endereco,
@@ -821,4 +820,35 @@ div.mostrar-mais {
 }
 .dropdown:hover .dropbtn {
     transform: scale(1.2);
+}
+
+
+
+/* BLOG */
+
+.titulo-blog
+
+a.titulo-blog, a.ler-mais {
+    color: #FFD959;
+    font-size: 18pt;
+    cursor:pointer;
+}
+
+a.titulo-blog, a.titulo-blog:hover, a.titulo:active, a.titulo-blog:visited {
+							 text-decoration: none;
+							 color: #9BA2A3;
+						     }
+
+a.titulo-blog:hover {
+    text-decoration: none;
+    color: #F0F0F0;
+}
+
+a.ler-mais {
+    font-size: 100%;
+}
+
+a.ler-mais:hover {
+    text-decoration: none;
+    color: #F0F0F0;
 }

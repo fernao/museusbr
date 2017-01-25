@@ -1,33 +1,21 @@
 <% _.each(posts, function(post) { %>
-<div class="section group bg-color">
-  <div class="section group">
-    <div class="col span_3_of_12">
-    </div>
-    <div class="col span_8_of_12">
-      <div class="coluna-lateral">
-	<p><%= post.titulo %></p><br><br>
-      </div>
+<div class="section group">
+  <div class="col span_1_of_12">
+  </div>
+  <div class="col span_4_of_12">
+    <div class="foto_home">
+      <% if (post.imagem !== '') { %>
+      <img src="<%= post.imagem %>" width="100%">
+      <% } %>
     </div>
   </div>
-
-  <% if (post.imagem !== '') { %>
-  <div class="section group">
-    <div class="col span_1_of_12"> </div>
-    <div class="col span_4_of_12" style="max-height: 300px">
-      <img src="<%= post.imagem %>" height="">
+  <div class="col span_6_of_12">
+    <div class="coluna-lateral">
+      <p><% var categoria = post.categoria; categoria = categoria.toUpperCase(); %><%= categoria %></p>
+      <div class="titulo-blog"><a class="titulo-blog" href="<%= post.nid %>"><%= post.titulo %></a></div>
+      <%= post.corpo %>
+      <a class="ler-mais">[ler mais]</a></p>
     </div>
   </div>
-  <% } %>
-  
-  <div class="section group">
-    <div class="col span_3_of_12">
-    </div>
-    <div class="col span_8_of_12">
-      <div class="coluna-lateral">
-	<p><%= post.corpo %></p><br><br>
-      </div>
-    </div>
-  </div>
-
 </div>
 <% }); %>
