@@ -27,8 +27,9 @@ define([
 	index: function(lang, tags, localizacao) {
 	    var tags = tags || '',
 	    lang = lang || '';
-	    localizacao = localizacao || '';
-
+	    localizacao = localizacao || '',
+	    subPagina = (tags.search('#') > -1) ? tags : ''; // recupera ancoras
+	    
 	    // confs do museu
 	    ConfigFunctions.loadConfig();
 	    MensagensFunctions.loadMensagens(lang);
@@ -36,7 +37,7 @@ define([
 	    var pointer = setInterval(function() {	
 		if (!_.isEmpty($('body').data('mensagens'))) {
 		    var indexView = new IndexView();
-		    indexView.render(lang, tags, localizacao);		    
+		    indexView.render(lang, tags, localizacao, '', '', subPagina);
 		    clearInterval(pointer);
 		}
 	    }, 50);

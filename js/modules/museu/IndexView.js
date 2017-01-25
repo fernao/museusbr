@@ -22,13 +22,14 @@ define([
     var default_lang = '';
     var IndexView = Backbone.View.extend({
 	
-	render: function(lang, tags, localizacao, nid, pagina){
+	render: function(lang, tags, localizacao, nid, pagina, subPagina){
 	    var tags = tags || '',
 		lang = lang || '',
 		localizacao = localizacao || '',
 		nid = nid || '',
-		pagina = pagina || 'index';
-
+		pagina = pagina || 'index',
+		subPagina = subPagina || '';
+	    
 	    /*
 	     * definicao de funcoes
 	     */
@@ -49,11 +50,18 @@ define([
 		}
 		return localizacao_str;
 	    }
+
+	    rolarSecao = function(nome) {
+		var alturaEl = $(nome).offset();
+		alturaEl.top -= 80;
+		window.scroll(alturaEl);
+	    }
 	    
-	    _generate_header = function(tag, localizacao, pagina) {
+	    _generate_header = function(tag, localizacao, pagina, subPagina) {
 		var tag = tag || 'todos',
 		    localizacao = localizacao || 'brasil',
 		    pagina = pagina || 'index',
+		    subPagina = subPagina || '',
 		    lang = $('body').data('userLang'),
 		    regioes = _get_regioes(),
 		    localizacao_tids = '',
@@ -176,27 +184,35 @@ define([
 				    size: {start: 14, end: 20, unit: 'pt'},
 				    color: {start: '#fada53', end: '#fada53'}
 				};
+
 				
 				$(function () {
 				    $('#tag_cloud a').tagcloud();
 
 				    $('#link-blog').click(function() {
-					var alturaEl = $('#bloco-blog').offset();
-					alturaEl.top -= 80;
-					window.scroll(alturaEl);
+					if (Backbone.history.location != '#' + lang) {
+					    window.location.hash = '#' + lang + '/#blog';
+					} else {
+					    rolarSecao('#bloco-blog');
+					}
 				    });
-
+				    
 				    $('#link-dicas').click(function() {
-					var alturaEl = $('#bloco-dicas').offset();
-					alturaEl.top -= 80;
-					window.scroll(alturaEl);
+					if (Backbone.history.location != '#' + lang) {
+					    window.location.hash = '#' + lang + '/#dicas';
+					} else {
+					    rolarSecao('#bloco-dicas');
+					}
 				    });
-
+				    
 				    $('#link-encontre').click(function() {
-					var alturaEl = $('#bloco-encontre').offset();
-					alturaEl.top -= 80;
-					window.scroll(alturaEl);
+					if (Backbone.history.location != '#' + lang) {
+					    window.location.hash = '#' + lang + '/#encontre';
+					} else {
+					    rolarSecao('#bloco-encontre');
+					}
 				    });
+				    
 
 				    switch (pagina) {
 				    case 'index':
@@ -431,8 +447,9 @@ define([
 	    }
 
 	    // carrega conteúdo posts
-	    _load_posts = function(lang) {
+	    _load_posts = function(lang, subPagina) {
 		var lang = lang || 'pt-br',
+		    subPagina = subPagina || '',
 		    post = new PostModel();
 		
 		ConfigFunctions.getTemplateManager('templates/blog', function(BlogTpl) {
@@ -456,6 +473,13 @@ define([
 				    var compiledTemplateRoteiros = _.template(BlogTpl, dataRoteiros);
 				    $('#blog-content').append(compiledTemplateRoteiros);
 				    $('#blog-content').append(compiledTemplateMemoria);
+
+
+				    // hack para conseguir "abrir links" de hashs vindo de outras páginas sem conflitar com backbone
+				    if (subPagina !== '') {
+					var secaoRolar = subPagina.split('#')[1];
+					rolarSecao('#bloco-' + secaoRolar);
+				    }
 				}
 			    });
 			    
@@ -646,11 +670,12 @@ define([
 	    }
 	    
 	    // init main functionalities
-	    _init_main = function(lang, tags, localizacao, nid, pagina) {
+	    _init_main = function(lang, tags, localizacao, nid, pagina, subPagina) {
 		var tags = tags || 'todos',
 		    localizacao = localizacao || 'brasil',
 		    nid = nid || '',
-		    pagina = pagina || 'index';
+		    pagina = pagina || 'index',
+		    subPagina = subPagina || '';
 		$('body').data('animationRunning', false);
 		data = {
 		    carregandoTags: '&nbsp;',
@@ -670,9 +695,13 @@ define([
 			var compiledHome = _.template(HomeTpl, data);
 			$('#header').html(compiledHeader, lang);
 			$('#bloco-conteudo').html(compiledHome, lang);
+
+			if (tags.search('#') > -1) {
+			    tags = 'todos';
+			}
 			
-			_generate_header(tags, localizacao, pagina);
-			_load_posts(lang);
+			_generate_header(tags, localizacao, pagina, subPagina);
+			_load_posts(lang, subPagina);
 			if (tags != 'todos' || localizacao != 'brasil') {
 			    _load_museus(lang, tags, localizacao, nid, 5);
 			}
@@ -708,12 +737,12 @@ define([
 			lang = data.userLang;
 			ConfigFunctions.set_user_lang(lang);
 			$('#headerUrl').attr('href', '#'  + lang);
-			_init_main(lang, tags, localizacao, nid, pagina);
+			_init_main(lang, tags, localizacao, nid, pagina, subPagina);
 		    }
 		});
 	    } else {
 		ConfigFunctions.set_user_lang(lang);
-		_init_main(lang, tags, localizacao, nid, pagina);
+		_init_main(lang, tags, localizacao, nid, pagina, subPagina);
 	    }
 	    
 	},
