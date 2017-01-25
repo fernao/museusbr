@@ -563,6 +563,7 @@ a.cidades:hover, a.cidade-atual {
 
 
 
+
 div.FAQ {
     padding: 4px 10px 0 20px;
 }
@@ -851,4 +852,26 @@ a.ler-mais {
 a.ler-mais:hover {
     text-decoration: none;
     color: #F0F0F0;
+}
+
+
+
+/* DICAS */
+
+
+a.cidades-dicas {
+    font-size: 14pt;
+    position: relative;
+    clear: both;
+    padding: 10px 10px;
+    cursor: pointer;
+    background-color: #4A5E62;
+    border-radius:5px;
+    color: #F0F0F0;
+}
+
+
+a.cidades-dicas:hover {
+    color: #FFDD55;
+    background-color: transparent;
 }

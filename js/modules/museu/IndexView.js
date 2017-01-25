@@ -461,7 +461,22 @@ define([
 			    
 			}
 		    });
-		
+
+		    ConfigFunctions.getTemplateManager('templates/dicas', function(DicasTpl) {
+			// blog
+			post.url = SiteConfig.baseUrl + '/dicas/' + lang;
+			post.fetch({
+			    success: function(dataDicas) {
+				var dataDicas = {
+				    posts: dataDicas.attributes
+				}
+				
+				var compiledTemplateDicas = _.template(DicasTpl, dataDicas);			    
+				$('#dicas-content').append(compiledTemplateDicas);
+			    }
+			});
+		    });
+			
 		    // inicia com nada ?
 		    $('#news-content').html();
 		    $('#blog-content').html();
