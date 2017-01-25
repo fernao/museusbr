@@ -445,7 +445,7 @@ define([
 			    }
 			    
 			    var compiledTemplateMemoria = _.template(BlogTpl, dataMemoria);
-			    console.log(lang)
+			    
 			    post.url = SiteConfig.baseUrl + '/posts/' + lang + '/roteiros';
 			    post.fetch({
 				success: function(dataRoteiros) {
