@@ -432,12 +432,12 @@ define([
 
 	    // carrega conteúdo posts
 	    _load_posts = function(lang) {
-		var lang = lang || '',
+		var lang = lang || 'pt-br',
 		    post = new PostModel();
 		
 		ConfigFunctions.getTemplateManager('templates/blog', function(BlogTpl) {
 		    // blog
-		    post.url = SiteConfig.baseUrl + '/posts/' + data.lang + '/memória';
+		    post.url = SiteConfig.baseUrl + '/posts/' + lang + '/memória';
 		    post.fetch({
 			success: function(dataMemoria) {
 			    var dataMemoria = {
@@ -445,8 +445,8 @@ define([
 			    }
 			    
 			    var compiledTemplateMemoria = _.template(BlogTpl, dataMemoria);
-			    
-			    post.url = SiteConfig.baseUrl + '/posts/' + data.lang + '/roteiros';
+			    console.log(lang)
+			    post.url = SiteConfig.baseUrl + '/posts/' + lang + '/roteiros';
 			    post.fetch({
 				success: function(dataRoteiros) {
 				    var dataRoteiros = {
