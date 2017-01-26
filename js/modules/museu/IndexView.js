@@ -691,6 +691,18 @@ define([
 			_load_museus(lang, tags, localizacao, nid, 5);
 		    });
 		    break;
+
+		case 'museu':
+
+		    ConfigFunctions.getTemplateManager('templates/diretorio', function(DiretorioTpl) {
+			var compiledDiretorio = _.template(DiretorioTpl, data);
+			$('#header').html(compiledHeader, lang);
+			$('#bloco-conteudo').html(compiledDiretorio, lang);
+			
+			_generate_header(tags, localizacao, pagina);
+			_load_museus(lang, tags, localizacao, nid, 1);
+		    });
+		    
 		}
 	    }
 	    
