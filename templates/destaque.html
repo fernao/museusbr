@@ -1,0 +1,25 @@
+<div class="section group">
+  <<div class="col span_11_of_12">
+      <br>
+      <!--inicio carrossel-->
+      <div class="wrapper"><a href="" class="link-museubr">
+	</a>
+	<div class="section group" style="margin-top:100px;">
+	  <div class="col span_1_of_12">
+	  </div>
+	  <div class="col span_4_of_12 carrossel-caixa bg-opacity"><a href="" class="link-museubr">
+	      <% _.each(posts, function(post) { %>
+	      <div class="carrossel">
+		<p class="carrossel-titulo"><%= post.titulo %></p>
+		<p class="carrossel-subtitulo"><%= post.corpo %></p>
+	      </div>
+	      <% }); %>
+	  </div>
+	  <div class="col span_3_of_12">
+	  </div>
+	</div>
+      </div>     
+      <!--fim carrossel-->
+      
+  </div>
+</div>

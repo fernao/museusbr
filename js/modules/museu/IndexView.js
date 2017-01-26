@@ -17,9 +17,10 @@ define([
     'text!templates/header.html',
     'text!templates/footer.html',
     'text!templates/regiao.html',
+    'text!templates/destaque.html',
     'text!templates/tags.html',
     'text!templates/botao-localizacao.html',
-], function($, _, Backbone, TagCloud, SiteConfig, ConfigFunctions, MuseuModel, MuseuCollection, MuseuFunctions, PostModel, ConfigModel, MensagensModel, TagModel, LocalizacaoModel, MuseuHomeTpl, HeaderTpl, FooterTpl, RegiaoTpl, TagsTpl, BotaoLocalizacaoTpl){
+], function($, _, Backbone, TagCloud, SiteConfig, ConfigFunctions, MuseuModel, MuseuCollection, MuseuFunctions, PostModel, ConfigModel, MensagensModel, TagModel, LocalizacaoModel, MuseuHomeTpl, HeaderTpl, FooterTpl, RegiaoTpl, DestaqueTpl, TagsTpl, BotaoLocalizacaoTpl){
     var default_lang = '';
     var IndexView = Backbone.View.extend({
 	
@@ -418,6 +419,26 @@ define([
 		}
 	    }
 
+	    _load_destaques = function(lang) {
+		var lang = lang || '',
+		    post = new PostModel();
+
+		post.url = SiteConfig.baseUrl + '/destaques/' + lang;
+		post.fetch({
+		    success: function(data) {
+			var data = {
+			    posts: data.attributes
+			}
+			
+			if (Object.keys(data.posts).length > 0) {
+			    var compiledTemplateDestaque = _.template(DestaqueTpl, data);
+			    $('#espaco-header .espaco-imagem').html(compiledTemplateDestaque);
+			}
+		    }
+		});
+	    }
+		
+	    
 	    // carrega conteúdo posts
 	    _load_posts = function(lang, subPagina) {
 		var lang = lang || 'pt-br',
@@ -523,7 +544,15 @@ define([
 				    _museu_parse_fetch(museus, tags, '', limit);
 
 				    var totalMuseus = Object.keys(museus.models[0].attributes).length,
-					mensagem = (totalMuseus > 0) ? totalMuseus + ' museus' : 'Nenhum museu'; // TODO: tradução
+					mensagem = '';
+
+				    if (totalMuseus > 1) {
+					mensagem = totalMuseus + ' museuss';
+				    } else if (totalMuseus === 1) {
+					mensagem = totalMuseus + ' museu';
+				    } else {
+					mensagem = 'Nenhum museu';
+				    }
 				    $('#num-museus').html(mensagem);
 				}
 			    });		
@@ -539,7 +568,15 @@ define([
 			    _museu_parse_fetch(museus, tags, nid, limit);
 
 			    var totalMuseus = Object.keys(museus.models[0].attributes).length,
-				mensagem = (totalMuseus > 0) ? totalMuseus + ' museus' : 'Nenhum museu'; // TODO: tradução
+				mensagem = '';
+
+			    if (totalMuseus > 1) {
+				mensagem = totalMuseus + ' museuss';
+			    } else if (totalMuseus === 1) {
+				mensagem = totalMuseus + ' museu';
+			    } else {
+				mensagem = 'Nenhum museu';
+			    }
 			    $('#num-museus').html(mensagem);
 			}
 		    });
@@ -602,7 +639,6 @@ define([
 		    } else {
 			$('#museus-content').html(compiledTemplate);
 		    }
-		    $('#footer').html(_.template(FooterTpl));
 		    
 		    // bind click event && preload
 		    _.each(nodes, function(museu) {
@@ -673,6 +709,7 @@ define([
 			}
 			
 			_generate_header(tags, localizacao, pagina, subPagina);
+			_load_destaques(lang);
 			_load_posts(lang, subPagina);
 			if (tags != 'todos' || localizacao != 'brasil') {
 			    _load_museus(lang, tags, localizacao, nid, 5);
@@ -704,6 +741,9 @@ define([
 		    });
 		    
 		}
+
+		$('#footer').html(_.template(FooterTpl));
+		
 	    }
 	    
 	    
