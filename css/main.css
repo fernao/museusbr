@@ -875,3 +875,7 @@ a.cidades-dicas:hover {
     color: #FFDD55;
     background-color: transparent;
 }
+
+.menu a {
+    cursor: pointer;
+}

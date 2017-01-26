@@ -25,10 +25,10 @@ define([
 	},
 	
 	index: function(lang, tags, localizacao) {
-	    var tags = tags || '',
-	    lang = lang || '';
-	    localizacao = localizacao || '',
-	    subPagina = (tags.search('#') > -1) ? tags : ''; // recupera ancoras
+	    var lang = lang || '',
+		tags = tags || '',
+		localizacao = localizacao || '',
+		subPagina = (tags.search('#') > -1) ? tags : ''; // recupera ancoras
 	    
 	    // confs do museu
 	    ConfigFunctions.loadConfig();
@@ -44,9 +44,9 @@ define([
 	},
 
 	diretorio: function(lang, tags, localizacao) {
-	    var tags = tags || '',
-	    lang = lang || '';
-	    localizacao = localizacao || '';
+	    var lang = lang || '',
+		tags = tags || '',
+		localizacao = localizacao || '';
 	    
 	    // confs do museu
 	    ConfigFunctions.loadConfig();

@@ -82,8 +82,7 @@
 	      </nav>
 	    </div>
 	    <% } %>
-
-	    <% if (tags != 'todos') { %>
+	    <% if (tags != 'todos' && tags.search('#') === -1) { %>
 	    <div class="aba-limpar bg-body" href="#<%= lang %>/<%= tags %>/brasil">
 	      <div class="icon-text">
 		<%= tags %>

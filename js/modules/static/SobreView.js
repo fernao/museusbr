@@ -4,10 +4,11 @@ define([
     'backbone',
     'json!site-config.json',
     'modules/config/functions',
+    'modules/museu/functions',
     'modules/static/model',
     'text!templates/header.html',
     'text!templates/footer.html',
-], function($, _, Backbone, SiteConfig, ConfigFunctions, StaticModel, HeaderTpl, FooterTpl){
+], function($, _, Backbone, SiteConfig, ConfigFunctions, MuseuFunctions, StaticModel, HeaderTpl, FooterTpl){
     var SobreView = Backbone.View.extend({
 	
 	render: function(lang){
@@ -30,6 +31,9 @@ define([
 			$('#bloco-conteudo').append("<div style='height: 100px'>&nbsp;</div>");
 			
 			$('#footer').html(_.template(FooterTpl));
+			
+			MuseuFunctions.carregaMenu();
+			MuseuFunctions.rolarSecao('#sobre_link');
 			
 			_.each($('.menu-sobre'), function(item) {
 			    $(item).click(function(){

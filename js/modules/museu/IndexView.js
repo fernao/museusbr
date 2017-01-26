@@ -7,6 +7,7 @@ define([
     'modules/config/functions',
     'modules/museu/model',
     'modules/museu/collection',
+    'modules/museu/functions',
     'modules/post/model',
     'modules/config/model',
     'modules/mensagens/model',
@@ -18,13 +19,13 @@ define([
     'text!templates/regiao.html',
     'text!templates/tags.html',
     'text!templates/botao-localizacao.html',
-], function($, _, Backbone, TagCloud, SiteConfig, ConfigFunctions, MuseuModel, MuseuCollection, PostModel, ConfigModel, MensagensModel, TagModel, LocalizacaoModel, MuseuHomeTpl, HeaderTpl, FooterTpl, RegiaoTpl, TagsTpl, BotaoLocalizacaoTpl){
+], function($, _, Backbone, TagCloud, SiteConfig, ConfigFunctions, MuseuModel, MuseuCollection, MuseuFunctions, PostModel, ConfigModel, MensagensModel, TagModel, LocalizacaoModel, MuseuHomeTpl, HeaderTpl, FooterTpl, RegiaoTpl, TagsTpl, BotaoLocalizacaoTpl){
     var default_lang = '';
     var IndexView = Backbone.View.extend({
 	
 	render: function(lang, tags, localizacao, nid, pagina, subPagina){
-	    var tags = tags || '',
-		lang = lang || '',
+	    var lang = lang || '',
+		tags = tags || '',
 		localizacao = localizacao || '',
 		nid = nid || '',
 		pagina = pagina || 'index',
@@ -51,12 +52,6 @@ define([
 		return localizacao_str;
 	    }
 
-	    rolarSecao = function(nome) {
-		var alturaEl = $(nome).offset();
-		alturaEl.top -= 80;
-		window.scroll(alturaEl);
-	    }
-	    
 	    _generate_header = function(tag, localizacao, pagina, subPagina) {
 		var tag = tag || 'todos',
 		    localizacao = localizacao || 'brasil',
@@ -189,30 +184,7 @@ define([
 				$(function () {
 				    $('#tag_cloud a').tagcloud();
 
-				    $('#link-blog').click(function() {
-					if (Backbone.history.location != '#' + lang) {
-					    window.location.hash = '#' + lang + '/#blog';
-					} else {
-					    rolarSecao('#bloco-blog');
-					}
-				    });
-				    
-				    $('#link-dicas').click(function() {
-					if (Backbone.history.location != '#' + lang) {
-					    window.location.hash = '#' + lang + '/#dicas';
-					} else {
-					    rolarSecao('#bloco-dicas');
-					}
-				    });
-				    
-				    $('#link-encontre').click(function() {
-					if (Backbone.history.location != '#' + lang) {
-					    window.location.hash = '#' + lang + '/#encontre';
-					} else {
-					    rolarSecao('#bloco-encontre');
-					}
-				    });
-				    
+				    MuseuFunctions.carregaMenu();
 
 				    switch (pagina) {
 				    case 'index':
@@ -478,7 +450,7 @@ define([
 				    // hack para conseguir "abrir links" de hashs vindo de outras páginas sem conflitar com backbone
 				    if (subPagina !== '') {
 					var secaoRolar = subPagina.split('#')[1];
-					rolarSecao('#bloco-' + secaoRolar);
+					MuseuFunctions.rolarSecao('#bloco-' + secaoRolar);
 				    }
 				}
 			    });
