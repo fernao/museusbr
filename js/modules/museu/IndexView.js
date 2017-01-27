@@ -217,7 +217,7 @@ define([
 		    lang = ConfigFunctions.get_user_lang();
 
 		data.museu_ativo = $('body').data('museu_ativo');
-		data.museu_clicado = '#nid_' + nid + ' .subpages-container';
+		data.museu_clicado = '#nid_content_' + nid + ' .subpages-container';
 		
 		// fix para nao deixar abrir nenhum outro museu quando um está abrindo
 		if ($('body').data('animationRunning') == true) {
@@ -239,7 +239,7 @@ define([
 
 		nid = target.split(' ');
 		nid = _.last(nid[0].split('_'));
-		el_onclick = "#btnnid_" + nid;
+		el_onclick = "#nid_" + nid;
 		
 		$(target).removeClass('aberto_1');
 		
@@ -259,7 +259,7 @@ define([
 		);
 		
 		// limpa museu anterior
-		nav_fechar = "#nid_" + nid + " #navigation";
+		nav_fechar = "#nid_content_" + nid + " #navigation";
 		// depois: verificar se tem diferenca entre nav_fechar e target
 		$(nav_fechar).remove();
 		$(target).html('');
@@ -298,8 +298,8 @@ define([
 		    el = "",
 		    el_off = '',
 		    el_div = '',
-		    el_onclick = '#btnnid_' + nid,
-		    el = "#nid_" + nid + " .subpages-container",
+		    el_onclick = '#nid_' + nid,
+		    el = "#nid_content_" + nid + " .subpages-container",
 		    tab_width = $('#nid_' + nid).width(),
 		    tab_height = 0;
 
@@ -415,7 +415,7 @@ define([
 		    _close_museu(museu_ativo);
 		} else {
 		    // define novo museu aberto
-		    $('body').data('museu_ativo', '#nid_' + nid + " .subpages-container");		    
+		    $('body').data('museu_ativo', '#nid_content_' + nid + " .subpages-container");		    
 		}
 	    }
 
@@ -642,14 +642,14 @@ define([
 		    
 		    // bind click event && preload
 		    _.each(nodes, function(museu) {
-			el_onclick = '#btnnid_' + museu.nid;
+			el_onclick = '#nid_' + museu.nid;
 			_toggle_click_button('on', el_onclick, toggle_museu);
 			_preload_image(museu.foto_museu);
 		    });
 		    
 		    // se for busca por nid
 		    if (nid) {
-			$('#btnnid_' + nid).click();
+			$('#nid_' + nid).click();
 		    }
 		    
 		});		
