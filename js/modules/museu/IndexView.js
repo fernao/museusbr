@@ -730,6 +730,7 @@ define([
 		    ConfigFunctions.getTemplateManager('templates/diretorio', function(DiretorioTpl) {
 			var compiledDiretorio = _.template(DiretorioTpl, data);
 			$('#header').html(compiledHeader, lang);
+			$('#espaco-header').hide();
 			$('#bloco-conteudo').html(compiledDiretorio, lang);
 			
 			_generate_header(tags, localizacao, pagina);

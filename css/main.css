@@ -923,3 +923,7 @@ p.carrossel-subtitulo {
     position: relative;
     top: 4px;    
 }
+
+#content-full {
+    display: none;
+}
