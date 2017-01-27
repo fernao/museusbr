@@ -24,13 +24,14 @@ define([
     var default_lang = '';
     var IndexView = Backbone.View.extend({
 	
-	render: function(lang, tags, localizacao, nid, pagina, subPagina){
+	render: function(lang, tags, localizacao, nid, pagina, subPagina, colecoes){
 	    var lang = lang || '',
 		tags = tags || '',
 		localizacao = localizacao || '',
 		nid = nid || '',
 		pagina = pagina || 'index',
-		subPagina = subPagina || '';
+		subPagina = subPagina || '',
+		colecoes = colecoes || '';
 	    
 	    /*
 	     * definicao de funcoes
@@ -53,11 +54,12 @@ define([
 		return localizacao_str;
 	    }
 
-	    _generate_header = function(tag, localizacao, pagina, subPagina) {
+	    _generate_header = function(tag, localizacao, pagina, subPagina, colecoes) {
 		var tag = tag || 'todos',
 		    localizacao = localizacao || 'brasil',
 		    pagina = pagina || 'index',
 		    subPagina = subPagina || '',
+		    colecoes = colecoes || '',
 		    lang = $('body').data('userLang'),
 		    regioes = _get_regioes(),
 		    localizacao_tids = '',
@@ -502,12 +504,13 @@ define([
 	    
 	    
 	    // carrega museus - tela inicial
-	    _load_museus = function(lang, tags, localizacao_str, nid, limit) {
+	    _load_museus = function(lang, tags, localizacao_str, nid, limit, colecoes) {
 		var tags = tags || 'todos',
 		    lang = lang || '',
 		    localizacao_str = localizacao_str || '',
 		    nid = nid || '',
 		    limit = limit || 0,
+		    colecoes = colecoes || '',
 		    regioes = ['norte', 'nordeste', 'centro-oeste', 'sul', 'sudeste']; //TODO: centralizar isso em algum lugar, talvez drupal
 		
 		// armazena museu ativo
@@ -562,6 +565,9 @@ define([
 		    //  fetch comum, inclusive para cidades (recebeu ids)
 		    if (localizacao_str != '') {
 			museus.url += '/' + localizacao_str;
+			if (colecoes != '') {
+			    museus.url += '/' + colecoes;
+			}
 		    }
 		    museus.fetch({
 			success: function() {
@@ -678,12 +684,13 @@ define([
 	    }
 	    
 	    // init main functionalities
-	    _init_main = function(lang, tags, localizacao, nid, pagina, subPagina) {
+	    _init_main = function(lang, tags, localizacao, nid, pagina, subPagina, colecoes) {
 		var tags = tags || 'todos',
 		    localizacao = localizacao || 'brasil',
 		    nid = nid || '',
 		    pagina = pagina || 'index',
-		    subPagina = subPagina || '';
+		    subPagina = subPagina || '',
+		    colecoes = colecoes || '';
 		$('body').data('animationRunning', false);
 		data = {
 		    carregandoTags: '&nbsp;',
@@ -692,10 +699,11 @@ define([
 		    regiao: 'brasil',
 		    localizacao: localizacao,
 		    tags: tags,
-		    nid: nid
+		    nid: nid,
+		    colecoes: colecoes
 		}
 		var compiledHeader = _.template(HeaderTpl, data);
-
+		
 		switch (pagina) {
 		case 'index':
 
@@ -708,11 +716,11 @@ define([
 			    tags = 'todos';
 			}
 			
-			_generate_header(tags, localizacao, pagina, subPagina);
+			_generate_header(tags, localizacao, pagina, subPagina, colecoes);
 			_load_destaques(lang);
 			_load_posts(lang, subPagina);
-			if (tags != 'todos' || localizacao != 'brasil') {
-			    _load_museus(lang, tags, localizacao, nid, 5);
+			if (tags != 'todos' || localizacao != 'brasil' || colecoes != '') {
+			    _load_museus(lang, tags, localizacao, nid, 5, colecoes);
 			}
 		    });
 		    
@@ -761,12 +769,12 @@ define([
 			lang = data.userLang;
 			ConfigFunctions.set_user_lang(lang);
 			$('#headerUrl').attr('href', '#'  + lang);
-			_init_main(lang, tags, localizacao, nid, pagina, subPagina);
+			_init_main(lang, tags, localizacao, nid, pagina, subPagina, colecoes);
 		    }
 		});
 	    } else {
 		ConfigFunctions.set_user_lang(lang);
-		_init_main(lang, tags, localizacao, nid, pagina, subPagina);
+		_init_main(lang, tags, localizacao, nid, pagina, subPagina, colecoes);
 	    }
 	    
 	},

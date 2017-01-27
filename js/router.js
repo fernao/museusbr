@@ -18,16 +18,18 @@ define([
 	    ':lang/p/:page' : 'staticPages',
 	    ':lang/diretorio/:tags/:localizacao' : 'diretorio',	    
 	    ':lang/diretorio' : 'diretorio',
+	    ':lang/:tags/:localizacao/:colecoes' : 'index',
 	    ':lang/:tags/:localizacao' : 'index',
 	    ':lang/:tags' : 'index',
 	    ':lang' : 'index',
 	    '' : 'index',
 	},
 	
-	index: function(lang, tags, localizacao) {
+	index: function(lang, tags, localizacao, colecoes) {
 	    var lang = lang || '',
 		tags = tags || '',
 		localizacao = localizacao || '',
+		colecoes = colecoes || '',
 		subPagina = (tags.search('#') > -1) ? tags : ''; // recupera ancoras
 	    
 	    // confs do museu
@@ -37,7 +39,7 @@ define([
 	    var pointer = setInterval(function() {	
 		if (!_.isEmpty($('body').data('mensagens'))) {
 		    var indexView = new IndexView();
-		    indexView.render(lang, tags, localizacao, '', '', subPagina);
+		    indexView.render(lang, tags, localizacao, '', '', subPagina, colecoes);
 		    clearInterval(pointer);
 		}
 	    }, 50);
