@@ -190,7 +190,7 @@ define([
 				    switch (pagina) {
 				    case 'index':
 					$('#ver-todos').click(function() {
-					    Backbone.history.navigate(lang + '/diretorio', {trigger: true});
+					    Backbone.history.navigate(lang + '/diretorio/' + tag + '/' + localizacao, {trigger: true});				    
 					});
 					break;
 				    case 'diretorio':
@@ -547,7 +547,7 @@ define([
 					mensagem = '';
 
 				    if (totalMuseus > 1) {
-					mensagem = totalMuseus + ' museuss';
+					mensagem = totalMuseus + ' museus';
 				    } else if (totalMuseus === 1) {
 					mensagem = totalMuseus + ' museu';
 				    } else {
@@ -571,7 +571,7 @@ define([
 				mensagem = '';
 
 			    if (totalMuseus > 1) {
-				mensagem = totalMuseus + ' museuss';
+				mensagem = totalMuseus + ' museus';
 			    } else if (totalMuseus === 1) {
 				mensagem = totalMuseus + ' museu';
 			    } else {

@@ -1,4 +1,4 @@
-<a name="tela_museu_<%= museu.nid %>" id="tela_museu_<%= museu.nid %>">
+<a name="tela_museu_<%= museu.nid %>" id="tela_museu_<%= museu.nid %>"></a>
 <div id="home_museu_<%= museu.nid %>" class="section group aberto-1">
   <div class="col span_1_of_12"></div>
   <div id="container-slideshow_<%= museu.nid %>" class="col span_10_of_12 foto_home">
@@ -15,10 +15,16 @@
     <div class="coluna-lateral">
       <%= museu.texto_home %>
     </div>
+    <% if (typeof museu.colecoes !== 'undefined') {
+       if (!_.isNull(museu.colecoes)) {
+       %>
     <div class="coluna-lateral conexoes">
       <h3 class="conexoes">Conexões:</h3>
-      <p class="conexoes">Roteiros | Belo Horizonte<br><a href="">Circuito <em>Descobrir Brincando</em></a></p>
+      <% _.each(museu.colecoes.split(',') , function(conexao) { %>
+      <!--<p class="conexoes"><%= conexao %></p>-->
+      <% }); %>
     </div>
+    <% }} %>
   </div>
   
 </div>
@@ -65,7 +71,7 @@ if (typeof paginaMuseu !== 'undefined') {
 // se estiver na pagina de museu omite essa mensagem
 if (paginaMuseu === -1) {
     %>
-	<a href="#<%= lang %>/museu/<%= museu.nid %>">exibir apenas esse museu</a><br/><br/>
+<!--	<a href="#<%= lang %>/museu/<%= museu.nid %>">exibir apenas esse museu</a><br/><br/>-->
 	<% } %>
     </div>
   </div>

@@ -10,7 +10,9 @@
   <div class="col span_7_of_12">
     <div class="coluna-lateral">
       <p><%= post.corpo %></p>
-      <br><p><a class="cidades-dicas">Museus do Rio de Janeiro</a></p><br>
+      <% if (post.colecoes) { %>
+      -<br><p><a class="cidades-dicas" href="#<%= lang %>/<%= post.colecoes %>"><%= post.colecoes %></a></p><br>
+      <% } %>
       <p></p><div style="border-bottom:2px solid #4A5E62;"></div><p></p>
     </div>
   </div>
