@@ -20,8 +20,10 @@
        %>
     <div class="coluna-lateral conexoes">
       <h3 class="conexoes">Conexões:</h3>
+      <% console.log(museu.colecoes);
+	 console.log(museu.colecoes.split(',')); %>
       <% _.each(museu.colecoes.split(',') , function(conexao) { %>
-      <!--<p class="conexoes"><%= conexao %></p>-->
+      <p class="conexoes"><a href="#<%= lang %>/todos/brasil/<%= conexao %>"><%= conexao %></a></p>
       <% }); %>
     </div>
     <% }} %>
@@ -71,7 +73,7 @@ if (typeof paginaMuseu !== 'undefined') {
 // se estiver na pagina de museu omite essa mensagem
 if (paginaMuseu === -1) {
     %>
-<!--	<a href="#<%= lang %>/museu/<%= museu.nid %>">exibir apenas esse museu</a><br/><br/>-->
+    <!--<a href="#<%= lang %>/museu/<%= museu.nid %>">exibir apenas esse museu</a><br/><br/>-->
 	<% } %>
     </div>
   </div>
