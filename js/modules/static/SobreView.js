@@ -29,7 +29,7 @@ define([
 			var compiledTemplate = _.template(SobreTpl, data);
 			$('#bloco-conteudo').html(compiledTemplate);
 			$('#bloco-conteudo').append("<div style='height: 100px'>&nbsp;</div>");
-			
+			$('#espaco-header').hide();
 			$('#footer').html(_.template(FooterTpl));
 			
 			MuseuFunctions.carregaMenu();
