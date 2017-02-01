@@ -197,7 +197,8 @@ define([
 					break;
 				    case 'diretorio':
 					$('#mostrar-mais').click(function() {
-					    _load_museus(data.lang, data.tags, data.localizacao, data.nid, 5, 0);
+					    _mostrar_mais(5);
+					    //_load_museus(data.lang, data.tags, data.localizacao, data.nid, 5, 0);
 					});
 					break;
 				    }
@@ -501,6 +502,31 @@ define([
 		    $('#blog-content').html();
 		});
 	    }
+
+	    // exibe mais museus já caregdos
+	    _mostrar_mais = function(qtd) {
+		var qtd = qtd || 5,
+		    localData = {};
+		//
+		//data.qtdMuseusExibindo = 5;
+		localData.nodes = _.toArray(data.museus).slice(data.qtdMuseusExibindo, data.qtdMuseusExibindo + qtd);
+		ConfigFunctions.getTemplateManager('templates/museu/MuseuIndex', function(MuseuIndexTpl) {
+		    var compiledTemplate = _.template(MuseuIndexTpl, localData);
+		    $('#museus-content').append(compiledTemplate);
+		    
+		    // bind click event && preload
+		    _.each(localData.nodes, function(museu) {
+			el_onclick = '#nid_' + museu.nid;
+			_toggle_click_button('on', el_onclick, toggle_museu);
+			_preload_image(museu.foto_museu);
+		    });
+		    data.qtdMuseusExibindo += qtd;
+
+		    if (data.qtdMuseusExibindo >= data.totalMuseus) {
+			$('#mostrar-mais').hide();
+		    }
+		});
+	    }
 	    
 	    
 	    // carrega museus - tela inicial
@@ -549,6 +575,9 @@ define([
 				    var totalMuseus = Object.keys(museus.models[0].attributes).length,
 					mensagem = '';
 
+				    data.museus = museus.models[0].attributes;
+				    data.totalMuseus = totalMuseus;
+
 				    if (totalMuseus > 1) {
 					mensagem = totalMuseus + ' museus';
 				    } else if (totalMuseus === 1) {
@@ -572,10 +601,12 @@ define([
 		    museus.fetch({
 			success: function() {
 			    _museu_parse_fetch(museus, tags, nid, limit);
-
+			    data.museus = museus.models[0].attributes;
+			    
 			    var totalMuseus = Object.keys(museus.models[0].attributes).length,
 				mensagem = '';
-
+			    data.totalMuseus = totalMuseus;
+			    
 			    if (totalMuseus > 1) {
 				mensagem = totalMuseus + ' museus';
 			    } else if (totalMuseus === 1) {
@@ -735,6 +766,7 @@ define([
 			
 			_generate_header(tags, localizacao, pagina);
 			_load_museus(lang, tags, localizacao, nid, 5);
+			data.qtdMuseusExibindo = 5;
 		    });
 		    break;
 
