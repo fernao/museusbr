@@ -683,7 +683,12 @@ define([
 			_toggle_click_button('on', el_onclick, toggle_museu);
 			_preload_image(museu.foto_museu);
 		    });
-		    
+
+		    // se tiver alcançado o maximo de museus, esconde botão de carregar mais
+		    if (Object.keys(nodes).length == nodeCounter) {
+			$('#mostrar-mais').hide();
+		    }
+
 		    // se for busca por nid
 		    if (nid) {
 			$('#nid_' + nid).click();
