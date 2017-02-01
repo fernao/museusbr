@@ -454,7 +454,8 @@ define([
 		    post.fetch({
 			success: function(dataMemoria) {
 			    var dataMemoria = {
-				posts: dataMemoria.attributes
+				posts: dataMemoria.attributes,
+				mensagens: $('body').data('mensagens'),
 			    }
 			    
 			    var compiledTemplateMemoria = _.template(BlogTpl, dataMemoria);
@@ -463,7 +464,8 @@ define([
 			    post.fetch({
 				success: function(dataRoteiros) {
 				    var dataRoteiros = {
-					posts: dataRoteiros.attributes
+					posts: dataRoteiros.attributes,
+					mensagens: $('body').data('mensagens')
 				    }
 				    
 				    var compiledTemplateRoteiros = _.template(BlogTpl, dataRoteiros);
@@ -488,7 +490,8 @@ define([
 			post.fetch({
 			    success: function(dataDicas) {
 				var dataDicas = {
-				    posts: dataDicas.attributes
+				    posts: dataDicas.attributes,
+				    mensagens: $('body').data('mensagens')
 				}
 				
 				var compiledTemplateDicas = _.template(DicasTpl, dataDicas);			    
