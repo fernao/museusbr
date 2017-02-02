@@ -450,18 +450,18 @@ define([
 		
 		ConfigFunctions.getTemplateManager('templates/blog', function(BlogTpl) {
 		    // blog
-		    post.url = SiteConfig.baseUrl + '/posts/' + lang + '/memória';
-		    post.fetch({
+                    var postMemoria = new PostModel();
+		    postMemoria.url = SiteConfig.baseUrl + '/posts/' + lang + '/memória';
+		    postMemoria.fetch({
 			success: function(dataMemoria) {
 			    var dataMemoria = {
 				posts: dataMemoria.attributes,
-				mensagens: $('body').data('mensagens'),
+				mensagens: $('body').data('mensagens')
 			    }
-			    
 			    var compiledTemplateMemoria = _.template(BlogTpl, dataMemoria);
-			    
-			    post.url = SiteConfig.baseUrl + '/posts/' + lang + '/roteiros';
-			    post.fetch({
+			    var postRoteiros = new PostModel();
+                            postRoteiros.url = SiteConfig.baseUrl + '/posts/' + lang + '/roteiros';
+			    postRoteiros.fetch({
 				success: function(dataRoteiros) {
 				    var dataRoteiros = {
 					posts: dataRoteiros.attributes,
