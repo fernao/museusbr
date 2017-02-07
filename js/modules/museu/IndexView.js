@@ -467,17 +467,44 @@ define([
 					posts: dataRoteiros.attributes,
 					mensagens: $('body').data('mensagens')
 				    }
-				    
 				    var compiledTemplateRoteiros = _.template(BlogTpl, dataRoteiros);
-				    $('#blog-content').append(compiledTemplateRoteiros);
-				    $('#blog-content').append(compiledTemplateMemoria);
 
+				    var postNoticias = new PostModel();
+				    postNoticias.url = SiteConfig.baseUrl + '/posts/' + lang + '/noticias';
+				    postNoticias.fetch({
+					success: function(dataNoticias) {
+					    var dataNoticias = {
+						posts: dataNoticias.attributes,
+						mensagens: $('body').data('mensagens')
+					    }
+					    					    
+					    var compiledTemplateNoticias = _.template(BlogTpl, dataNoticias);
 
-				    // hack para conseguir "abrir links" de hashs vindo de outras páginas sem conflitar com backbone
-				    if (subPagina !== '') {
-					var secaoRolar = subPagina.split('#')[1];
-					MuseuFunctions.rolarSecao('#bloco-' + secaoRolar);
-				    }
+					    var postBlog = new PostModel();
+					    postBlog.url = SiteConfig.baseUrl + '/posts/' + lang + '/blog';
+					    postBlog.fetch({
+						success: function(dataBlog) {
+						    var dataBlog = {
+							posts: dataBlog.attributes,
+							mensagens: $('body').data('mensagens')
+						    }
+					    	    
+						    var compiledTemplateBlog = _.template(BlogTpl, dataBlog);
+
+						    
+						    $('#blog-content').append(compiledTemplateNoticias);
+						    $('#blog-content').append(compiledTemplateRoteiros);
+						    $('#blog-content').append(compiledTemplateMemoria);
+						    
+						    // hack para conseguir "abrir links" de hashs vindo de outras páginas sem conflitar com backbone
+						    if (subPagina !== '') {
+							var secaoRolar = subPagina.split('#')[1];
+							MuseuFunctions.rolarSecao('#bloco-' + secaoRolar);
+						    }
+						}
+					    });
+					}
+				    });
 				}
 			    });
 			    
