@@ -1,0 +1,147 @@
+    <!-- bloco espaco -->
+    <div class="col span_1_of_12">
+    </div>
+
+    <!-- bloco meio -->
+    <div class="col span_10_of_12">
+      <!-- wraper pesquisa -->
+      <div class="wrapper">
+	<div class="section group bg-color">
+	  <div class="section group">
+	    <div class="col span_1_of_12">
+	    </div>
+	    <div class="col span_7_of_12">
+	      <div class="title-museubr-white">
+		<br/><br/>
+		<h1 class="museubr"><span id="num-museus"></span></h1>
+	      </div>
+	    </div>
+	    <div class="col span_2_of_12">
+	    </div>
+	  </div>
+	</div>
+      </div>
+      <!-- fim wraper pesquisa -->
+
+      <!-- wraper temas e regiões -->
+      <div class="wrapper">
+	<div class="section group bg-color">
+	  <div class="section group">
+	    <div class="col span_1_of_12">
+	    </div>
+	    <div class="col span_7_of_12">
+	      <div class="margin-top-80" id="header-tags">
+		<div href="" class="aba-filtros aba">
+		  TEMAS
+		</div>
+		<div class="tag_cloud borda-filtros" id="tag_cloud">
+		  <p><%= carregandoTags %></p>
+		</div>
+	      </div>	    
+	    </div>
+	    <div class="col span_2_of_12">
+	      
+	      <div class="margin-top-80">
+		<div href="" class="aba-filtros aba">
+		  REGIÕES
+		</div>
+		<div class="mapa borda-filtros">
+		</div>
+	      </div>
+	      <div class="cidades" id="bloco-regiao">
+	      </div>
+	    </div>
+	  </div>
+	</div>
+      </div>
+      <!-- fim wraper tags e regioes -->
+
+      <!-- bloco etiquetas selecionadas -->
+      <% if (localizacao != 'brasil' || tags != 'todos') { %>
+      <div class="wrapper">
+	<div class="section group bg-color">
+	  <div class="col span_1_of_12">
+	  </div>
+	  <div class="col span_2_of_12 cob nome-museu-bloco bg-color">
+	    <div class="resultados">RESULTADOS:</div>
+	  </div>
+	  <div class="col span_8_of_12">
+	    <% if (localizacao != 'brasil') { %>
+	    <div class="aba-limpar limpar-filtro bg-body" href="#<%= lang %>/diretorio/todos/<%= localizacao %>">
+	      <div class="icon-text" id="localizacao-nome">
+		<% if ($.isNumeric(localizacao)) { } else { %><%= localizacao %><% } %>
+	      </div>
+	      <nav class="nav-menu">
+		<a class="selector" href="#<%= lang %>/diretorio/<%= tags %>/brasil">
+		  <div class="icon-wrapper icon-color round">
+		    <div class="icon-wrapper-x">
+		      <span class="icon x-icon bg-color span-right light"></span>
+		      <span class="icon x-icon bg-color span-left light"></span>
+		    </div>
+		  </div>
+		</a>
+	      </nav>
+	    </div>
+	    <% } %>
+
+	    <% if (tags != 'todos') { %>
+	    <div class="aba-limpar bg-body" href="#<%= lang %>/diretorio/<%= tags %>/brasil">
+	      <div class="icon-text">
+		<%= tags %>
+	      </div>
+	      <nav class="nav-menu">
+		<a class="selector" href="#<%= lang %>/diretorio/todos/<%= localizacao %>"> 
+		  <div class="icon-wrapper icon-color round">
+		    <div class="icon-wrapper-x">
+		      <span class="icon x-icon bg-color span-right light"></span>
+		      <span class="icon x-icon bg-color span-left light"></span>
+		    </div>
+		  </div>
+		</a>
+	      </nav>
+	    </div>
+	    <% } %>
+	  </div>
+	</div>
+      </div>
+      <% } %>
+      <!-- fim bloco etiquetas selecionadas -->
+
+      
+      <!-- wraper tags  -->
+      <div class="wrapper" id="museus-content">
+	<div class="col span_1_of_12">
+	</div>
+	<div class="col span_3_of_12 area-titulo bg-color">
+	</div>	
+      </div>
+      <div id="filter-tags"></div>
+      <!-- fim wraper tags  -->
+
+      <div class="wrapper bg-color">
+	<!-- botao mais -->
+	<div class="section group cob">
+	  <div class="col span_1_of_12">
+	  </div>
+	  <div class="col span_10_of_12 cob nome-museu-bloco">
+	    <div class="mostrar-mais" id="mostrar-mais">
+	      <div class="left">
+		  <div class="icon-text">
+		    <%= data.mensagens.carregarMais %>
+		  </div>
+		  <nav class="nav-menu">
+		  </a><a class="selector">
+		    <div class="icon-wrapper-mais icon-color round">
+		      <div class="icon-wrapper-mais-2">
+			<span class="icon mais-icon bg-color span-right-mais light"></span>
+			<span class="icon mais-icon bg-color span-left-mais light"></span>
+		      </div>
+		    </div>
+		</nav>
+
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	
+      </div>

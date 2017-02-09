@@ -1,9 +1,32 @@
-<div>
-  <% if (localizacao_atual != 'brasil') { %>
-  <% _.each(cidades, function(cidade){ %>
-      <a class="cidades <% if (cidade.tid == localizacao_atual) { %> cidade-atual<% } %>" href="#<%= lang %>/<%= tags %>/<%= cidade.tid %>"><%= cidade.name %></a>
-      <% }); %>
-      <% } %>
-   
-      <a class="botao-retangular <% if (localizacao_atual == 'brasil') { %> atual<% } %>" href="#<%= lang %>/<%= tags %>/brasil"><%= mensagens.Brasil %></a>
+<ul class="regioes">
+
+  <% _.each(regioes, function(nomeRegiao) { %>
+  <li>
+    <a href="#<%= lang %><% if (pagina != 'index') { %>/<%= pagina %><% } %>/<%= tags %>/<%= nomeRegiao %>" class="regioes" name="regioes" alt="<%= nomeRegiao %>"><% nomeRegiao = nomeRegiao.toUpperCase(); %><%= nomeRegiao %></a>
+    <% regiao = regiao.toUpperCase();
+     if (regiao == nomeRegiao) { %>
+  <nav class="nav-menu" style="float:right; position: relative; top:20px; left:10px; z-index:200;">
+    <a class="selector">
+      <div class="icon-wrapper icon-color round">
+	<div class="icon-wrapper-x">
+	  <span class="icon x-icon bg-color span-right light"></span>
+	  <span class="icon x-icon bg-color span-left light"></span>
+	</div>
+      </div>
+    </a>
+  </nav>
+  </li>
+  <ul class="cidades">
+    <div id="lista-cidades" class="cidades">
+        <% _.each(cidades, function(cidade){ %>
+	<li><a class="cidades <% if (cidade.tid == localizacao_atual) { %> cidade-atual<% } %>" href="#<%= lang %><% if (pagina != 'index') { %>/<%= pagina %><% } %>/<%= tags %>/<%= cidade.tid %>"><%= cidade.name %></a></li>
+	<% }); %>
+    </div>
+    </ul>
+  <% } else { %>
+</li>
+  <% } %>
+  <% }) %>
+</ul>
+  
 </div>

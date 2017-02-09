@@ -1,3 +1,4 @@
 {
-"baseUrl": "/www.museubr/admin"
+"baseUrl": "/www.museubr/admin",
+"baseInterface": "/museubr/"
 }

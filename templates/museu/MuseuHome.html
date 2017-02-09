@@ -1,5 +1,80 @@
-<div id="home_museu_<%= museu.nid %>" class="museu-subpages page museu-tabs">
-  <div id="foto_home_<%= museu.nid %>" class="foto_home"><img src="<%= museu.foto_museu %>" /></div>
-  <div id="texto_home_<%= museu.nid %>" class="texto_home"><%= museu.texto_home %></div>
-  <div id="imagens_home" class="imagens_home"><%= museu.imagens_home %></div>
+<a name="tela_museu_<%= museu.nid %>" id="tela_museu_<%= museu.nid %>"></a>
+<div id="home_museu_<%= museu.nid %>" class="section group aberto-1">
+  <div class="col span_1_of_12"></div>
+  <div id="container-slideshow_<%= museu.nid %>" class="col span_10_of_12 foto_home">
+    <div id="slideshow_<%= museu.nid %>">
+    </div>
+
+  </div>
+</div>
+
+<div class="section group aberto-1">
+  <div class="col span_1_of_12">
+  </div>
+  <div class="col span_10_of_12">
+    <div class="coluna-lateral">
+      <%= museu.texto_home %>
+    </div>
+    <% if (typeof museu.colecoes !== 'undefined') {
+       if (!_.isNull(museu.colecoes)) {
+       %>
+    <div class="coluna-lateral conexoes">
+      <h3 class="conexoes">Conexões:</h3>
+      <% console.log(museu.colecoes);
+	 console.log(museu.colecoes.split(',')); %>
+      <% _.each(museu.colecoes.split(',') , function(conexao) { %>
+      <p class="conexoes"><a href="#<%= lang %>/todos/brasil/<%= conexao %>"><%= conexao %></a></p>
+      <% }); %>
+    </div>
+    <% }} %>
+  </div>
+  
+</div>
+
+<div class="section group aberto_1">
+  <div class="col span_1_of_12">
+  </div>
+  <div class="col span_10_of_12">
+    <div class="mapa-imagem">
+      <% if (museu.mapa && museu.mapa != '') { %>
+      <iframe width="100%" height="200px" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="<%= museu.mapa %>&ie=UTF8&amp;&amp;output=embed"></iframe>
+      <% } %>
+    </div>
+  </div>
+</div>
+
+<div class="section group aberto_1">
+
+  <div class="col span_1_of_12">
+  </div>
+  <div class="col span_10_of_12">
+    <div class="coluna-lateral">
+      <div class="endereco"><%= museu.endereco %></div>
+      <div class="telefone"><%= museu.telefone %></div>
+      <div class="url"><a href="<%= museu.url %>"><%= museu.url %></a></div>
+      <div class="horario_func"><strong><%= data.mensagens.horarioFuncionamentoTitulo %></strong> <br/><%= museu.horario_func %></div>
+    </div>
+  </div>
+</div>
+
+
+<div class="section group aberto_1">
+
+  <div class="col span_1_of_12">
+  </div>
+  <div class="col span_10_of_12">
+      <div class="" style="text-align: right">
+    <%
+var paginaAtual = Backbone.history.location.href,
+paginaMuseu = paginaAtual.split('#');
+if (typeof paginaMuseu !== 'undefined') {
+    paginaMuseu = paginaAtual[1].search('museu');
+}
+// se estiver na pagina de museu omite essa mensagem
+if (paginaMuseu === -1) {
+    %>
+    <!--<a href="#<%= lang %>/museu/<%= museu.nid %>">exibir apenas esse museu</a><br/><br/>-->
+	<% } %>
+    </div>
+  </div>
 </div>

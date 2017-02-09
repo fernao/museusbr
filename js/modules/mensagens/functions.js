@@ -16,8 +16,8 @@ define([
 	    mensagens.url += lang;
 	    mensagens.fetch({
 		success: function() {
-		    var mensagensData = {};		    
-		    msgs = mensagens.attributes;
+		    var mensagensData = {},
+			msgs = mensagens.attributes;
 		    _.each(msgs, function(msg) {
 			mensagensData[msg.name] = msg.value
 		    });

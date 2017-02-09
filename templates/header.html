@@ -1,24 +1,80 @@
-<div id="header-titulo">
-  <a href="#<%= lang %>" id="header-url"><%= mensagens.logoHome %></a><br/>
-  <a href="#<%=lang %>/page/sobre"><%= mensagens.paginaSobre %></a><br/>
-<!--  <a href="#<%=lang %>/page/termos-de-uso"><%= mensagens.paginaTermosDeUso %></a>-->
-</div>
-
-<div id="header-tags"><p><%= carregandoTags %></p></div>
-
-<div id="header-mapa">
-  <div id="mapa-posicao">
+<div class="wrapper">
+  <div class="section group bg-opacity header-menu">
+    <div class="col span_1_of_12">
+    </div>
+    <div class="col span_10_of_12">
+      <div class="left">
+	<div class="dropdown" style="float:left;">
+	  <button class="dropbtn">
+	    <nav class="nav-menu">
+	      <a class="selector">
+		<div class="icon-wrapper-big bg-body square">
+		  <div class="icon-wrapper-bar">
+		    <span class="icon bar-icon first bg-gray"></span>
+		    <span class="icon bar-icon bg-gray"></span>
+		    <span class="icon bar-icon bg-gray"></span>
+		  </div>
+		</div>
+	      </a>
+	    </nav>
+	  </button>
+	  <div class="dropdown-content menu" style="left:0;">
+	    <a id="link-blog">museu . blog</a>
+	    <a id="link-dicas">museu . dicas</a>
+	    <a id="link-encontre">museu . encontre</a>
+	    <a href="#<%= lang %>/p/sobre">museu . sobre</a>
+	  </div>
+	</div>
+      </div>
+      
+      <div class="right">
+	<nav class="nav-menu">
+	  <a class="selector" href="#pt-br">
+	    <div class="icon-wrapper bg-body round">PT</div>
+	  </a>
+	</nav>
+	<nav class="nav-menu">
+	  <a class="selector" href="#en">
+	    <div class="icon-wrapper bg-body round">EN</div>
+	  </a>
+	</nav>
+	<nav class="nav-menu">
+	  <a class="selector" href="#es">
+	    <div class="icon-wrapper bg-body round">ES</div>
+	  </a>
+	</nav>
+	<nav class="nav-menu">
+	  <a class="selector" href="#fr">
+	    <div class="icon-wrapper bg-body round">FR</div>
+	  </a>
+	</nav>
+      </div>
+    </div>
   </div>
-  <div id="lista-cidades">
+  <div class="section group bg-opacity">
+    <div class="section group">
+      <div class="col span_1_of_12">
+      </div>
+      <div class="col span_7_of_12">
+	<div class="title-museubr">
+	  <h1 class="museubr"><a href="" class="link-museubr">museu<span style="font-style:italic; color:rgb(0,133,66)">br</span><span style="font-style:italic;">asil</span></a></h1>
+	</div>
+      </div>
+      <div class="col span_3_of_12">
+	<img src="images/LOGO_petrobras.png" width="100%">
+      </div>
+    </div>
   </div>
 </div>
-<div id="header-lang">
-  <span>
-    <a href="#pt-br">PT</a> | 
-<!--    <a href="#en">EN</a> | 
-    <a href="#es">ES</a> |-->
-    <a href="#fr">FR</a>
-  </span>
+
+<div class="wrapper" id="espaco-header">
+  <div class="section group bg-transparent espaco-imagem">
+  </div>
 </div>
 
-<br class="clearBoth" />
+
+<!-- inicio bloco conteudo -->
+<div class="wrapper">
+  <div class="section group bg-opacity header-menu" id="bloco-conteudo">
+  </div>
+</div>

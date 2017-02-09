@@ -1,41 +1,41 @@
 # Ignore configuration files that may contain sensitive information.
-admin/sites/*/*settings*.php
+blog/sites/*/*settings*.php
 
 # Ignore paths that contain generated content.
 cache/
 files/
-admin/sites/*/private
-admin/sites/default/files/*
+blog/sites/*/private
+blog/sites/default/files/*
 
 # Ignore default text files
 .htaccess
-/admin/private/backup_migrate/manual/.htaccess
-/admin/robots.txt
-/admin/CHANGELOG.txt
-/admin/COPYRIGHT.txt
-/admin/INSTALL*.txt
-/admin/LICENSE.txt
-/admin/MAINTAINERS.txt
-/admin/UPGRADE.txt
-/admin/README.txt
-admin/sites/all/README.txt
-admin/sites/all/modules/README.txt
-admin/sites/all/themes/README.txt
+blog/private/backup_migrate/manual/.htaccess
+blog/robots.txt
+blog/CHANGELOG.txt
+blog/COPYRIGHT.txt
+blog/INSTALL*.txt
+blog/LICENSE.txt
+blog/MAINTAINERS.txt
+blog/UPGRADE.txt
+blog/README.txt
+blog/sites/all/README.txt
+blog/sites/all/modules/README.txt
+blog/sites/all/themes/README.txt
 
 # Ignore everything but the "sites" folder ( for non core developer )
-admin/web.config
-admin/authorize.php
-admin/cron.php
-admin/index.php
-admin/install.php
-admin/update.php
-admin/xmlrpc.php
-/admin/includes
-/admin/misc
-/admin/modules
-/admin/profiles
-/admin/scripts
-/admin/themes
+blog/web.config
+blog/authorize.php
+blog/cron.php
+blog/index.php
+blog/install.php
+blog/update.php
+blog/xmlrpc.php
+blog/includes
+blog/misc
+blog/modules
+blog/profiles
+blog/scripts
+blog/themes
 
 # static
 /js/site-config.json
@@ -61,3 +61,6 @@ tramp
 Session.vim
 .netrwhist
 *~
+
+### Misc
+.DS_Store

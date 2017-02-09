@@ -1,0 +1,20 @@
+<% _.each(posts, function(post) { %>
+<div class="section group">
+  <div class="col span_1_of_12">
+  </div>
+  <div class="col span_3_of_12">
+    <div class="foto_home">
+      <h1 style="font-weight:normal;"><em><%= post.titulo %></em></h1>
+    </div>
+  </div>
+  <div class="col span_7_of_12">
+    <div class="coluna-lateral">
+      <p><%= post.corpo %></p>
+      <% if (post.localizacao) { %>
+      <br><p><a class="cidades-dicas" href="#<%= lang %>/todos/<%= post.localizacao %>"><%= mensagens.museusDe %> <%= post.localizacao %></a></p><br>
+      <% } %>
+      <p></p><div style="border-bottom:2px solid #4A5E62;"></div><p></p>
+    </div>
+  </div>
+</div>
+<% }); %>

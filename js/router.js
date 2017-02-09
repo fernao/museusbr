@@ -14,18 +14,24 @@ define([
 	Routers: {},
 	
 	routes: {
-	    ':lang/page/:page' : 'staticPages',
+	    ':lang/museu/:nid': 'museu',
+	    ':lang/p/:page' : 'staticPages',
+	    ':lang/diretorio/:tags/:localizacao' : 'diretorio',	    
+	    ':lang/diretorio' : 'diretorio',
+	    ':lang/:tags/:localizacao/:colecoes' : 'index',
 	    ':lang/:tags/:localizacao' : 'index',
 	    ':lang/:tags' : 'index',
 	    ':lang' : 'index',
 	    '' : 'index',
 	},
 	
-	index: function(lang, tags, localizacao) {
-	    var tags = tags || '',
-	    lang = lang || '';
-	    localizacao = localizacao || '';
-
+	index: function(lang, tags, localizacao, colecoes) {
+	    var lang = lang || '',
+		tags = tags || '',
+		localizacao = localizacao || '',
+		colecoes = colecoes || '',
+		subPagina = (tags.search('#') > -1) ? tags : ''; // recupera ancoras
+	    
 	    // confs do museu
 	    ConfigFunctions.loadConfig();
 	    MensagensFunctions.loadMensagens(lang);
@@ -33,12 +39,49 @@ define([
 	    var pointer = setInterval(function() {	
 		if (!_.isEmpty($('body').data('mensagens'))) {
 		    var indexView = new IndexView();
-		    indexView.render(lang, tags, localizacao);		    
+		    indexView.render(lang, tags, localizacao, '', '', subPagina, colecoes);
 		    clearInterval(pointer);
 		}
 	    }, 50);
 	},
 
+	diretorio: function(lang, tags, localizacao) {
+	    var lang = lang || '',
+		tags = tags || '',
+		localizacao = localizacao || '';
+	    
+	    // confs do museu
+	    ConfigFunctions.loadConfig();
+	    MensagensFunctions.loadMensagens(lang);
+	    
+	    var pointer = setInterval(function() {	
+		if (!_.isEmpty($('body').data('mensagens'))) {
+		    var indexView = new IndexView();
+		    indexView.render(lang, tags, localizacao, '', 'diretorio');
+		    clearInterval(pointer);
+		}
+	    }, 50);
+	},
+
+	museu: function(lang, nid) {
+	    var lang = lang || '',
+		nid = nid || '';
+	    
+	    // confs do museu
+	    ConfigFunctions.loadConfig();
+	    MensagensFunctions.loadMensagens(lang);
+	    
+	    var pointer = setInterval(function() {	
+		if (!_.isEmpty($('body').data('mensagens'))) {
+		    var indexView = new IndexView();
+		    indexView.render(lang, '', '', nid, 'museu');
+		    $('#tela_museu_' + nid).scrollTop();
+		    
+		    clearInterval(pointer);
+		}
+	    }, 50);
+	},
+	
 	staticPages: function(lang, page) {
 	    var lang = lang || $('body').data('userLang');
 	    var page = page || '';
