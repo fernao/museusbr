@@ -161,7 +161,11 @@ define([
 			    $('#bloco-regiao').html(compiledRegiao);
 			    
 			}
-			
+
+			$('.regioes .nav-menu a').click(function() {
+			    Backbone.history.navigate(lang + '/' + tag + '/brasil', {trigger: true});
+			});
+
 			// TAGS
 			// localizacao passada deve ser um tid
 			tags.url = SiteConfig.baseUrl + '/tagcloud/' + lang + '/' + localizacao_tids;
