@@ -54,11 +54,10 @@ define([
 		return localizacao_str;
 	    }
 
-	    _generate_header = function(tag, localizacao, pagina, subPagina, colecoes) {
+	    _generate_header = function(tag, localizacao, pagina, colecoes) {
 		var tag = tag || 'todos',
 		    localizacao = localizacao || 'brasil',
 		    pagina = pagina || 'index',
-		    subPagina = subPagina || '',
 		    colecoes = colecoes || '',
 		    lang = $('body').data('userLang'),
 		    regioes = _get_regioes(),
@@ -445,9 +444,8 @@ define([
 		
 	    
 	    // carrega conteúdo posts
-	    _load_posts = function(lang, subPagina) {
+	    _load_posts = function(lang) {
 		var lang = lang || 'pt-br',
-		    subPagina = subPagina || '',
 		    post = new PostModel();
 		
 		ConfigFunctions.getTemplateManager('templates/blog', function(BlogTpl) {
@@ -497,12 +495,6 @@ define([
 						    $('#blog-content').append(compiledTemplateNoticias);
 						    $('#blog-content').append(compiledTemplateRoteiros);
 						    $('#blog-content').append(compiledTemplateMemoria);
-						    
-						    // hack para conseguir "abrir links" de hashs vindo de outras páginas sem conflitar com backbone
-						    if (subPagina !== '') {
-							var secaoRolar = subPagina.split('#')[1];
-							MuseuFunctions.rolarSecao('#bloco-' + secaoRolar);
-						    }
 						}
 					    });
 					}
@@ -785,9 +777,15 @@ define([
 			}
 			
 			MuseuFunctions.carregaMenu();
-			_generate_header(tags, localizacao, pagina, subPagina, colecoes);
+			// hack para conseguir "abrir links" de hashs vindo de outras páginas sem conflitar com backbone
+			if (subPagina !== '') {
+			    var secaoRolar = subPagina.split('#')[1];
+			    MuseuFunctions.rolarSecao('#bloco-' + secaoRolar);
+			}
+			
+			_generate_header(tags, localizacao, pagina, colecoes);
 			_load_destaques(lang);
-			_load_posts(lang, subPagina);
+			_load_posts(lang);
 			if (tags != 'todos' || localizacao != 'brasil' || colecoes != '') {
 			    _load_museus(lang, tags, localizacao, nid, 5, colecoes);
 			}
