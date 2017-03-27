@@ -190,9 +190,7 @@ define([
 				
 				$(function () {
 				    $('#tag_cloud a').tagcloud();
-
-				    MuseuFunctions.carregaMenu();
-
+				    
 				    switch (pagina) {
 				    case 'index':
 					$('#ver-todos').click(function() {
@@ -310,7 +308,7 @@ define([
 		    tab_width = $('#nid_' + nid).width(),
 		    tab_height = 0;
 
-		var compiledHomeTpl = _.template(MuseuHomeTpl, dataMuseu);
+		var compiledMuseuHomeTpl = _.template(MuseuHomeTpl, dataMuseu);
 		// definir ativo
 		$('body').data('museu_ativo', el);
 		
@@ -343,7 +341,7 @@ define([
 		
 		
 		// aplica template renderizado
-		$(el).html(compiledHomeTpl);
+		$(el).html(compiledMuseuHomeTpl);
 		
 		// nao entra caso seja init vazio
 		if (!vazio) {
@@ -781,11 +779,12 @@ define([
 			var compiledHome = _.template(HomeTpl, data);
 			$('#header').html(compiledHeader, lang);
 			$('#bloco-conteudo').html(compiledHome, lang);
-
+			
 			if (tags.search('#') > -1) {
 			    tags = 'todos';
 			}
 			
+			MuseuFunctions.carregaMenu();
 			_generate_header(tags, localizacao, pagina, subPagina, colecoes);
 			_load_destaques(lang);
 			_load_posts(lang, subPagina);
@@ -802,7 +801,8 @@ define([
 			$('#header').html(compiledHeader, lang);
 			$('#espaco-header').hide();
 			$('#bloco-conteudo').html(compiledDiretorio, lang);
-			
+
+			MuseuFunctions.carregaMenu();
 			_generate_header(tags, localizacao, pagina);
 			_load_museus(lang, tags, localizacao, nid, 5);
 			data.qtdMuseusExibindo = 5;
@@ -815,13 +815,14 @@ define([
 			var compiledDiretorio = _.template(DiretorioTpl, data);
 			$('#header').html(compiledHeader, lang);
 			$('#bloco-conteudo').html(compiledDiretorio, lang);
-			
+
+			MuseuFunctions.carregaMenu();
 			_generate_header(tags, localizacao, pagina);
 			_load_museus(lang, tags, localizacao, nid, 1);
 		    });
 		    
 		}
-
+		
 		$('#footer').html(_.template(FooterTpl));
 		
 	    }

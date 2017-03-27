@@ -6,35 +6,36 @@ define([
     'json!site-config.json',
 ], function($, _, Backbone, ConfigModel, SiteConfig){
 
-    var rolarSecao = function(nome) {
-	var alturaEl = $(nome).offset();
-	alturaEl.top -= 80;
+    var rolarSecao = function(nome, espacoExtra = 0) {
+	var nome = nome || '',
+	    espacoExtra = espacoExtra || 0,
+	    alturaEl = $(nome).offset();
+	alturaEl.top -= espacoExtra;
 	window.scroll(alturaEl);
+    }
+
+    var __escolheMetodoAbrirLink = function(secao) {
+	var currentUrl = Backbone.history.location.hash;
+	if (currentUrl == "" ||
+	    currentUrl == "#" + data.lang ||
+	    (currentUrl.match(/#/g) || []).length == 2) {
+	    rolarSecao('#bloco-' + secao, 200);
+	} else {
+	    window.location.hash = '#' + data.lang + '/#' + secao;
+	}
     }
     
     var carregaMenu = function() {
 	$('#link-blog').click(function() {
-	    if (Backbone.history.location != '#' + data.lang) {
-		window.location.hash = '#' + data.lang + '/#blog';
-	    } else {
-		rolarSecao('#bloco-blog');
-	    }
+	    __escolheMetodoAbrirLink('blog');
 	});
 	
 	$('#link-dicas').click(function() {
-	    if (Backbone.history.location != '#' + data.lang) {
-		window.location.hash = '#' + data.lang + '/#dicas';
-	    } else {
-		rolarSecao('#bloco-dicas');
-	    }
+	    __escolheMetodoAbrirLink('dicas');
 	});
 	
 	$('#link-encontre').click(function() {
-	    if (Backbone.history.location != '#' + data.lang) {
-		window.location.hash = '#' + data.lang + '/#encontre';
-	    } else {
-		rolarSecao('#bloco-encontre');
-	    }
+	    __escolheMetodoAbrirLink('encontre');
 	});
     }
     
